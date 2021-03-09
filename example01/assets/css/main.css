@@ -1,0 +1,512 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+KR&display=swap');
+@font-face {
+    font-family: 'handel gothic';
+    src: url(/example01/assets/font/handel\ gothic.ttf) format('truetype')
+}
+
+/* reset */
+html, body, div, span, applet, object, iframe, 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym,
+address, big, cite, code, del ,dfn, em, font, img, ins, kbd, q, s,
+samp, small, strike, strong, sub, sup, tt, var, b, u, i, center,
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, tbody,
+tfoot, thead, tr, th, td { margin: 0; padding: 0; }
+
+h1, h2, h3, h4, h5, h6 { font-weight: 700; font-size: inherit;}
+
+a { color: inherit; text-decoration: inherit; }
+
+img { 
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+
+a img { border: none; }
+
+li { list-style: none; }
+
+address, em, i { font-style: normal; }
+
+/* Layout */
+body { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #333; }
+.en {font-family: 'handel gothic', sans-serif; }
+.en_s { font-family: 'Dancing Script', cursive; }
+
+/* header */
+
+.innerHeader {
+    max-width: 1240px;
+    height: 110px;
+    line-height: 110px;
+    margin: auto;
+}
+
+.innerHeader .logo { float: left; }
+
+.innerHeader .logo a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* gnb + sns */
+.innerHeader .mainMenu {
+    float: right;
+    overflow: hidden;
+    position: relative;
+}
+
+span.bar {
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    width: 0;
+    height: 3px;
+    background-color: #e7e7e7;
+    transition: all 0.4s ease-in;
+    -webkit-transition: all 0.4s ease-in;
+    -moz-transition: all 0.4s ease-in;
+    -ms-transition: all 0.4s ease-in;
+    -o-transition: all 0.4s ease-in;
+}
+
+/* gnb */
+.innerHeader .mainMenu .gnb { float: left; }
+
+.innerHeader .mainMenu .gnb li {
+    float: left;
+    margin: 0 20px;
+}
+
+.innerHeader .mainMenu .gnb li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #555
+}
+
+/* sns */
+.innerHeader .mainMenu .sns {
+    float: left;
+    margin-left: 300px;
+}
+.innerHeader .mainMenu .sns li {float: left;}
+.innerHeader .mainMenu .sns li a {
+    display: block;
+    padding: 0 10px;
+}
+
+/* 타이틀, 텍스트, 더보기 버튼 공통 클래스 */
+.tit {
+    font-size: 2em;
+    line-height: 1.2;
+    font-weight: normal;
+}
+
+.tit span { display: block; }
+.tit span b {font-weight: normal;}
+.tit span.en_s {
+    font-size: 20px;
+    font-weight: normal;
+}
+.tit span.gray { color: #ccc; }
+
+.txt p {
+    color: #888;
+    line-height: 1.6;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.txt p b {font-weight: normal;}
+
+.moreBtn {
+    display: inline-block;
+    font-size: 12px;
+    color: #333;
+    position: relative;
+    padding-left: 45px;
+    margin-top: 20px;
+    transform: skewX(-15deg) translateX(5px);
+    -webkit-transform: skewX(-15deg) translateX(5px);
+    -moz-transform: skewX(-15deg) translateX(5px);
+    -ms-transform: skewX(-15deg) translateX(5px);
+    -o-transform: skewX(-15deg) translateX(5px);
+    transition: all 0.15s ease;
+    -webkit-transition: all 0.15s ease;
+    -moz-transition: all 0.15s ease;
+    -ms-transition: all 0.15s ease;
+    -o-transition: all 0.15s ease;
+}
+
+.moreBtn::before {
+    content: '';
+    width: 42px;
+    height: 1px;
+    background-color: #333;
+    position: absolute;
+    left: 0;
+    top: 54%;
+}
+
+.moreBtn:hover, 
+.moreBtn:focus {
+    font-weight: bold;
+    transform: skewX(0) translateX(0);
+    -webkit-transform: skewX(0) translateX(0);
+    -moz-transform: skewX(0) translateX(0);
+    -ms-transform: skewX(0) translateX(0);
+    -o-transform: skewX(0) translateX(0);
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+}
+
+/* section.visual */
+section.visual {
+    max-width: 1240px;
+    margin: auto;
+    overflow: hidden;
+}
+
+section.visual .mainImg {
+    float: left;
+    width: 50%;
+}
+section.visual .mainImg img {width: 90%;}
+
+section.visual .mainTxt {
+    float: left;
+    margin-top: 180px;
+    width: 50%;
+}
+
+section.visual .mainTxt .tit {font-size: 3.5em;}
+section.visual .mainTxt .tit span.en_s { margin-bottom: 10px; }
+section.visual .mainTxt .tit .gray {color: #ccc;}
+
+section.visual .mainTxt .tit {font-size: 56px;}
+section.visual .mainTxt .txt {padding: 50px 0  0 70px;}
+
+/* section안에 .inner(공통 넓이 가이드) .box(float) */
+section .inner {
+    width: 1040px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+section .inner .box.firstBox {
+    width: 45%;
+    margin-right: 5%;
+    margin-top: 7%;
+}
+section .inner .box {
+    float: left;
+    width: 50%;
+}
+
+/* section.journal */
+section.journal {
+    position: relative;
+    padding: 190px 0 120px;
+}
+
+section.journal .scroll {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    padding-top: 70px;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    /*글자의방향설정세로축을기준으로글자가r(right)오른쪽을바라보게*/-webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: vertical-rl;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+section.journal .scroll::before {
+    content: '';
+    position: absolute;
+    height: 60px;
+    width: 1px;
+    background-color: #333;
+    top: 0;
+    left: 6px;
+}
+
+section.journal .inner .box .img {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+section.journal .inner .box .tit { margin-bottom: 40px; }
+section.journal .inner .box ul {
+    padding-top: 20px;
+    border-top: 1px solid #e6e6e6;
+}
+
+section.journal .inner .box ul li {margin-bottom: 30px; overflow: hidden;}
+section.journal .inner .box ul li h3 {
+    float: left;
+    width: 22%;
+    font-size: 14px;
+    font-weight: bold;
+}
+section.journal .inner .box ul li p {
+    float: left;
+    width: 78%;
+    font-size: 14px;
+    color: #888;
+}
+section.journal .inner .box .moreBtn {
+    clear: both;
+    margin-left: 22%;
+}
+
+/* section.service */
+section.service { padding: 160px 0; }
+section.service .inner .box .img {margin-top: 60px;}
+
+section.service .inner .box.design { 
+    margin-top: -40%;
+    padding-top: 60px;
+    width: 45%; 
+    border-top: 1px solid #c3e5ea;
+}
+
+section.service .inner .box.design .tit {
+    margin-bottom: 20px;
+    font-size: 30px;
+    line-height: 1.4;
+}
+
+/* section.customer */
+section.customer {
+    padding: 160px 0;
+    background: url(/example01/assets/img/img_04.jpg) no-repeat center/cover;
+    text-align: center;
+}
+section.customer .tit {
+    margin-bottom: 10px;
+    font-size: 40px;
+    color: white;
+}
+section.customer .txt { color: #777; }
+
+
+/* section.team */
+section.team {
+    padding: 160px 0;
+    position: relative;
+}
+
+section.team .inner .box.left {
+    padding-right: 30px;
+    width: 50%;
+    text-align: right;
+    box-sizing: border-box;
+}
+
+section.team .inner .box .tit { margin-top: 40px; }
+section.team .inner .box.left .img { max-width: 355px; }
+section.team .inner .box .img { margin-top: 100px; }
+section.team .inner .box .txt { margin: 30px 0; }
+
+/* footer */
+footer {
+    width: 1240px;
+    margin: 0 auto;
+}
+
+footer .top .tit {
+    margin-bottom: 40px;
+    color: #e6e6e6;
+    font-size: 62px;
+    text-align: center;
+}
+
+footer .bottom {
+    padding:  40px 0 100px;
+    border-top: 1px solid #e6e6e6;
+}
+
+footer .bottom ul { overflow: hidden; }
+footer .bottom ul li {
+    float: left;
+    width: 23%;
+    font-size: 12px;
+    line-height: 2;
+    color: #aaa;
+}
+footer .bottom ul li:first-child { 
+    width: 31%; 
+    font-size: 28px;
+    line-height: 1.1;
+    color: #000;
+}
+
+footer .bottom ul li b { 
+    font-weight: normal;
+    color: #000; 
+}
+footer .bottom ul li b:first-child {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #333;
+} 
+
+/* circleBox SVG */
+.circleBox {
+    display: block;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+}
+.circleBox .svgAni path {
+    fill: none;
+    stroke: #f5f5f5;
+    stroke-width: 25;
+    stroke-dasharray: 1564; /* 선의 배열을 나타내는 것 -> stroke의 총 길이값을 적어줘야 한다. (길이값은 script로 알아낸다.) */
+    stroke-dashoffset: 0; /* 시작점 -> 1564가 아닌 0 으로 둬야하는 이유는 끝점에서 시작하는 것은 보이지 않기 때문. */
+}
+
+section.journal .circleBox {
+    position: absolute;
+    right: 13%;
+    top: 100px;
+    z-index: -1;
+    width: 700px;
+}
+section.team .circleBox {
+    position: absolute;
+    left: 20%;
+    top: -50px;
+    z-index: -1;
+    width: 700;
+}
+
+/* SVG 애니메이션 */
+.circleBox.motion .svgAni path {
+    animation-name: dash;
+    animation-duration: 1.5s;
+}
+
+@keyframes dash {
+    0% {stroke-dashoffset: 1564;}
+    100% {stroke-dashoffset: 0;}
+}
+
+/* 공통 타이틀 애니메이션 */
+.tit.motion span {
+    overflow: hidden;
+    transform: translate3d(0,0,0) skewY(0deg); 
+    -webkit-transform: translate3d(0,0,0) skewY(0deg);
+    -moz-transform: translate3d(0,0,0) skewY(0deg);
+    -ms-transform: translate3d(0,0,0) skewY(0deg);
+    -o-transform: translate3d(0,0,0) skewY(0deg);
+}
+.tit.motion span b {
+    display: block;
+    animation-name: textAni;
+    animation-duration: 1.3s;
+} 
+/* 
+    b(bold)태그는 inline인데, inline태그를 transition 하기 위해서는 box형태로 만들어 줘야 한다. (block, inline-block 등)  
+    inline 요소에서는 transform: translate가 먹히지 않는다. 
+*/
+
+@keyframes textAni {
+    0% {opacity: 0;}
+    30% {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0) skewY(8deg);
+        -webkit-transform: translate3d(0, 40px, 0) skewY(8deg);
+        -moz-transform: translate3d(0, 40px, 0) skewY(8deg);
+        -ms-transform: translate3d(0, 40px, 0) skewY(8deg);
+        -o-transform: translate3d(0, 40px, 0) skewY(8deg);
+        transform-origin: top left; /* transform-origin = 움직이는 기준점 */
+    }
+}
+
+/* visual .txt애니 */
+.txt.motion p {
+    overflow: hidden;
+    transform: translate3d(0,0,0) skewY(0); 
+    -webkit-transform: translate3d(0,0,0) skewY(0);
+    -moz-transform: translate3d(0,0,0) skewY(0);
+    -ms-transform: translate3d(0,0,0) skewY(0);
+    -o-transform: translate3d(0,0,0) skewY(0);
+}
+.txt.motion p b {
+    display: block;
+    animation-name: textAni;
+    animation-duration: 2s;
+}
+
+/* image animation */
+.img.motion {
+    position: relative;
+    animation-name: imgAni;
+    animation-duration: 2s;
+}
+
+@keyframes imgAni {
+    0% {
+        transform: translateY(50px);
+        -webkit-transform: translateY(50px);
+        -moz-transform: translateY(50px);
+        -ms-transform: translateY(50px);
+        -o-transform: translateY(50px);
+    }
+}
+
+.img.motion:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: #fff;
+    animation-name: mask;
+    animation-duration: 1.2s;
+}
+
+@keyframes mask {
+    0% { height: 90%; }
+}
+
+section.team .img.motion::after {
+    display: none;
+}
+
+/* section.service 배경색 애니 */
+body {
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+}
+
+body.on {
+    background-color: #e8fcff;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+}
+
+section.service .img.motion::after {background-color: #e8fcff;}
