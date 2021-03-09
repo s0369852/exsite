@@ -44,3 +44,15 @@ $(window).on('scroll resize', function(){
         }
     }
 });
+
+// 5. 햄버거메뉴 열기
+$(function(){
+    $('.menuOpen button.open').on('click', function(){
+        $('.menuOpen .menuWrap').addClass('on');
+        return false;
+    });
+    $('.menuOpen .menuWrap .close').on('click', function(){
+        $('.menuOpen .menuWrap').removeClass('on');
+        return false;
+    });
+});
