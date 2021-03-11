@@ -711,6 +711,36 @@ section.service .img.motion::after {background-color: #e8fcff;}
         -moz-transform: translateY(-50%) scale(0.5);
         -ms-transform: translateY(-50%) scale(0.5);
         -o-transform: translateY(-50%) scale(0.5);
+    }   
 }
+
+/* responsive */
+
+/* PC모드 */
+@media screen and (max-width: 1720px){ /* 1720px ~ 1401px*/
+    .wrap { width: 100%; overflow: hidden; }
+    .innerHeader { padding: 0 30px ; max-width: 100%; box-sizing: border-box; }
+    .innerHeader .mainMenu .sns { margin-left: 200px; }
     
+    section.visual { padding: 0 30px; max-width: 100%; box-sizing: border-box; }
+    section.visual .mainTxt { margin-top: 150px; }
+    section.visual .mainTxt .tit { font-size: 62px; }
+}
+
+/* 1024 태블릿 모드 */
+@media screen and (max-width: 1400px){ /* 1400px ~ 1024px */
+    section.visual .mainTxt { margin-top: 100px; }
+    section.visual .maunTxt .tit { font-size: 46px; }
+    section.visual .mainTxt .txt { padding: 20px 0 0 0; }
+
+    section .inner { padding: 0 30px; width: 100%; box-sizing: border-box;}
+    .img img { width: 100%; }
+
+    section.journal .scroll { display: none; }
+    section.journal .circleBox { right: -10%; top: 0; }
+    section.journal .inner .box .img {width: 90%;}
+
+    section.customer { padding: 160px 0; }
+
+    footer { padding: 0 30px; width: 100%; box-sizing: border-box;}
 }
