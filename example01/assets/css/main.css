@@ -17,9 +17,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; font-size: inherit;}
 
 a { color: inherit; text-decoration: inherit; }
 
-img { 
-    display: inline-block;
-    width: 100%;
+img {
     vertical-align: middle;
 }
 
@@ -194,16 +192,11 @@ section.visual .mainTxt .txt {padding: 50px 0  0 70px;}
 
 /* section안에 .inner(공통 넓이 가이드) .box(float) */
 section .inner {
-    width: 1040px;
+    width: 1370px;
     margin: 0 auto;
     overflow: hidden;
 }
 
-section .inner .box.firstBox {
-    width: 45%;
-    margin-right: 5%;
-    margin-top: 7%;
-}
 section .inner .box {
     float: left;
     width: 50%;
@@ -243,8 +236,7 @@ section.journal .scroll::before {
 }
 
 section.journal .inner .box .img {
-    width: 100%;
-    box-sizing: border-box;
+    padding-top: 100px;
 }
 
 section.journal .inner .box .tit { margin-bottom: 40px; }
@@ -275,11 +267,11 @@ section.journal .inner .box .moreBtn {
 section.service { padding: 160px 0; }
 section.service .inner .box .img {margin-top: 60px;}
 
-section.service .inner .box.design { 
+section.service .inner .box.design {
     margin-top: -40%;
     padding-top: 60px;
-    width: 45%; 
-    border-top: 1px solid #c3e5ea;
+    width: 45%;
+    border-top: 1px solid #c4e5ea;
 }
 
 section.service .inner .box.design .tit {
@@ -393,7 +385,7 @@ section.team .circleBox {
     left: 20%;
     top: -50px;
     z-index: -1;
-    width: 700;
+    width: 700px;
 }
 
 /* SVG 애니메이션 */
@@ -743,4 +735,50 @@ section.service .img.motion::after {background-color: #e8fcff;}
     section.customer { padding: 160px 0; }
 
     footer { padding: 0 30px; width: 100%; box-sizing: border-box;}
+}
+
+/* 1024 이하 태블릿 모드 */
+@media screen and (max-width: 1000px) { /* 768px 까지 */
+    .innerHeader {height: 80px; line-height: 80px;}
+    .innerHeader .mainMenu {width: 0; height: 0; opacity: 0; display: none;}
+    
+    .menuOpen button.open { 
+        position: absolute; 
+        top: 0; 
+        transform:none ; 
+        -webkit-transform:none ; 
+        -moz-transform:none ; 
+        -ms-transform:none ; 
+        -o-transform:none ; 
+        width: 70px; 
+        height: 80px; 
+        line-height: 80px; 
+        padding: 0;
+    }
+    .menuOpen button.open::before {display: none;}
+    
+    section.visual .mainImg {float: none; width: 100%;}
+    section.visual .mainImg img {width: 100%;}
+    section.visual .mainTxt { margin-top: 50px; float: none; width: 100%;}
+    section .inner .box {float: none; width: 100%;}
+
+    section.journal {padding: 80px 0;}
+    section.journal .circleBox {top: 200px;}
+    section.journal .inner .box .img {margin: 0 auto 50px; padding-top: 0; width: 80%;}
+
+    section.service {padding: 80px 0;}
+    section.service .txt {margin-top: 20px;}
+    section.service .inner .box.design {margin-top: 50px; width: 100%;}
+    section.service .inner .box .img {margin: 50px auto 0; width: 90%;}
+    section.service .inner .box.design .img {margin: 50px 0 0 ; width: 70%;}
+    section.service .inner .box.design .img.motion::after {background-color: #fff;}
+    section.service .inner .box.design .tit {font-size: 35px;}
+
+    section.customer {padding: 120px 0;}
+    section.customer .tit {font-size: 30px;}
+
+    section.team {padding: 80px 0;}
+    section.team .circleBox {left: 15%;}
+    section.team .inner .box.left {width: 100%;}
+    section.team .inner .box.left .img {margin: 0 0 0 auto;}
 }
