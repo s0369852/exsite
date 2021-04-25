@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한번에 끝내는 FE - 6강 HTML 핵심 요소 정리</title>
+</head>
+<body>
+  <!-- 
+
+    - 필수 속성
+      : ex). <img src='' alt=''>
+      : 필수 속성은 작성하지 않을 시 웹표준에 어긋난다.
+
+    - 목록 내 항목
+      : 목록을 list -> 전반적인 목록
+        항목을 item -> 목록 안에 있는 항목
+
+    - <input>
+      : Inline 요소 면서 block 요소 => inline-block
+      : 사용자가 데이터를 입력하는 요소
+      : type 속성 
+        value 속성 => 미리 입력된 값(데이터)
+        disabled => 입력 요소 비활성화, 더 이상 input창을 실행 할 수 없다.
+        checked => 미리 체크 되어 나타남.
+        
+      : type='radio' => 택 1.
+        사용자에게 체크 여부를 그룹에서 1개만 입력받는다. 
+        name='fruits'
+        fruits란 이름의 그룹으로 묶는다. 묶여진 그룹 안에서 1개만 선택 할 수 있다.
+
+    - <label>
+      : inline요소.
+      : 라벨 가능 요소(input)의 제목
+      : ex).
+        <label>
+          <input type='checkbox'> apple
+        </label>
+
+    - <table>
+      : table 요소 => block(블록) 요소 내에서 table(테이블) 요소로 구분 된다.
+      : 표 요소, 행(Row), 열(Column)의 집합
+      : <tr> => table row, 행을 지정하는 요소
+      : <td> => column(열)을 지정하는 요소 (table data) => 하나의 cell
+        
+
+    - data-이름 = "데이터"
+      : <태그 data-이름 = "데이터"></태그>
+      : 요소에 데이터를 지정 "데이터"는 기본적으로 문자 형식
+      : 이 속성과 값이 작성되어진 그 요소에다가 어떤 특정한 데이터를 저장하는 용도
+        저장된 데이터를 JS나 CSS에서도 사용할 수 있다.
+        
+      <div data-fruit-name="banana">바나나</div>
+      <div data-fruit-name="apple">사과</div>
+
+      <script>
+        const els = document.querySelectorAll('div');
+        els.forEach(el => {
+          console.log(el.dataset.fruitName)
+        });
+      </script>
+
+      - defer
+      : script 요소에 defer 속성은, HTML 구조가 준비된 후(문서 분석 이후)에 JavaScript를 해석하겠다는 의미가 있다.
+      
+  -->
+</body>
+</html>
