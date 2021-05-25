@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Script 선행 학습</title>
+</head>
+<body>
+  <!-- 
+
+    - 표기법  
+    1. dash-case(kebab-case)
+      the-quick-brown-fox-jumps-over-the-lazy-dog
+      HTML, CSS에서 주로 사용하는 표기법
+
+    2. snake_case
+      the_quick_brown_fox_jumps_over_the_lazy_dog
+      HTML, CSS에서 주로 사용하는 표기법, 컴퓨터는 위의 문장을 하나의 단어로 인식한다.
+
+    3. camelCase
+      theQuickBrownFoxJumpsOverTheLazyDog
+      JS 에서 주로 사용하는 표기법, 첫글자만 소문자로 시작, 다음 단어 부터는 첫글자가 대문자로 시작
+      대부분의 경우에는 camelCase를 사용함
+
+    4. ParcelCase
+      TheQuickBrownFoxJumpsOverTheLazyDog 
+      JS 에서 주로 사용하는 표기법, camelCase랑 비슷하지만 첫 단어의 첫 글자를 대문자로 표기한다는 차이점
+      JS 에서 new라는 생성자 함수를 통해 함수의 이름을 명시하게 된다.
+
+    - Zero-based Numbering
+    0기반 번호 매기기, 특수한 경우를 제외하고 0부터 숫자를 시작한다. 
+
+    - 주석
+    // 한줄 메모
+    /* 한 줄 메모 */
+    /**
+      * 여러 줄
+      * 메모1
+      * 메모2
+    */
+
+    - 데이터 종류
+    1. string
+    2. number
+    3. boolean
+    4. undefined
+    5. null
+    6. object
+    7. array
+
+    - 변수
+    데이터를 저장하고 참조(사용)하는 데이터의 이름
+    var, let, const
+
+    - 예약어 (Reserved Word)
+    특별한 의미를 가지고 있어, 변수나 함수 이름 등으로 사용할 수 없는 단어
+
+    - 함수
+    특정 동작(기능)을 수행하는 일부 코드의 집합(부분) function
+
+  -->
+
+  <script> 
+    let fruits = ['apple', 'banana', 'Cherry'];
+
+    console.log(fruits[0]); // Apple
+    console.log(fruits[1]); // Banana
+    console.log(fruits[2]); // Cherry
+    
+    console.log(new Date('2021-01-30').getDay()); // 6 -> 토요일 = 요일을 계산하는 것도 0부터 시작을 한다는 것을 알려준다.
+    console.log(new Date('2021-01-31').getDay()); // 0 -> 일요일
+    console.log(new Date('2021-02-01').getDay()); // 1 -> 월요일
+
+    // 1. String(문자 데이터), 따옴표를 사용한다. 
+    let myName = "HEROPY";
+    let email = 'thesecon@gmail.com';
+    let hello = `hello ${myName}?!` // 백틱(그레이브) -> "보관법" , 문자 어딘가에 데이터를 보관해서 끼워 넣을 수 있다.
+
+    console.log(myName);  // HEROPY
+    console.log(email);   // thesecon@gmail.com
+    console.log(hello);   // Hello HEROPY?! 
+
+    // 2. Number(숫자 데이터), 정수 및 부동소수점 숫자를 나타낸다.
+    let number = 123;
+    let opacity = 1.57;
+
+    console.log(number);  // 123
+    console.log(opacity); // 1.57
+
+    // 3. Boolean(불린 데이터), true, false 두 가지 밖에 없는 논리 데이터.
+    let checked = true;
+    let isShow = false;
+
+    console.log(checked); // true
+    console.log(isShow);  // false
+
+    // 4. Undefined, 값이 할당되지 않은 상태를 나타낸다.
+    let undef; // 의도가 없다.
+    let obj = { abc: 123 };
+
+    console.log(undef); // undefined
+    cosole.log(obj.abc);  // 123
+    cosole.log(obj.xyz);  // undefined
+
+    // 5. Null, 어떤 값이 의도적으로 비어있음을 의미한다.
+    let empty = null; // = 기호를 통해서 null이라는 값을 집어넣은 것. 의도적.
+
+    console.log(empty); // null
+
+    // 6. Object(객체 데이터), 여러 데이터를 Key:Value 형태로 저장한다. { }
+    let user = {
+      // key : value,
+      name: 'HEROPY',
+      age: 85,
+      isValid: true
+    };
+
+    console.log(user.name); // HEROPY
+    console.log(user.age);  // 85
+    console.log(user.isValid);  // true
+
+    // 7. Array(배열 데이터), 여러 데이터를 순차적으로 저장한다. [ ]
+    let fruits = ['Apple', 'Banana', 'Cherry'];
+
+    console.log(fruits[0]); // Apple
+    console.log(fruits[1]); // Banana
+    console.log(fruits[2]); // Cherry
+
+    let myNameTwo = "HEROPY2";
+    let emailTwo = 'thesecon@gmail.com'
+    let helloTwo = `hello ${myNameTwo}?!`;
+
+    console.log(myNameTwo); // HEROPY2
+    console.log(emailTwo);  // thesecon@gmail.com
+    console.log(helloTwo);  // hello HEROPY2?!
+    
+    let userTwo = {
+      name : "HEROPY",
+      age : 85,
+    }
+
+    console.log(userTwo); // {name: 'HEROPY', age: 85}
+    console.log(userTwo.age); // 85
+    console.log(userTwo.name);  // HEROPY
+
+    // 재사용이 가능, 변수 선언
+    let a = 2;
+    let b = 5;
+
+    console.log(a + b); // 7
+    console.log(a - b); // -3
+    console.log(a * b); // 10
+    console.log(a / b); // 0.4
+
+    // 값(데이터)의 재할당 가능!
+    let a = 12;
+    console.log(a); // 12
+
+    a = 999;
+    console.log(a)  // 999
+
+    // 값(데이터)의 재할당 불가!
+    const a = 12;
+    console.log(a)  // 12
+
+    a = 999;
+    console.log(a); // TypeError: Assignment to constant variable.
+
+    // 에약어
+    //let this = 'hello'; // SyntaxError
+    //let if = 123; // SyntaxError
+    //let break = true; // SyntaxError
+
+    // 함수 선언
+    function helloFunc() {
+      // 실행 코드
+      console.log(1234);
+    }
+
+    // 함수 호출
+    helloFunc();  // 1234
+
+    // 함수는 명령들을 감싸고 있는 하나의 집합, 함수 안에서 특정한 값을 반환할 수 있다. 이때 return이라는 키워드를 사용할 수 있다.
+    function returnFunc() {
+      return 123;
+    }
+
+    let a = returnFunc(); // a라는 변수에 returnFunc()함수를 호출하고, returnFunc()에서 반환된 값을 받는다. 
+
+    console.log(a); // 123
+
+    // 함수 선언! 
+    function sum(a,b) { // a와 b는 매개변수 (Parameters)
+      return a + b;
+    }
+
+    // 재사용!
+    let a = sum(1,2); // 1과 2는 인수 (Arguments)
+    let b = sum(7, 12);
+    let c = sum(2, 4);
+
+    console.log(a, b, c);   // 3, 19, 6
+
+    // 기명 함수 (이름이 있는 함수)
+    // 함수를 선언한다. (함수에 이름이 명시되어 있다.)
+    function hello() {
+      console.log('hello~');
+    }
+
+    // 익명 함수 (이름이 없는 함수)
+    // 함수를 표현한다. (익명 함수를 변수에 할당한다.)
+    let world = function() {
+      console.log('world~')
+    }
+
+    // 함수 호출(실행)
+    hello();  // hello~
+    world();  // world~
+
+    // 객체 데이터
+    const heropy = {
+      name: 'heropy',
+      age: 85,
+      // 메소드(Method) -> 객체 데이터 내부에 일반적인 속성 데이터가 아닌, 속성 부분에 함수가 할당이 되어져 있으면 이것을 메소드(Method)라고 부른다.
+      getName: function() {
+        return this.name;
+      }
+    };
+
+    const hisName = heropy.getName();
+    console.log(hisName); // HEROPY
+    // 혹은
+    console.log(heropy.getName());  // HEROPY
+
+
+
+  </script>
+
+</body>
+</html>
