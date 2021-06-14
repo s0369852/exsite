@@ -68,7 +68,10 @@
     API -> 웹사이트가 동작하기 위해서 입력하는 프로그래밍 명령
     DOM API -> 자바스크립트에서 HTML을 제어하는 여러가지 명령들 
 
-
+    - Method Chaining (메소드 체이닝)
+    split : 문자를 인수 기준으로 쪼개서 배열로 반환.
+    reverse : 배열을 뒤집기
+    join : 배열을 인수 기준으로 문자로 병합해 반환.
   -->
 
   <script> 
@@ -355,6 +358,65 @@
   </script>
 
 <!-- // DOM API -->
+
+<!-- Method Chaining (메소드 체이닝) -->
+<script>
+  const a = 'Hello~';
+  // split : 문자를 인수 기준으로 쪼개서 배열로 반환.
+  // reverse : 배열을 뒤집기.
+  // join : 배열을 인수 기준으로 문자로 병합해 반환.
+
+  const b = a.split('').reverse().join(''); // 메소드 체이닝...
+
+  console.log(a); // Hello~
+  console.log(b); // ~olleH
+
+  const user = {
+    getName: function() {}
+  }
+
+  /*
+    위 코드의 getName과 같이, 함수가 할당된 객체 데이터의 속성(Property)을 무엇이라 하는가?
+    = 메소드(Method)
+    메소드는 결과적으로 하나의 함수. 메소드를 호출하는 것은 어떠한 함수를 호출하는 것과 동일한 개념, 단지 그 함수가 어떤 객체의 속성에 할당이 되어져 있다는 것.
+    그리고 그것을 구분하기 위해 메소드라 부른다. 
+  */
+</script>
+
+<!-- 
+
+  가져온 JS 파일을 HTML 문서 분석 이후에 실행하도록 지시하는 HTML 속성(Attribute)은?
+  = defer
+
+-->
+
+<script>
+  const boxEl = document.querySelector('.box');
+
+  boxEl.addEventListener('click', function(){
+    console.log('hello~')
+  });
+
+  /*
+  addEventListener이라는 메소드의 첫번째 인수로는 'click'이라는 문자로 이루어진 이벤트를 적고, 
+  쉼표 다음에 나오는 익명의 함수를 "핸들러"라고 한다.
+  이벤트를 실행했을 시 핸들러 부분에 함수를 실행을 한다.
+  */
+</script>
+
+<div>1</div>
+<div>2</div>
+<script>
+  // 위 2개의 div 요소에 JS로 class="hello"를 추가 하시오
+  
+  const divEls = document.querySelectorAll('div');
+  divEls.forEach(function(divEl){
+    divEl.classList.add('hello');
+  })
+  </script>
+
+
+
 
 </body>
 </html>
