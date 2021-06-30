@@ -5,6 +5,7 @@ body {
   font-weight: 400;
   line-height: 1.4; /* 통상적으로 사용자들이 글자를 읽을 떄 편하게 읽을 수 있는 수치 (달라질 수 있음) */
   color: #333;
+  height: 3000px;
 }
 
 img {
@@ -20,10 +21,74 @@ a {
   position: relative;
   width: 1100px;
 }
+
+.btn {
+  box-sizing: border-box;
+  display: block;
+  width: 130px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  border: 1px solid #333;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  transition: .4s;
+  -webkit-transition: .4s;
+  -moz-transition: .4s;
+  -ms-transition: .4s;
+  -o-transition: .4s;
+}
+.btn:hover {
+  color: #fff;
+  background-color: #333;
+}
+.btn.btn--reverse {
+  color: #fff;
+  border-color: #333;
+}
+.btn.btn--reverse:hover {
+  color: #333;
+  background-color: transparent;
+}
+.btn.btn--brown {
+  color: #592B12;
+  border-color: #592B18;
+}
+.btn.btn--brown:hover {
+  color: #fff;
+  background-color: #592B18;
+}
+.btn.btn--gold {
+  color: #D9AA8A;
+  border-color: #D9AA8A;
+}
+.btn.btn--gold:hover {
+  color: #fff;
+  background-color: #D9AA8A;
+}
+.btn.btn--white {
+  color: #fff;
+  border-color: #fff;
+}
+.btn.btn--white:hover {
+  color: #333;
+  background-color: #fff;
+}
+
 /* // COMMON */
 
 /* HEADER */
 header {
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  width: 100%;
   background-color: #f6f5f0;
   border-bottom: 1px solid #c8c8c8;
 }
@@ -194,4 +259,80 @@ header .main-menu .item .item__contents .contents__texture p {
   margin: 4px 0 14px;
   color: #669900;
 }
+
+header .badges {
+  position: absolute;
+  top: 132px;
+  right: 12px;
+}
+header .badges .badge {
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,.15);
+  cursor: pointer;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
 /* // HEADER */
+
+/* VISUAL */
+.visual {
+  margin-top: 120px;
+  background-image: url(../images/visual_bg.jpg);
+  background-position: center;
+}
+.visual .inner {
+  height: 646px;
+}
+.visual .title {
+  position: absolute;
+  top: 88px;
+  left: -10px;
+}
+.visual .title .btn {
+  position: absolute;
+  top: 259px;
+  left: 173px;
+}
+
+.visual .fade-in {
+  opacity: 0;
+}
+
+.visual .cup1.image {
+  position: absolute;
+  bottom: 0;
+  right: -47px;
+}
+.visual .cup1.text {
+  position: absolute;
+  top: 38px;
+  right: 171px;
+}
+.visual .cup2.image {
+  position: absolute;
+  bottom: 0;
+  right: 162px;
+}
+.visual .cup2.text {
+  position: absolute;
+  top: 321px;
+  right: 416px;
+}
+.visual .spoon {
+  position: absolute;
+  bottom: 0;
+  left: 275px;
+}
+/* // VISUAL */
+
+
+
+
+
+
+
+
