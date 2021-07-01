@@ -417,10 +417,20 @@ header .badges .badge {
 }
 
 .notice .promotion {
+  overflow: hidden;
   position: relative;
   height: 693px;
   background-color: #f6f5ef;
+  transition: height 0.4s;
+  -webkit-transition: height 0.4s;
+  -moz-transition: height 0.4s;
+  -ms-transition: height 0.4s;
+  -o-transition: height 0.4s;
 }
+.notice .promotion.hide {
+  height: 0;
+}
+
 .notice .promotion .swiper-container {
   position: absolute;
   top: 40px;
