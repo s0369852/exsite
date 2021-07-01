@@ -370,8 +370,15 @@ header .badges .badge {
 }
 .notice .notice-line .inner__left .swiper-container {
   height: 62px;
-  background-color: orange;
   flex-grow: 1;
+}
+.notice .notice-line .inner__left .swiper-container .swiper-slide {
+  display: flex;
+  align-items: center;
+  height: 62px;
+}
+.notice .notice-line .inner__left .swiper-container .swiper-slide a {
+  color: #fff;
 }
 .notice .notice-line .inner__left .notice-line__more {
   display: flex;

@@ -56,3 +56,13 @@ fadeEls.forEach(function(fadeEl, index) {
 });
 
 // // visual animation
+
+// swiper slide
+// new Swiper(선택자, 옵션)
+new Swiper('.notice-line .swiper-container', {
+  direction: 'vertical',
+  autoplay: true,
+  roop: true
+});
+
+// // swiper slide
