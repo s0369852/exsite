@@ -416,6 +416,23 @@ header .badges .badge {
   font-size: 30px;
 }
 
+.notice .promotion {
+  position: relative;
+  height: 693px;
+  background-color: #f6f5ef;
+}
+.notice .promotion .swiper-container {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  margin-left: calc((819px * 3 + 20px) / -2); /* left값으로 50%를 밀고 margin-left값으로 요소의 절반을 값을 -로 당긴다면 요소는 중앙으로 온다. right로 했다면 margin-right */
+  width: calc(819px * 3 + 20px);
+  height: 553px;
+  background-color: orange;
+  text-align: center;
+  font-size: 200px;
+}
+
 /* // NOTICE */
 
 
