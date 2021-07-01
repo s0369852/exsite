@@ -428,10 +428,29 @@ header .badges .badge {
   margin-left: calc((819px * 3 + 20px) / -2); /* left값으로 50%를 밀고 margin-left값으로 요소의 절반을 값을 -로 당긴다면 요소는 중앙으로 온다. right로 했다면 margin-right */
   width: calc(819px * 3 + 20px);
   height: 553px;
-  background-color: orange;
-  text-align: center;
-  font-size: 200px;
 }
+.notice .promotion .swiper-slide {
+  position: relative;
+  opacity: 0.5;
+  transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -ms-transition: opacity 1s;
+  -o-transition: opacity 1s;
+}
+.notice .promotion .swiper-slide.swiper-slide-active { /* .swiper-slide-active => 현재 활성화된 swiper-slide를 말한다. */
+  opacity: 1;
+}
+
+.notice .promotion .swiper-slide .btn {
+  position: absolute;
+  margin: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
 
 /* // NOTICE */
 
