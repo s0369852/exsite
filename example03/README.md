@@ -95,3 +95,46 @@
     요소의 크기를 만들어 낼 수 있다. 
   - youtube, vimeo 등의 영상은 16:9의 비율을 가지고 있다. 
     100% : 56.25% = 16 : 9
+
+  * youtube
+  - 소스코드를 복사해서 붙여넣는 방식은 단지 출력만을 위한 방식이다. 제어를 할 수 없다. 
+  - API를 통해 script로 가져와 반복 재생, 음소거 기능, 등을 제어해야 한다.
+  - IFrame Player API를 통해 YouTube 동영상을 제어할 수 있다.
+    (https://developers.google.com/youtube/iframe_api_reference?hl=ko)
+  - 유튜브 영상이 출력될 위치에 요소를 지정(생성)한다.
+  <!-- in HEAD -->
+  <script defer src="./js/youtube.js"></script>
+
+  <!-- in BODY -->
+  <div id="player"></div>
+  - onYouTubePlayerAPIReady 함수 이름은 Youtube IFrame Player API에서 사용하는 이름이기 때문에 다르게 지정하면 동작하지 않는다! 그리고 함수는 전역(Global) 등록해야 한다!
+  - 플레이어 매개변수(playerVars)에서 더 많은 옵션을 확인할 수 있다.
+    (https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5&hl=ko#Parameters)
+  <script>
+  // Youtube IFrame API를 비동기로 로드합니다.
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  function onYouTubePlayerAPIReady() {
+    // <div id="player"></div>
+    new YT.Player('player', {
+      videoId: 'An6LvWQuj_8', // 재생할 유튜브 영상 ID
+      playerVars: {
+        autoplay: true, // 자동 재생 유무
+        loop: true, // 반복 재생 유무
+        playlist: 'An6LvWQuj_8' // 반복 재생할 유튜브 영상 ID 목록
+      },
+      events: {
+        // 영상이 준비되었을 때,
+        onReady: function (event) {
+          event.target.mute(); // 음소거!
+        }
+      }
+    });
+  }
+  </script>
+
+  * 메소드
+  - 객체 데이터 내부에 함수 데이터가 할당 되어져 있는 것
