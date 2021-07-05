@@ -521,7 +521,7 @@ header .badges .badge {
 
 /* // NOTICE */
 
-/* rewards */
+/* REWARDS */
 .rewards {position: relative;}
 .rewards .bg-left {
   position: absolute;
@@ -562,7 +562,41 @@ header .badges .badge {
   margin-top: 10px;
   flex-grow: 1;
 }
-/* // rewards */
+/* // REWARDS */
+
+/* YOUTUBE VIDEO */
+  .youtube {
+    position: relative;
+    height: 700px;
+    background: #333;
+    overflow: hidden;
+  }
+  .youtube .youtube__area {
+    position: absolute;
+    margin-top: calc(1920px * 9 / 16 / -2);
+    margin-left: calc(1920px / -2);
+    left: 50%;
+    top: 50%;
+    width: 1920px;
+    background-color: orange;
+  }
+  .youtube .youtube__area::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 0;
+    padding-top: 56.25%;
+  }
+  .youtube .youtube__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/video_cover_pattern.png);
+    background-color: rgba(0,0,0,.3);
+  }
+/* // YOUTUBE VIDEO */
 
 
 
