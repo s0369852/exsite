@@ -1,4 +1,4 @@
-// search icon click evnet
+// search icon click evnet  ----------------------------------------------------------------
 
 const searchEl = document.querySelector('.search');
 const searchInputEl = searchEl.querySelector('input');
@@ -17,9 +17,7 @@ searchInputEl.addEventListener('blur', function () {
   searchInputEl.setAttribute('placeholder', ''); // setAttribute() -> HTML의 속성을 지정 하겠다.
 });
 
-// // search icon click evnet
-
-// scroll badge
+// scroll badge ----------------------------------------------------------------
 
 const badgeEl = document.querySelector('header .badges');
 
@@ -40,9 +38,7 @@ window.addEventListener('scroll', _.throttle(function () {
   }
 }, 300));
 
-// // scroll badge
-
-// visual animation
+// visual animation ----------------------------------------------------------------
 
 const fadeEls = document.querySelectorAll('.visual .fade-in');
 fadeEls.forEach(function (fadeEl, index) {
@@ -55,9 +51,8 @@ fadeEls.forEach(function (fadeEl, index) {
   });
 });
 
-// // visual animation
+// swiper slide ----------------------------------------------------------------
 
-// swiper slide
 // new Swiper(선택자, 옵션)
 new Swiper('.notice-line .swiper-container', {
   direction: 'vertical',
@@ -83,10 +78,7 @@ new Swiper('.promotion .swiper-container', {
   }
 });
 
-// // swiper slide
-
-
-// promotion toggle
+// promotion toggle ----------------------------------------------------------------
 
 const promotionEl = document.querySelector('.promotion');
 const promotionToggleBtn = document.querySelector('.toggle-promotion');
@@ -104,5 +96,30 @@ promotionToggleBtn.addEventListener('click', function() {
 });
 // javascript 자체로 요소가 단순하게 class를 추가해서 보이고 안보이고, 단순한 애니메이션 처리하는 것은 css로 처리해주는 것이 좋다. 
 
+// floating object  ----------------------------------------------------------------
 
-// // promotion toggle
+// 범위 랜덤 함수(소수점 2자리까지)
+function random(min, max) {
+  // '.toFixed()'를 통해 반환된 문자 데이터를,
+  // 'parseFloat(())'을 통해 소수점을 가지는 숫자 데이터로 변환
+  return parseFloat((Math.random() * (max - min) + min).toFixed(2))
+}
+
+function floatingObject(selector, delay, size) {
+  // gsap.to(요소, 시간, 옵션)
+  gsap.to(
+    selector, // 선택자 
+    random(1.5, 2.5), // 애니메이션의 동작 시간
+    { // 옵션
+      y: size,
+      repeat: -1, // 반복 설정을 -1로 설정하게 되면 무한반복이 된다. (javascript에서 지원하는 라이브러리 기능)
+      yoyo: true, // 한번 재생된 애니메이션을 다시 뒤로 재생하여, 위로 올라갔다가 내려오게끔 하는 것이다.
+      ease: Power1.easeInOut,
+      delay: random(0, delay), 
+    }
+  );
+}
+
+floatingObject('.floating1' , 1, 15);
+floatingObject('.floating2' , 0.5, 15);
+floatingObject('.floating3' , 1.5, 20);

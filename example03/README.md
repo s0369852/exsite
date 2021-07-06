@@ -138,3 +138,30 @@
 
   * 메소드
   - 객체 데이터 내부에 함수 데이터가 할당 되어져 있는 것
+
+  * 랜덤한 숫자를 생성하는 함수
+  <script>
+    // 범위 랜덤 함수(소수점 2자리까지)
+    function random(min, max) {
+      // '.toFixed()'를 통해 반환된 문자 데이터를,
+      // 'parseFloat(())'을 통해 소수점을 가지는 숫자 데이터로 변환
+      return parseFloat((Math.random() * (max - min) + min).toFixed(2))
+    }
+  </script>
+
+  * GSAP & ScrollToPlugin
+  - <a href="https://greensock.com/gsap/">GSAP(The GreenSock Animation Platform)은 자바스크립트로 제어하는 타임라인 기반의 애니메이션 라이브러리입니다. </a>
+  - <a href="https://greensock.com/scrolltoplugin/">ScrollToPlugin</a>은 스크롤 애니메이션을 지원하는 GSAP 플러그인입니다.
+  - <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfm5+RiMGtHykgZJl9AWMgqx0AmJ6cRWcB+GaGVtIsnC4voMfm8f2vwtY+6oPjpQ==" crossorigin="anonymous"></script>
+  - <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollToPlugin.min.js" integrity="sha512-nTHzMQK7lwWt8nL4KF6DhwLHluv6dVq/hNnj2PBN0xMl2KaMm1PM02csx57mmToPAodHmPsipoERRNn4pG7f+Q==" crossorigin="anonymous"></script>
+  - <a href="https://greensock.com/docs/v3/GSAP/gsap.to()">.to() 사용법</a>, <a href="https://greensock.com/docs/v2/Easing">GSAP Easing </a>
+  <script>
+    gsap.to(요소, 시간, 옵션)
+  // 또는
+  TweenMax.to(요소, 시간, 옵션)
+
+  gsap.to(window, .7, {
+    scrollTo: 0
+  });     
+  </script>
+
