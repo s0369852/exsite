@@ -130,9 +130,9 @@ const spyEls = document.querySelectorAll('section.scroll-spy');
 spyEls.forEach(function(spyEl) {
   new ScrollMagic
     .Scene({
-      triggerElemnet: spyEl, // 보여짐 여부를 감시할 요소를 지정
+      triggerElement: spyEl, // 보여짐 여부를 감시할 요소를 지정
       triggerHook: 0.8, // 내가 감시하고 있는 요소가 뷰포트의 어떤 지점에서 감시 되었다는 것을 판단할 것인가를 지정해주는 옵션
     })  
-    .setClassToggle()
-    .addTo();
+    .setClassToggle(spyEl, 'show')
+    .addTo(new ScrollMagic.Controller()); // 'new ScrollMagic.Controller()' 이부분은 기본적으로 ScrollMagic에서 우리가 추가한 옵션들은 내부의 컨트롤러에 내용을 할당해서 실제로 동작할 수 있는 구조로 만들어 주는 용도로 사용 된다.
 });
