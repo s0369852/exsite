@@ -78,6 +78,18 @@ new Swiper('.promotion .swiper-container', {
   }
 });
 
+new Swiper('.awards .swiper-container', {
+  autoplay: true,
+  loop: true,
+  spaceBetween: 30,
+  slidesPerView: 5,
+  navigation: {
+    prevEl: '.awards .swiper-prev',
+    nextEl: '.awards .swiper-next',
+  }
+});
+
+
 // promotion toggle ----------------------------------------------------------------
 
 const promotionEl = document.querySelector('.promotion');
@@ -136,3 +148,4 @@ spyEls.forEach(function(spyEl) {
     .setClassToggle(spyEl, 'show')
     .addTo(new ScrollMagic.Controller()); // 'new ScrollMagic.Controller()' 이부분은 기본적으로 ScrollMagic에서 우리가 추가한 옵션들은 내부의 컨트롤러에 내용을 할당해서 실제로 동작할 수 있는 구조로 만들어 주는 용도로 사용 된다.
 });
+
