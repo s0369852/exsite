@@ -165,3 +165,6 @@
   });     
   </script>
 
+  * HTML의 특수기호들
+  - "html entities"
+
