@@ -17,9 +17,10 @@ searchInputEl.addEventListener('blur', function () {
   searchInputEl.setAttribute('placeholder', ''); // setAttribute() -> HTML의 속성을 지정 하겠다.
 });
 
-// scroll badge ----------------------------------------------------------------
+// scroll badge & #to-top ----------------------------------------------------------------
 
 const badgeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top');
 
 window.addEventListener('scroll', _.throttle(function () {
   console.log(scrollY)
@@ -29,14 +30,28 @@ window.addEventListener('scroll', _.throttle(function () {
       opacity: 0,
       display: 'none'
     });
+    // 버튼 보이기
+    gsap.to(toTopEl, .2, {
+      x: 0 
+    });
   } else {
     // 배지 보이기
     gsap.to(badgeEl, .6, {
       opacity: 1,
       display: 'block'
     });
+    // 버튼 숨기기
+    gsap.to(toTopEl, .2, {
+      x: 100 
+    });
   }
 }, 300));
+
+toTopEl.addEventListener('click', function() {
+  gsap.to(window, .7, {
+    scrollTo: 0,  // 여기 위치의 숫자를 적으면 해당 페이지 스크롤의 px로 옯겨준다. 
+  });
+});
 
 // visual animation ----------------------------------------------------------------
 
