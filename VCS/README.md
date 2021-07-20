@@ -39,7 +39,9 @@
 - git remote add origin 원격저장소의 주소
   (remote > 원격 > github의 원격 저장소를 추가 하려고 함)
 
-* git이라는 명령을 통해서 원격의 저장소에 프로젝트를 업로드(push) 하겠다
+* git이라는 명령을 통해서 원격의 저장소에 프로젝트를 업로드(push) 하겠다 (처음 한 번)
 - git push origin master
   (업로드 되는 저장소의 이름은 위에서 지정한 'origin'이고, 'master'라는 브렌치(brench)에다가 업로드를 하겠다.)
 
+* 수시로 업로드
+- git push
