@@ -45,3 +45,17 @@
 
 * 수시로 업로드
 - git push
+
+
+* 브렌치(Branch)
+- git branch : 현재 브렌치의 이름이 뜬다. -> master
+- git branch -a : remotes/origin/master
+                  원격저장소에 origin이라는 별칭을 가지고 있는 master브렌치가 있다
+                  -a를 붙여 쓰게되면 원격저장소에 있는 브렌치를 알 수 있다. 
+- git branch 새로만들브렌치 : 새로만들브렌치가 이름으로 생성된다. (ex-> git branch signin : signin이라는 브렌치가 새로 만들어 짐.)
+- git checkout signin : Switched to branch 'signin' -> 브렌치가 master에서 signin으로 바뀐 것을 확인 할 수 있다.
+  signin이라는 브렌치에서 새롭게 signin이라는 폴더와 그 안에 index파일을 만들어서 새로운 버전으로 커밋하고 다시 checkout master로 master브렌치로 변경을 하면 새롭게 만들었던 signin이라는 폴더는 보여지지 않는다. 
+  signin이라는 브렌치에서 작업한 내용은 다른 브렌치에게 영향을 끼치지 않는다.
+- 새롭게 만든 브렌치에서 작업을 하고 나중에 master브렌치와 병합(merge)을 해줄 수 있다.
+  이렇게 되면 새롭게 만든 브렌치에서의 작업은 master브렌치에 직접적으로 영향을 주지 않게 된다.
+
