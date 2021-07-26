@@ -1,22 +1,3 @@
-// search icon click evnet  ----------------------------------------------------------------
-
-const searchEl = document.querySelector('.search');
-const searchInputEl = searchEl.querySelector('input');
-
-searchEl.addEventListener('click', function () {
-  searchInputEl.focus(); // 여기서 focus는 javascript를 통해서 focus가 적용 가능한 곳에 강제로 적용시키는 명령. 
-});
-
-searchInputEl.addEventListener('focus', function () {
-  searchEl.classList.add('focused');
-  searchInputEl.setAttribute('placeholder', '통합검색'); // setAttribute() -> HTML의 속성을 지정 하겠다.
-});
-
-searchInputEl.addEventListener('blur', function () {
-  searchEl.classList.remove('focused');
-  searchInputEl.setAttribute('placeholder', ''); // setAttribute() -> HTML의 속성을 지정 하겠다.
-});
-
 // scroll badge & #to-top ----------------------------------------------------------------
 
 const badgeEl = document.querySelector('header .badges');
@@ -164,7 +145,3 @@ spyEls.forEach(function(spyEl) {
     .addTo(new ScrollMagic.Controller()); // 'new ScrollMagic.Controller()' 이부분은 기본적으로 ScrollMagic에서 우리가 추가한 옵션들은 내부의 컨트롤러에 내용을 할당해서 실제로 동작할 수 있는 구조로 만들어 주는 용도로 사용 된다.
 });
 
-// THISYEAR
-const thisYear = document.querySelector('.this-year');
-
-thisYear.textContent = new Date().getFullYear();  // 2021
