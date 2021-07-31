@@ -85,3 +85,28 @@
 <p>- Confirm merge 를 눌러 요청을 끝마친다.</p>
 <p>- Open이 Merged로 상태변경이 된다.</p>
 <p>- master에서 병합한 브렌치의 내용을 가지고 와서 병합을 했고, 기존의 master 브렌치에서 병합 된 새로운 버전이 만들어진 것이다. </p>
+
+<h2>16. 프로젝트 복제(git clone)</h2>
+<p> - 새로운 환경에서 저장소를 어떻게 불러와서 사용할까? </p>
+<p> - github 로그인 후 우측 상단의 계정 표시 클릭 후 'Your repositories'로 이동 </p>
+<p> - Code라는 초록 버튼을 누르면 저장소의 주소 카피 </p>
+<p> - VS에서 터미널을 켜준 뒤 'cd'를 입력하여 바꾸고자하는 디렉토리 명을 적어준다. <br/>
+      ex). cd .\Desktop\ (바탕화면으로 이동)<br/>
+      ex). cd .. (지금 있는 폴더에서 밖으로 한번 나가게 된다.)<br/>
+      (mac은 ls , window는 dir -> 현재 디렉토리 안에 들어있는 폴더가 나타난다. ) <br/>
+      (cd (=Change Directory) 입력 )<br/>
+</p>
+<p> - git clone 복사한주소<br/>
+    (복사한 주소의 해당하는 저장소 자체를 복제해서 현재 경로에 새롭게 생성한다.)
+</p>
+<p> - VS Code에서 해당하는 폴더 열기 <br/>
+  1. 모든 명령 표시 창 (Cmd + Shift + P)를 열어준다. <br/>
+  2. code 입력 <br/>
+  (Shell Command: Install 'code' command in PATH -> 쉘 명령: PATH에 'code' 명령 설치 -> 해당내용이 나올 경우 설치 후 재부팅)<br/>
+  3. 터미널을 열고 cd .\Desktop\ 후에 다시 cd .\starbucks\ <br/>
+    (cd는 경로를 찾아가고자 할때 사용 위를 해석하자면 바탕화면의 starbucks라는 폴더로 경로를 찾아가겠다.)<br/>
+  4. 해당 경로에서 <bold>code .</bold>을 입력하면 새로운 VS Code로 열린다. <br/>
+    (하지만 기존의 열려있던 VS Code 창도 열려있는 상태)
+  4-1. 다시 해당 경로에서 <bold>code . -r</bold>을 입력하면 현재 VS Code 창에서 해당하는 프로젝트가 열리게 된다.  
+</p>
+<br/><br/>
