@@ -44,7 +44,7 @@
 <p>- git log </p>
 <br/><br/>
 
-<h2>10. 저장소(repositories) > github</2>
+<h2>10. 저장소(repositories) > github</h2>
 <p>- git remote add origin 원격저장소의 주소 <br/>
   (remote > 원격 > github의 원격 저장소를 추가 하려고 함) </p>
   <br/><br/>
