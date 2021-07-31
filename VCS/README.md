@@ -59,7 +59,7 @@
 * netlify의 브렌치
 - netlify에서 배포(deploy)되는 브렌치는 "master" 브렌치 하나이다.
 - 'master' 브렌치 이외의 브렌치에서 작업된 내용은 배포(deploy)시에 적용되지 않는다. 
-- 다른 브렌치들을 "master"로 합병시켜줘야 한다.
+- 다른 브렌치들을 "master"로 합병시켜줘야 한다. <br/>
 
 * 브렌치 병합 방법
 - github으로 들어가서 해당 저장소의 'Pull requests' 탭으로 이동하여 'New pull request' 버튼을 누른다.
