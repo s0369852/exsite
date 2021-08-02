@@ -142,3 +142,25 @@
   </p>
 </div>
 <br/><br/>
+
+<div>
+  <h2>17. 버전 되돌리기</h2>
+  <p>
+    - git log : 버전을 확인할 수 있는데, (HEAD -> master) 여기서 HEAD가 있는 곳이 최신 버전을 나타낸다. <br/>
+    - git reset --hard : reset을 통해서 되돌릴 것인데 hard라는 플래그를 통해서 완벽하게 되돌리겠다. <br/>
+    - git reset --hard HEAD~1 : HEAD의 가장 최신의 버전에서 1버전을 되돌리겠다. <br/>
+    - git reset --hard ORIG_HEAD : 되돌린 버전이 다시 원상복구가 된다. <br/>
+    - git reset --hard HEAD~2 : HEAD의 가장 최신의 버전에서 2버전을 되돌리겠다. <br/>
+    - reset은 실제 사용중에서는 굉장히 신중을 가해서 사용해야 한다.
+  </p><br/>
+  <h3>push</h3>
+  <p>
+    - git add .
+    - git commit -m '버전'
+    - git remote add origin 원격저장소주소
+    - git push origin 브렌치
+    - git checkout 브렌치변경
+    - git push origin 변경한브렌치
+  </p>
+</div>
+<br/><br/>
