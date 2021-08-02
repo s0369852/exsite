@@ -181,8 +181,19 @@
     2. git branch -d 삭제할브렌치명 <br/><br/>
     - 생성과 동시에 해당 브렌치로 이동 <br/>
     1. git checkout -b 생성할브렌치
-
-
   </p>
 </div>
 <br/><br/>
+
+<div>
+  <h2>19. 충돌(Conflict), 병합(Merge)</h2>
+  <p>
+    - ! [rejected] <br/>
+    - 원격 저장소로 현재 내용을 push하는 것을 거절당했다. 버전의 내용이 현재 로컬환경과 저장소의 내용이 일치하지 않기 때문. <br/>
+    - 첫번째 방법. git reset --hard HEAD~1 <br/> 
+      로컬에서 만든 버전을 reset을 통해서 1단계 뒤로 되돌린다. <br/>
+    - 두번째 방법. git pull origin master <br/>
+      push -> 원격저장소에서 로컬로 버전을 가져온다. (push는 로컬에서 원격저장소로 버전을 밀어낸다.) <br/>
+    - 버전이 다른 것을 pull로 가져왔을 경우에 CONFLICT(충돌)이 난 것을 보여준다. <br/>
+  </p>
+</div>
