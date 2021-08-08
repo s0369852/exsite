@@ -24,7 +24,33 @@
         * https://github.com/nvm-sh/nvm#installing-and-updating
         * 운영체제의 터미널 혹은 VS code의 터미널을 열어 해당 코드 설치<br/>
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-        * 설치 후 nvm --version을 입력하여 설치된 버전을 확인한다.
+        * 설치 후 nvm --version을 입력하여 설치된 버전을 확인한다. 
+        * 터미널이 <strong style='color: red'>bash</strong>인 경우
+        * <strong style='color: red;'>bash : nvm : command not found</strong>
+        * 위와 같은 문구가 뜨는 경우는 시스템에 명령이 설정된 [.bash_profile 파일]이 없을 수 있습니다. touch ~ / .bash_profile 을 사용하여 간단하게 만들고 설치 스크립트를 다시 실행하십시오. 터미널 인스턴스를 다시 시작해야합니다. 터미널에서 새 탭 / 창을 열고 다시 시도하십시오.<br/>
+            1. 터미널에 .bash_profile 있는지 확인<br/>
+            find ./.bash_profile
+            2. 파일이 존재한다면 -> ./.bash_profile
+            3. 파일이 없다면 -> find: ./.bash_profile:No such file or directory
+            4. 없다면 .bash_profile을 만든다.<br/>
+            touch .bash_profile
+            5. 이제 .bash_profile을 열어준다. <br/>
+            open .bash_profile
+            6. .bash_profile 안에 해당 코드를 적고 저장한다. 
+            ```javascript
+            export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+            ```
+            7. 터미널에 맞게 찾아서 6번의 내용을 저장해줘야 한다. (~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc) 
+            <br/></br>
+        * 자주 사용하는 명령어
+            - nvm --version   ( 설치된 nvm 버전 )
+            - node --version  ( 설치된 node 버전 )
+            - nvm ls  ( 현재 설치된 버전을 보여준다. )
+            - nvm ls-remote ( 설치 가능한  node 버전을 알려준다. )
+            - nvm install v5  ( node 5버전대에 latest 버전을 설치한다. )
+            - nvm use v5  ( node 설치된 v5버전으로 사용한다. )
+            - nvm alias default v5.12.0
+
 
 
 
