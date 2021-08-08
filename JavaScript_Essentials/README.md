@@ -38,7 +38,8 @@
             open .bash_profile
             6. .bash_profile 안에 해당 코드를 적고 저장한다. 
             ```javascript
-            export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+            export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
             ```
             7. 터미널에 맞게 찾아서 6번의 내용을 저장해줘야 한다. (~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc) 
             <br/></br>
