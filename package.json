@@ -1,0 +1,26 @@
+{
+  "name": "siteex",
+  "version": "1.0.0",
+  "description": "여러 사이트 연습",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s0369852/exsite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s0369852/exsite/issues"
+  },
+  "homepage": "https://github.com/s0369852/exsite#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

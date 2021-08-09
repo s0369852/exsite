@@ -61,5 +61,35 @@
 - nvm --help -> nvm으로 사용할 수 있는 여러 명령어가 나타난다. 
 
 
+##  3. NPM 개요(1)
+- NPM(Node Package Manager)은 전 세계의 개발자들이 만든 다양한 기능(패키지, 모듈, 기능)들을 관리.
+- Trade-off(상충관계) : 학습 난도 증가! -> 관리 효율 증가! 손쉬운 기능 고도화!
+
+## 4. NPM 개요(2)
+- node.js를 받았다면 npm도 사용할 수 있다.
+- npm init -y : 프로젝트 구조에 package.json 파일이 생성된다.  
+- "main" : main이라는 옵션은 우리도 직접적으로 생태계에 업로드 할 수 있는 패키지를 만들때, 현재의 프로젝트를 하나의 패키지처럼 만들어서 npm생태계에 업로드할때 필요한 옵션.<br/> 
+하나의 웹사이트를 만드는 프로젝트에선 main이라는 옵션은 필요하지 않다. 삭제해도 가능
+- "scripts" : 현재 프로젝트 내부에서 사용할 수 있는 여러가지 script명령들을 scripts부분에다가 명시를 해놓으면 우리 프로젝트와 관련된 명령들을 사용할 수 있다.
+- "keywords" : 프로젝트와 관련된 키워드
+- "author" : 소유주
+- "license" : 프로젝트의 라이센스
+- npm install parcel-bundler -D : npm을 통해서 설치를 하는데, 설치할 패키지의 이름이 'parcel-bundler'고, -D를 붙여서 설치를 해준다. (여기서 주의 -D는 무조건 대문자D)
+- 설치를 하고나면, node_modules라는 폴더, package-lock.json라는 파일이 깔려졌는지 확인
+- node modules안에 들어있는 것들은 하나의 패키지인 셈.
+- parcel-bundler외에 생긴 폴더들은 parcel-bundler가 활용될 때 필요한 또다른 패키지들
+- parcel-bundler의 package.json을 들여다보면 dependencies라는 것이 있는데, 사용하는 여러가지의 패키지들이 명시되어 있다. 
+- 처음 만들었던 패키지 파일을 열어보면 "devDependencies" , "dependencies" : 우리가 설치한 패키지가 명시되어 있는 것을 확인할 수 있다. 특정한 패키지를 설치하면 패키지의 설치한 내역이 남게된다. <br/>
+현재 패키지의 어떤 것들을 사용하고 있고, 그리고 그 버전은 어떻게 되는지에 대한 내역을 확인할 수 있다.  
+- npm install = npm i 
+- 한번 설치한 패키지는 내역으로 남게 되고, 그 내역을 바탕으로 해서 실제 패키지파일을 지우더라도, npm install 이라는 명령을 통해서, 다시 프로젝트에 해당하는 패키지를 설치할 수 있다. 
+- package-lock.json -> 해당 패키지들의 내부에서 사용되는 또다는 패키지에 대한 정보가 자동으로 들어가게 된다. 
+- package.json은 직접적으로 관리하는 개념 / package-lock.json 은 자동으로 관리되는 파일
+- node_modules파일은 지워도 언제든지 npm install로 받을 수 있지만, package.json, package-lock.json은 절대 삭제되면 안되는 파일이다. 
+- **-D(--save-dev)** 를 붙이면 devDependencies => 개발용 의존성 패키지 설치 , 붙이지 않으면 dependencies => 일반 의존성 설치 <br/>
+        * 개발용 의존성 패키지 설치 : 내가 설치한 특정한 패키지들이 개발할 때에만 필요로 하고, 나중에 웹브라우저에서 동작할 때는 필요하지 않은 개념 (BABEL, Sass, parcel 등)
+        * 일반 의존성 패키지 설치 : 실제로 웹브라우저에서 동작할 수 있다는 것을 전제로 한다. (GSAP, lodash 등)  
+
+
 
 
