@@ -1,7 +1,7 @@
 # JavaScript Essentials
 <br/>
 
-## Node.js
+## 1. Node.js 개요 및 설치
 - Node.js는 Chrome V8 JavaScript 엔진으로 빌드된 <span style='color: darkgreen'>JavaScript 런타임</span>
 <br>(런타임 : 프로그래밍 언어가 동작하는 환경)
 - **자바스크립트**라는 프로그래밍 언어가 동작하는 컴퓨터 환경 = <span style='color: darkgreen'>Node.js</span>
@@ -52,7 +52,13 @@
             - nvm use v5  ( node 설치된 v5버전으로 사용한다. )
             - nvm alias default v5.12.0
 
-
+## 2. NVM 사용법
+- 유의적 버전 : node.js를 다운받는데 다운 받는 버전의 자리를 3자리까지 작성 하는 것을 말한다. <br /> (ex. 12.14.1)
+- node.js를 사용할 수 있을때, node라는 명령을 사용할 수 있다. 
+- node버전을 여러개를 같이 관리하는 이유는 하나의 프로젝트를 여러명이 관리하다 보면 프로젝트가 처음 만들어진 node의 버전이 해당 프로젝트에 충분히 영향을 줄 수 있기 때문.
+- nvm uninstall 12.21.0 -> nvm 해당 버전 삭제
+- node.js의 최적화된 버전은 프로젝트에 따라 달라질 수 있다.
+- nvm --help -> nvm으로 사용할 수 있는 여러 명령어가 나타난다. 
 
 
 
