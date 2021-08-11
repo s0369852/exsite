@@ -1,11 +1,11 @@
 {
-  "name": "JavaScript_Essentials",
+  "name": "JavaScript Essentials",
   "version": "1.0.0",
   "description": "<br/>",
   "main": "main.js",
   "scripts": {
-    "dev" : "parcel index.html",
-    "build" : "parcel build index.html"
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "keywords": [],
   "author": "",
