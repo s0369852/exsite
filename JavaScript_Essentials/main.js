@@ -105,3 +105,20 @@ if (ad) {
 
 console.log('삼항 연산자 : ', ad ? '참' : '거짓') // 물음표를 기준으로 앞의 값을 확인 그 값이 true면 콜론(:)기호의 앞부분을, false면 뒷 부분을 실행하는 구조를 가지고 있다.
 
+// ------------------------------------------------------------------------------------------------------------------------------------------
+import random from './getRandom'
+
+// 조건문 (If statement)
+// console.log(random())
+
+const af = random()
+
+if ( af === 0 ){
+  console.log( 'a is 0' )
+} else if (af === 2) {
+  console.log( 'a is 2' )
+} else if (af === 4) {
+  console.log( 'a is 4' )
+} else {
+  console.log( 'rest...' )
+}
