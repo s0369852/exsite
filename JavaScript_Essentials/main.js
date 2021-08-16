@@ -114,11 +114,34 @@ import random from './getRandom'
 const af = random()
 
 if ( af === 0 ){
-  console.log( 'a is 0' )
+  console.log( 'af is 0' )
 } else if (af === 2) {
-  console.log( 'a is 2' )
+  console.log( 'af is 2' )
 } else if (af === 4) {
-  console.log( 'a is 4' )
+  console.log( 'af is 4' )
 } else {
   console.log( 'rest...' )
 }
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 조건문 (Switch statement)
+const ag = random()
+
+switch (ag) {
+  case 0:
+    console.log( 'ag is 0' )
+    break // 하나의 case가 끝나면 꼭 break로 종료를 해줘야 한다. 안그러면 다른 case까지 이어서 실행됨.
+  case 2:
+    console.log( 'ag is 2' )
+    break
+  case 4:
+    console.log( 'ag is 4' )
+    break
+  default: 
+    console.log('rest...')
+    // case가 전부 다 해당이 안되면 맨 밑에서 default라는 키워드를 붙여줄 수 있다. 특정한 입력 값이 없고 나머지인 경우에만 붙여주는 것이기 때문에 바로 :(콜론)으로 마무리를 해주면 되고, 조건문의 else부문 처럼 마지막에 실행되는 부분이기 때문에 break가 따로 필요가 없다.
+}
+
+// 조건의 내용이 어떠한 변수가 특정한 값으로 딱 떨어지는 값으로 분기처리를 하고 있다면 이때는 if문 보다는 switch문을 사용하자
+
