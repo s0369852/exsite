@@ -54,3 +54,38 @@ a %= 1 // a = a % 1
 
 console.log(a)  // 3
 
+// 비교 연산자 (comparision operator)
+const ae = 13;
+const be = 13;
+console.log( ae == be )
+console.log( ae !== be )
+console.log( ae < be)
+console.log( ae > be)
+console.log( ae >= be)
+console.log( ae <= be) // eqaual 기호는 꺽쇠괄호 뒤에 적어줘야 한다. 
+
+function isEqual(x, y){
+  return x === y
+}
+
+console.log(isEqual(1, 1))
+console.log(isEqual(2, '2'))
+
+// 논리 연산자 (logical operator)
+const ac = 1 === 1
+const bc = 'AB' === 'ABC'
+const cc = false
+
+console.log(ac)
+console.log(bc)
+console.log(cc)
+
+console.log('&&: ', ac && bc && cc ) // 그리고(AND) 연산자 -> 전부 다 true인 경우에만 true
+console.log('&&: ', ac && bc ) 
+console.log('&&: ', ac && cc )
+
+console.log('||: ', ac || bc || cc ) // 또는(OR) 연산자 -> 비교 중 한가지만 이라도 true인 경우 true
+console.log('&&: ', ac || bc )
+console.log('&&: ', ac || bc )
+
+console.log('!: ', !bc) //  부정(not) 연산자 => true면 false를 반환, false면 true를 반환
