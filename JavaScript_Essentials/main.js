@@ -145,3 +145,23 @@ switch (ag) {
 
 // 조건의 내용이 어떠한 변수가 특정한 값으로 딱 떨어지는 값으로 분기처리를 하고 있다면 이때는 if문 보다는 switch문을 사용하자
 
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 반복문 (For statement)
+// for (시작조건; 종료조건; 변화조건) {}
+const ulEl = document.querySelector('ul')
+
+// console.log(ulEl)
+
+for (let i = 0; i < 10; i += 1) {
+  const li = document.createElement('li')
+  li.textContent = `list-${i + 1}`
+  if ( (i + 1) % 2 === 0) {
+    li.addEventListener('click', function (){
+      console.log(li.textContent)
+    })
+  }
+  ulEl.appendChild(li)
+}
+
+// 반복문을 실행 할때 조건에서 사용되는 변수를 통상적으로 i라고 한다. (다른 이름도 상관없다.)
