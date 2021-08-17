@@ -216,3 +216,49 @@ console.log('== : ', ai == bi ) // == : 동등연산자를 사용할 경우 자�
 if ('false') {
   console.log(123)
 }
+
+// 함수 실행
+
+// 함수선언빙식 (기명함수)
+function sum(x,y) {
+  return x + y
+}
+
+sum(1,3)
+
+// 함수 표현 (익명함수를 변수에 담아서 사용)
+const sumTwo = function(x,y){
+  return x + y
+}
+
+sumTwo(4,5)
+
+// 함수 내부에서 return 키워드를 사용하는 것은 return의 내용이 함수 밖으로 반환된다는 것도 의미하지만, 추가적으로 사용된 그 부분에서 함수가 종료된다는 것도 의미한다. return코드 이하의 내용은 실행이 되지 않는다.
+
+// 조건을 만들어서 특정한 내용을 실행할 것인지 실행하지 않을 것인지를 return키워드를 통해서 함수 안에서 작성할 수 있다.
+
+function sumThree(x,y) {
+  if (x < 2) {
+    return
+  } 
+  return x + y
+}
+
+console.log( sumThree(1,3) )
+console.log( sumThree(7,3) )
+
+/** 
+ * 함수 안에서는 따로 매개변수를 지정하지 않아도 arguments라는 특정한 객체를 사용할 수 있다.
+ * arguments는 함수 안에서 언제든지 사용 할 수 있다. 
+ * arguments객체에는 인수로 넣은 매개변수가 배열형태로 들어가 있다.
+ * 인수를 직관적으로 보기 위해 arguments가 아닌 명시적인 이름을 권장하지만, 대신에 인수가 너무 많거나 매개변수 이름을 일일이 지정할 수 없는 경우에 arguments 객체가 사용된다. 
+*/
+
+
+function sumFour() {
+  console.log(arguments)
+  return arguments[0] + arguments[1]
+}
+
+console.log( sumFour(8,5) ) 
+
