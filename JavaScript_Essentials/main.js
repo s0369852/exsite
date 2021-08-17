@@ -216,6 +216,7 @@ console.log('== : ', ai == bi ) // == : 동등연산자를 사용할 경우 자�
 if ('false') {
   console.log(123)
 }
+// ------------------------------------------------------------------------------------------------------------------------------------------
 
 // 함수 실행
 
@@ -254,7 +255,6 @@ console.log( sumThree(7,3) )
  * 인수를 직관적으로 보기 위해 arguments가 아닌 명시적인 이름을 권장하지만, 대신에 인수가 너무 많거나 매개변수 이름을 일일이 지정할 수 없는 경우에 arguments 객체가 사용된다. 
 */
 
-
 function sumFour() {
   console.log(arguments)
   return arguments[0] + arguments[1]
@@ -262,3 +262,53 @@ function sumFour() {
 
 console.log( sumFour(8,5) ) 
 
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 화살표 함수
+// () => {} vs function(){}
+
+const double = function (X) {
+  return X * 2
+}
+console.log('double: ', double(7))
+
+const doubleArrow = (X) => {
+  return X * 2
+}
+console.log('doubleArrow', doubleArrow(7))
+
+// return키워드와 뒤에 단순 실행문이 있는 경우에 축약형인 화살표 함수로 대체 가능
+const doubleArrowTwo = (X) => X * 2
+console.log('doubleArrowTwo', doubleArrowTwo(7))
+// 매개변수가 1개 일때 소괄호()도 축소가 가능하다.
+const doubleArrowThree = X => X * 2
+console.log('doubleArrowThree', doubleArrowThree(7))
+
+const doubleArrowText = X => 'hello'
+console.log('doubleArrowText', doubleArrowText(7))
+
+const doubleArrowNum = X => 12345
+console.log('doubleArrowNum', doubleArrowNum(7))
+
+const doubleArrowBoolean = X => true
+console.log('doubleArrowBoolean', doubleArrowBoolean(7))
+
+const doubleArrowNull = X => null
+console.log('doubleArrowNull', doubleArrowNull(7))
+
+const doubleArrowUndefined = X => undefined
+console.log('doubleArrowUndefined', doubleArrowUndefined(7))
+
+const doubleArrowArray = X => [1,2,3,4]
+console.log('doubleArrowArray', doubleArrowArray(7))
+
+/** 
+ * 객체 데이터는 중괄호를 사용하기 때문에 일반적인 방법으로 사용하면 화살표함수에서는 함수블록으로 읽는다.
+ * 따라서 소괄호로 감싸고 중괄호로 객체를 입력해줘야 한다. ({속성명: 값})
+*/ 
+const doubleArrowObject = X => ({
+  name: 'bottle',
+  age: 88,
+  nation: 'south'
+})
+console.log('doubleArrowObject', doubleArrowObject(7))
