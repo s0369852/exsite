@@ -312,3 +312,26 @@ const doubleArrowObject = X => ({
   nation: 'south'
 })
 console.log('doubleArrowObject', doubleArrowObject(7))
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 즉시실행함수
+// IIFE, Immediately-Invoked Function Expression
+
+const IIFE = 7
+function doubleF() {
+  console.log(IIFE * 2)
+}
+
+doubleF();
+
+// 즉시실행함수의 경우에는 앞뒤로 실행문이 끝났다는 것을 알려줘야 한다. 그래서 세미콜론(;)을 꼭 붙여주자
+(function () {
+  console.log(IIFE * 3)
+})();
+(function () {
+  console.log(IIFE * 4)
+}());
+/**
+ * 즉시실행함수의 마지막 소괄호는 외부와 내부 둘다 작성이 가능하다.
+ */
