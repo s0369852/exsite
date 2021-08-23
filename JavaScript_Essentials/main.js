@@ -352,3 +352,43 @@ function hoisF() {
  * 함수선언부를 함수선언보다 아래쪽에서 작성을 하였지만, 실제로 브라우저가 동작할 때 자바스크립트 엔진에서는 함수선언부가 동작할 수 있는 유효범위내 최상단으로 올라가서 만들어지게 된다. 
  * 험수의 로직이 굉장히 많아질 텐데 함수의 이름을 보면 대게 어떤 함수인지 유추가 가능하기 때문에 함수선언을 상단에 두고, 함수선언부를 최하단 부분에 위치시켜 많이 작성한다. 
  */
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 타이머 함수
+/**
+ * setTimeout(함수, 시간) : 일정 시간 후 함수 실행
+ * setInterval(함수, 시간) : 시간 간격마다 함수 실행
+ * clearTimeout() : 설정된 Timeout 함수를 종료
+ * clearInterval() : 설정된 Interval 함수를 종료
+ */
+
+// 익명함수
+setTimeout(function () {
+  console.log('WOWOOOO!!!')
+}, 3000);
+
+// 화살표 함수
+setTimeout(() => {
+  console.log('YASSSSS!!!!')
+}, 4000)
+
+const timer = setTimeout( () => {
+  console.log('멈춰')
+}, 5000)
+
+const h1El = document.querySelector('h1')
+
+h1El.addEventListener('click', () => {
+  clearTimeout(timer)
+})
+
+const timerTwo = setInterval( () => {
+  console.log('NOOOOOOO!!!!!!!!')
+}, 1000)
+
+const list = document.querySelector('li')
+
+list.addEventListener('click', () => {
+  clearInterval(timerTwo)
+})
