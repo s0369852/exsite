@@ -392,3 +392,21 @@ const list = document.querySelector('li')
 list.addEventListener('click', () => {
   clearInterval(timerTwo)
 })
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 콜백(Callback)
+// 함수의 인수로 사용되는 함수
+
+// setTimeout(함수, 시간)
+function timeout(callback) {
+  setTimeout( () => {
+    console.log('콜백을 알아봅시다!')
+    callback()
+  }, 6000)
+}
+
+timeout( () => {
+  console.log('Done!')
+} )
+// console.log('Done!')
