@@ -365,32 +365,32 @@ function hoisF() {
 
 // 익명함수
 setTimeout(function () {
-  console.log('WOWOOOO!!!')
+  // console.log('WOWOOOO!!!')
 }, 3000);
 
 // 화살표 함수
 setTimeout(() => {
-  console.log('YASSSSS!!!!')
+  // console.log('YASSSSS!!!!')
 }, 4000)
 
 const timer = setTimeout( () => {
-  console.log('멈춰')
+  // console.log('멈춰')
 }, 5000)
 
 const h1El = document.querySelector('h1')
 
 h1El.addEventListener('click', () => {
-  clearTimeout(timer)
+  // clearTimeout(timer)
 })
 
 const timerTwo = setInterval( () => {
-  console.log('NOOOOOOO!!!!!!!!')
+  // console.log('NOOOOOOO!!!!!!!!')
 }, 1000)
 
 const list = document.querySelector('li')
 
 list.addEventListener('click', () => {
-  clearInterval(timerTwo)
+  // clearInterval(timerTwo)
 })
 
 // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -404,14 +404,79 @@ list.addEventListener('click', () => {
 // setTimeout(함수, 시간)
 function timeout(callback) {
   setTimeout( () => {
-    console.log('콜백을 알아봅시다!')
-    callback()
+    // console.log('콜백을 알아봅시다!')
+    // callback()
   }, 6000)
 }
 
 timeout( () => {
-  console.log('Done!')
+  // console.log('Done!')
 } )
 // console.log('Done!')
 
 // ------------------------------------------------------------------------------------------------------------------------------------------
+
+// 클래스
+// 메모리의 효율적인 관리를 위해서 자바스크립트의 클래스를 활용한다. 
+
+/*
+const dammit = {
+  firstName: 'Zen',
+  lastName: 'Jang',
+  getFullName: function () {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+console.log(dammit)
+console.log(dammit.getFullName())
+
+const amy = {
+  firstName: 'Amy',
+  lastName: 'Clarke',
+  getFullName: function () {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+console.log(amy.getFullName())
+
+const neo = {
+  firstName: 'Neo',
+  lastName: 'Smith',
+  getFullName: function () {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+console.log(neo.getFullName());
+*/
+
+function User (first, last) {
+  this.firstName = first
+  this.lastName = last
+}
+
+User.prototype.getFullName = function () {
+  return `${this.firstName} ${this.lastName}`
+}
+/**
+ * getFullName과 같이 로직이 완전히 똑같을 경우에는 통일화하여 메모리를 조금 더 효율적으로 관리해줄 수 있다.
+ * 숨어져있는 prototype이라는 속성 부분에다가 getFullName이라는 메소드를 할당해주면 jang, amy, neo 등 그 외의 몇개의 객체를 만들던 user라는 함수는 메모리에 딱 한번만 만들어진다. 
+ * 결국 .getFullName이란 메소드들은 한번만 만들어져있는 user함수를 참조하게 된다. 
+ * 자바스크립트는 알게 모르게 많은 부분에서 prototype을 사용하고 있다.
+ * 자바스크립트를 prototype 기반의 언어라고도 부른다
+ * prototype을 사용해서 new라는 키워드와 함께 생성자 함수로 인스턴스를 만들어내는 이러한 개념들을 자바스크립트의 클래스라고 한다. 다른 언어의 클래스래는 개념과는 다르다. 
+ * 생성자함수(prototype)가 일반적으로 일반 함수와 구분이 안되기 때문에 암묵적으로 구분하기 위해 생성자로 new라는 키워드와 같이 사용하는 함수는 카멜케이스가 아닌 파스칼케이스로 첫번째 단어를 대문자로 명시한다. 
+ */
+
+const jang = new User('Zen', 'Zang')
+const amy = new User('Amy', 'Clarke')
+const neo = new User('Neo', 'Smith')
+
+console.log(jang.getFullName())
+console.log(jang)
+console.log(amy)
+console.log(neo)
+
+/**
+ * 특정한 기호({},[] 등)만 가지고 어떤 데이터를 만들어내는 방식을 "리터럴"이라고 한다.
+ * 
+ */
