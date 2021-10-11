@@ -418,6 +418,7 @@ timeout( () => {
 
 // 클래스
 // 메모리의 효율적인 관리를 위해서 자바스크립트의 클래스를 활용한다. 
+// 특정한 기호({},[] 등)만 가지고 어떤 데이터를 만들어내는 방식을 "리터럴"이라고 한다.
 
 /*
 const dammit = {
@@ -427,6 +428,9 @@ const dammit = {
     return `${this.firstName} ${this.lastName}`
   }
 }
+
+속성(ex. firstname, lastname)에 함수데이터(ex. getFullName)가 할당이 되어져 있다면, 더이상 속성이라 부르지 않고 메소드라고 부른다. 
+
 console.log(dammit)
 console.log(dammit.getFullName())
 
@@ -476,7 +480,78 @@ console.log(jang)
 console.log(amy)
 console.log(neo)
 
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// this
+// 일반(Normal) 함수는 "호출 위치" 에서 따라 this 정의!
+// 화살표(Arrow) 함수는 자신이 선언된 "함수 범위" 에서 this 정의!
+
+const timer2 = {
+  name: 'Bottle!!',
+  timeout: function () {
+    setTimeout( () => {
+      console.log(this.name)
+    }, 2000)
+  }
+}
+timer2.timeout()
+
+// setTimeout, setInterval 이라는 타미어 함수를 사용할 때에는 콜백으로 일반함수 보다는 화살표 함수로 사용하는 것이 효율적이다.
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// ES6 Classes
 /**
- * 특정한 기호({},[] 등)만 가지고 어떤 데이터를 만들어내는 방식을 "리터럴"이라고 한다.
- * 
+ * 이름() {} = function() {}
+ * 자바스크립트는 prototype기반의 언어인데, 조금 더 안정적이고 신뢰도가 높은 다른 객체지향언어의 영향을 받아서 Class라는 개념을 흉내내어 새로운 문법을 만들어냄 ES6에서 지원
  */
+
+class User3 {
+  constructor(first, last) {
+    this.firstName = first
+    this.lastName = last
+  }
+  getFullName() {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+
+const bottleju = new User3('Bottle', 'Ju')
+
+console.log(bottleju)
+console.log(bottleju.getFullName())
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+// Class 확장(상속)
+
+class Vehicle {
+  constructor(name, wheel) {
+    this.name = name
+    this.wheel = wheel
+  }
+}
+const myVehicle = new Vehicle('운송수단', 2)
+console.log(myVehicle)
+
+class Bicycle extends Vehicle {
+  constructor(name, wheel) {
+    super(name, wheel)
+  }
+}
+const myBicycle = new Bicycle('삼천리', 2)
+const daughtersBicycle = new Bicycle('세발', 3)
+console.log(myBicycle)
+console.log(daughtersBicycle)
+
+class Car extends Vehicle {
+  constructor(name, wheel, license) {
+    super(name, wheel)
+    this.license = license
+  }
+}
+const myCar = new Car('벤츠', 4, true)
+const daughtersCar = new Car('포르쉐', 4, false)
+console.log(myCar)
+console.log(daughtersCar)
