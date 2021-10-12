@@ -30,6 +30,28 @@ console.log(str3.trim())  // .trim() -> 특정한 문자 데이터의 연결된 
 
 
 // Number
+const pi = 3.14159265358979
+console.log(pi)
+
+const str4 = pi.toFixed(2)
+console.log(str4)
+console.log(typeof str4)
+
+const integer = parseInt(str4) // 전역함수(global), 정수
+const float = parseFloat(str4)  // 전역함수(global), 소수점 유지하면서 문자데이터를 숫자데이터로 변환
+console.log(integer)
+console.log(float)
+console.log(typeof integer, typeof float)
+
+console.log('abs: ', Math.abs(-12))
+console.log('min: ', Math.min(2, 8))
+console.log('max: ', Math.max(2, 8))
+console.log('ceil: ', Math.ceil(3.14))
+console.log('floor: ', Math.floor(3.14))
+console.log('round: ', Math.round(3.14))
+console.log('random: ', Math.random())
+
+
 // Boolean: true, false
 // undefined
 // null
