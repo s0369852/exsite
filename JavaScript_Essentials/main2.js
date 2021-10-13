@@ -27,7 +27,7 @@ console.log(EMAIL.match(/.+(?=@)/)[0])
 const str3 = '     Hello world     '
 console.log(str3)
 console.log(str3.trim())  // .trim() -> 특정한 문자 데이터의 연결된 모든 공백문자 제거
-
+// ------------------------------------------------------------------------------------------------------------------------------------------
 
 // Number
 const pi = 3.14159265358979
@@ -55,7 +55,7 @@ console.log('random: ', Math.random())
 // Boolean: true, false
 // undefined
 // null
-
+// ------------------------------------------------------------------------------------------------------------------------------------------
 
 // Array: []
 const array1 = [5, 12, 8, 130, 44];
@@ -148,10 +148,92 @@ console.log(numbers)
 fruits.splice(1, 0, 'Orange')
 
 console.log(fruits)
-
-
-
-
-
+// ------------------------------------------------------------------------------------------------------------------------------------------
 
 // Object: {}
+/**
+ * Object.prototype().~
+ * object.assign() -> .prototype()이 붙어있지 않는 메소드를 '정적(static) 메소드' 라고 한다.
+ * 정적메소드(static) -> 리터럴방식 [ex. ( {}.assign() / userAge.assign() ) -> error] 에는 직접적으로 사용을 할 수가 없다.
+ * object의 정적메소드(static)의 활용방법은 따로 있다. -> ex. Object(전역객체).assign()
+ */
+
+// .assign() -> 첫번째 인수로 들어가져 있는 객체에다가 두번째 인수로 들어가 있는 객체를 병합하여 병합된 객체를 반환해준다.
+// 객체 데이터에서 속성의 이름은 고유해야 하며, 중복된 경우 첫번째 인수(대상 객체)가 두번쨰 인수(출처 객체)로 들어오는 객체로 덮여씌워진다.
+// 대상 객체(첫번째 인수)가 하나이고, 출처 객체(두번째 인수 부터)는 여러개가 올 수 있다.
+const userAge = {
+  // key: value
+  name: 'Bottle',
+  age: 85
+}
+
+const userEmail = {
+  name: 'Bottle',
+  email: 'Bottle@mail.com'
+}
+
+const target = Object.assign(userAge, userEmail)
+console.log(target)
+console.log(userAge) // (대상 객체) 원본 객체 데이터 수정 O
+console.log(userEmail) // (출처 객체) 원본 객체 데이터 수정 X
+console.log(target === userAge) // true
+
+const i = { k : 123 }
+const j = { k : 123 }
+console.log( i === j ) // false
+/**
+ * 객체 데이터의 생김새가 똑같지만 서로 다른 객체다. -> 자바스크립트 데이터의 불변성과 가변성 관련
+ * 하나의 객체 데이터는 특정한 메모르 주소에 값이 할당되어 있다.
+ * 이때 userAge라는 변수는 메모리에 있는 특정한 객체 데이터의 메모리 주소만 참고해서 가지고 있는 것. 그것을 사용할 때 메모리 주소에 있는 내용만 가지고 와서 참고로 사용하고 있는 것. -> 참조형 데이터
+ * 참조형 데이터 -> 객체데이터{}, 배열데이터[], 함수function : 메모리에 있는 특정 주소를 참조만 해서 사용을 한다.
+ * 실제 객체 데이터가 저장된 위치는 하나이고, 이름이 달라지더라도 저장된 위치를 같이 바라보고 있는 것 (userAge, target)
+ * 생긴 건 똑같지만 서로 다른 메모리 주소를 바라보고 있기 때문에 사실상 다른 것이다 판단하여 일치 하지 않는 것 (i, j)
+ */
+
+// userAge2 와 userEmail2 을 합쳐서 새로운 객체 데이터를 만드는 방법
+// 대상 객체에 {} 비어있는 새로운 객체 리터럴을 작성, 출처 객체에 userAge2, userEmail2를 작성
+const userAge2 = {
+  // key: value
+  name: 'Bottle2',
+  age: 90
+}
+
+const userEmail2 = {
+  name: 'Bottle2',
+  email: 'Bottle2@mail.com'
+}
+
+const target2 = Object.assign( {}, userAge2, userEmail2)
+console.log(target2) // 비어있는 대상 객체에 새로운 객체 데이터를 생성 
+console.log(userAge2) // (출처 객체) 원본 객체 데이터 수정 X
+console.log(userEmail2) // (출처 객체) 원본 객체 데이터 수정 X
+console.log(target2 === userAge2) // false
+
+// 복사의 개념
+const userAge3 = {
+  // key: value
+  name: 'Bottle2',
+  age: 90
+}
+
+const target3 = Object.assign( {}, userAge3, )
+console.log(target3) // 비어있는 대상 객체에 새로운 객체 데이터를 생성 (출처 객체를 복사)
+console.log(userAge3) // (출처 객체) 원본 객체 데이터 수정 X
+console.log(target3 === userAge3) // false
+
+// .key()
+const user = {
+  name: 'Bottle',
+  age: 70,
+  email: 'Bottle@mail.com'
+}
+
+const keys = Object.keys(user)
+console.log(keys) // ['name', 'age', 'email']
+
+console.log(user.email)
+console.log(user['email']) // 객체의 key나 value를 하나의 배열 데이터로 만들기 위한 방법으로 용이하게 쓰이는 인덱싱 작성법 -> 동적으로 객체 데이터의 내용들을 가져와서 활용할 수 있다.
+
+const values = keys.map(key => user[key])
+console.log(values)
+
