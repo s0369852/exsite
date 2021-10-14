@@ -237,3 +237,37 @@ console.log(user['email']) // 객체의 key나 value를 하나의 배열 데이�
 const values = keys.map(key => user[key])
 console.log(values)
 
+// 구조 분해 할당 (Destructuring assignment)
+// 비구조화 할당
+
+const user2 = {
+  name: 'Bottle',
+  age: 85,
+  email: 'Bottle.email.com',
+  address: 'USA'
+}
+const { name: bottle, age, email, address = 'korea' } = user2
+// E.g, user.address
+
+console.log(`사용자의 이름은 ${bottle}입니다.`)
+console.log(`${bottle}의 나이는 ${age}세 입니다.`)
+console.log(`${bottle}의 이메일 주소는 ${email}입니다.`)
+console.log(address) // undefined -> 아직 데이터가 들어있지 않다. / undefined가 나올때, 'korea'와 같이 같이 기본값을 정해줄 수 있다. / USA -> address의 해당 데이터가 있는 경우 기본값으로 설정해둔 'korea'는 값은 무시된다. 
+
+/**
+ * 구조 분해 할당이라는 문법을 사용할 때, 만약 어떤 데이터를 꺼내올때 그 데이터가 undefined로 비어있다면, 할당 연산자(=)를 통해서 기본값을 정해줄 수 있다.
+ * name이라는 변수의 이름이 적합하지 않거나, 다른 변수의 이름을 사용하고 싶을 때는 콜론(:) 기호를 붙여서 'bottle'로 바꾼 것 같이 변수의 이름을 바꿔줄 수 있다. 
+ * 속성의 데이터를 꺼내올 때 속성의 이름을 바꾸고 싶다면 "꺼내오는 것은 그 속성의 이름을 꺼내오지만" 사용할 때는 다른 이름으로 바꾸고 싶다면 콜론(:)을 적고 다른 이름으로 적어주면 된다.
+ */
+
+// fruits = ['Cherry', 'Orange', 'Banana', 'Apple']
+const [a2, b2, c2, d2, e2] = fruits
+console.log(a2, b2, c2, d2, e2) // Cherry Orange Banana Apple undefined 
+
+const [, , b3] = fruits
+console.log(b3)
+
+/**
+ * 배열의 경우에는 순서대로 인덱싱되어 들어가져 있는데, 구조분해에서 꺼내올 때도 단순하게 "순서대로 꺼내오면" 된다.
+ * 배열의 구조분해는 순서대로 추출되는 것이기 때문에, 순서를 명확하게 적어주기 위해서는 쉼표(,)를 꼭 적어줘야 하고 추출하지 않을 배열은 명시하지 않으면 된다.
+ */
