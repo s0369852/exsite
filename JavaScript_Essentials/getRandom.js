@@ -1,4 +1,6 @@
-export default function random() {
+// export default -> 이름이 없어도 되는 기본적인 형태
+
+export default function() {
   return Math.floor(Math.random() * 10)
 }
 
