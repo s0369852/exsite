@@ -126,3 +126,68 @@
 - .cache, dist 폴더도 **npm run dev**, **npm run build** 명령어를 통해서 언제든 다시 생성할 수 있다. 
 - **.gitignore** 파일을 만든다.
 - 버전관리를 무시 할 폴더나 파일을 한줄에 하나씩 입력해준다.
+
+## 8. 정규표현식 (RegExp, Regular Expression, 정규식)
+- https://heropy.blog/2018/10/28/regexp/
+- 문자열을 검색하고 대체하는 데 사용 가능한 일종의 형식 언어(패턴)
+- 간단한 문자 검색부터 이메일, 패스워드 검사 등의 복잡한 문자 일치 시켜서 다른 문자로 추출하거나 활용할 수 있다.
+- 정규식의 패턴이 수행하는 역할과 잘 매치가 되지 않아 가독성이 많이 떨어진다. (특수기호 사용)
+
+### 정규표현식의 역할
+- 1. 문자 검색(search),
+- 2. 문자 대체(replace),
+- 3. 문자 추출(extract)
+
+### 정규표현식 테스트 사이트 (https://regexr.com)
+- 정규표현식은 JS에서만 사용되는 것이 아니기 때문에 다른 프로그래밍 언어 혹은 특정한 환경에서도 사용 가능, 여기서 주의해야 할 부분은 JS에서는 동작하는데 다른 프로그래밍 언어에서는 동작하지 않는 기능 들이 있을 수 있고, 다른 언어에서는 동작하는데 JS에서는 동작하지 않을 수 있다. 
+
+### 정규식 생성 방식
+- 1. 생성자 함수 방식 (RegExp) : 생성자 함수를 호출하여 사용할 수 있다. 
+```js
+const regexp1 = new RegExp('^1bc'); // new RegExp(표현식)
+const regexp2 = new RegExp('^abc', 'gi'); // new RegExp(표현식, 플래그)
+
+new RegExp('표현', '옵션')
+new RegExp('[a-z]','gi')
+```
+
+- 2. 리터럴(Literal) 방식 : 정규식은 /로 감싸진 패턴을 리터럴로 사용한다.
+```js
+- 2-1. const regexp1 = /^abc/;  // /표현식/
+- 2-2. const regexp2 = /^abc/gi;    // /표현식/플래그
+
+/표현/옵션
+/[a-z]/gi
+```
+
+### 정규식을 다루는 메소드(Methods)
+매소드 | 문법 | 설명
+--|--|--
+exec | `정규식.exec(문자열)` | 일치하는 하나의 정보(Array) 반환
+test | `정규식.test(문자열)` | 일치 여부(Boolean) 반환
+match | `문자열.match(정규식)` | 일치하는 문자열의 배열(Array) 반환
+search | `문자열.search(정규식)` | 일치하는 문자열의 인덱스(Number) 반환
+replace | `문자열.replace(정규식, 대체문자)` | 일치하는 문자열을 대체하고 대체된 문자열(String) 반환
+split | `문자열.split(장규식)` | 일치하는 문자열을 분할하여 배열(Array)로 반환
+toString | `생성자_정규식.toString()` | 생성자 함수 방시그이 정규식을 리터럴 방식의 문자열(String)로 반환
+
+
+### 예제 문자
+```js
+    const str = `
+        010-1234-5678
+        theone@email.com
+        http://www.omdbapi.com/?apikey=7035c60c&s=frozen
+        The quick brown fox jumps over the lazy dog.
+        abbcccdddd
+        `
+```
+
+### 플래그(옵션)
+플래그 | 설명
+-- | --
+g | 모든 문자 일치(global)
+i | 영어 대소문자를 구분 않고 일치 (ignore case)
+m | 여러 줄 일치(multi line)
+u | 유니코드(unicode)
+y | `lastIndex` 속성으로 지정된 인덱스에서만 1회 일치(sticky)
