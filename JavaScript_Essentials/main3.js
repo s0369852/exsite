@@ -133,3 +133,61 @@ console.log(typeof strOne)
 const objOne = JSON.parse(strOne)
 // JSON을 분석해서 자바스크립트에서 활용할 수 있는 하나의 데이터로 제조립하는 메소드 -> .parse()
 console.log('objOne', objOne)
+
+console.log('------------------------------------------------')
+console.log('------------------------------------------------')
+
+// ---------------------------------------------------------------------------------------------
+// Storage
+/**
+ * Local Storage : 저장하는 장소 -> Key&Value 형태, 브라우저에서 관리되는 하나의 데이터 저장소
+ * Session Storage : 저장하는 장소 -> Key&Value 형태
+ * 
+ * Local Storage에 저장되는 데이터는 해당하는 도메인 주소에 종속되어 저장되는 것. -> 하나의 사이트에 종속되는 개념, 데이터가 만료되지 않는다. 따로 지우지 않는 이상 반영구적으로 사용 가능 ("사생활 보호 모드"중 생성한 localStorage 데이터는 마지막 "사생활 보호" 탭이 닫힐 때 지워진다.)
+ * 
+ * Session Storage : 페이지의 세션이 끝날 때, 즉 페이지를 닫을 때 사라지는 점이 다르다.
+ * 
+ * 페이지를 닫을 때 데이터를 지워버려야 하는 상황이 아니고서야 일반적인 상황에선 localStorage가 훨씬 활용성이 높다.
+ * localStorage에 저장하는 데이터는 Key, Value 형태로 저장이된다.
+ * 되도록이면 문자데이터로 저장을 하는 것이 바람직하다. (일부 문자데이터가 아닌 경우에는 제대로 저장이 되지 않을 수 있다.)
+ * 대표적으로 객체, 배열 데이터의 경우에는 JSON객체의 stringify()를 통해서 문자데이터화 시켜서 데이터를 저장하고, 이렇게 저장된 문자데이터를 가지고 와서 JSON객체의 parse()를 통해서 분석해서 JS내부에서 하나의 데이터로 활용할 수 있다. 
+ * setItem() , getItem(), removeItem()
+ */
+
+const numTwo = {
+  name: "Bottle",
+  age: 29,
+  emails: [
+    'one@email.com',
+    'two@email.com'
+  ]
+}
+
+// localStorage.setItem('numTwo', numTwo)
+// localStorage에 데이터를 저장할 때에는 평소에 사용하는 일반적인 배열, 객체 데이터를 사용하면 안되고, 이것들을 전부 다 문자 데이터로 변환에서 저장해야 한다. 
+localStorage.setItem('numTwo', JSON.stringify(numTwo))
+// 실제로 저장된 데이터는 JSON형태의 문자 데이터지만, 브라우저에서 볼때는 브라우저가 분석을해서 보기 좋은 JS형태의 데이터로 출력해준다.
+
+console.log(localStorage.getItem('numTwo')) // 문자 데이터 형식으로 출력
+console.log(JSON.parse(localStorage.getItem('numTwo'))) // JS의 데이터로 변환되어 출력
+
+const str =  localStorage.getItem('numTwo') // 가져온 데이터는 문자 데이터!!
+const obj = JSON.parse(str) // 문자데이터를 실제 데이터로 가공할 수 있도록 변환
+
+obj.age = 80
+console.log(obj)
+
+localStorage.setItem('numTwo', JSON.stringify(obj)) 
+// age의 데이터를 바꿔준 것을 다시 문자데이터로 변환하여 localStorage에도 저장해준다. 
+// localStorage.removeItem('numTwo') // localStorage의 내용이 실제 데이터가 지워진 것을 확인할 수 있다.
+
+/**
+ * localStorage 내의 데이터를 수정하기 위해서는 데이터를 가지고 와서 코드내에서 수정을 한 다음에 다시 해당하는 Key의 이름으로 덮어쓰기를 해주면 된다. 
+ * 위와 같은 방법은 조금 원시적인 방법, lodash라는 패키지의 기능을 활용해서 localStorage를 하나의 DB처럼 조금 더 쉽게 관리할 수 있는 패키지가 있다. -> lowdb
+ * Lowdb : 웹 브라우저에서 사용할 수 있는 작은, JSON기반의 데이터베이스(DB) -> 기본적으로 Lodash라는 패키지를 기반으로 해서 동작하고 있음.
+*/
+console.log('------------------------------------------------')
+console.log('------------------------------------------------')
+
+ // ---------------------------------------------------------------------------------------------
+
