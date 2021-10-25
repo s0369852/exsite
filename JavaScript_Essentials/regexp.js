@@ -10,8 +10,8 @@ let str = `
   theone@email.com
   http://www.omdbapi.com/?apikey=7035c60c&s=frozen
   The quick brown fox jumps over the lazy dog.
-  abbcccdddd.
-`
+  abbcccdddd
+  `
 console.log('//--------------생성자 함수 방식')
 const regexpA = new RegExp('the','gi')
 // 정규식 같은 경우에는 기본적으로 우리가 원하는 패턴을 적어주고, 그 패턴으로 검색을 어떻게 할 것 인지에 대한 기본적인 옵션을 추가해주면 된다. 
@@ -47,6 +47,38 @@ console.log(str.match(/\.$/gi))
 // $(달러)는 꼭 .(마침표) 뒤쪽에 붙여줘야 한다. -> $앞에 있는 하나의 단어로 해당하는 줄이 끝나는 부분을 찾아서 끝나는 부분을 일치시킨다. 문자데이터의 끝부분은 끝나는 `(백틱) 바로 앞부분까지를 말한다. 
 console.log(str.match(/\.$/gim))
 // m(멀티라인)이라는 옵션 -> 하나의 문자 데이터는 시작부분과 끝부분이 딱 하나만 존재하는데, 문자 데이터 내부에 실제로 줄바꿈이 되어져 있는 각각의 줄들을 시작하고 끝내고 하는 형태로 줄마다 해석하겠다는 의미를 같는다. -> 각각의 줄을 하나의 시작과 끝으로 보겠다
+
+console.log('//--------------패턴(표현)')
+let str2 = `
+010-1234-5678
+theone@email.com
+https://www.omdbapi.com/?apikey=7035c60c&s=frozen
+The quick brown fox jumps over the lazy dog.
+abbcccdddd
+http://localhost:1234
+동해물과_백두산이 마르고 닳도록
+`
+
+const h = `  the hello  world   !
+
+`
+
+console.log(
+  // str2.match(/dog|fox/)
+  // str2.match(/https/g)
+  // str2.match(/https?/g)
+  // str2.match(/d{2}/g)
+  // str2.match(/d{2,}/g)
+  // str2.match(/\b\w{2,3}\b/g) // 특정한 패턴들을 활용한 연속일치가 가능하다. 
+  // str2.match(/[0-9]{1,}/g)
+  // str2.match(/[가-힣]{1,}/g)
+  // str2.match(/\bf\w{1,}\b/g) // ['frozen', 'fox'] -> f로 시작되는 모든 단어
+  // str2.match(/\d{1,}/g)
+  //str2.match(/\s/g) // 여기서 말하는 공백은 줄바꿈, 띄어쓰기 모두 포함이다. 
+  // h.replace(/\s/g, '')
+  // str2.match(/.{1,}(?=@)/g)
+  str2.match(/(?<=@).{1,}/g)
+)
 
 
 
