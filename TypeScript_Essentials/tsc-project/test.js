@@ -1,0 +1,10 @@
+"use strict";
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
+console.log('아아아아아아아아아');
