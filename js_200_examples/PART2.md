@@ -241,3 +241,35 @@
   ```
 
 <br/><br/>
+
+### 24. 삼항 연산자
+- 삼항 연산자는 if와 switch처럼 조건문을 처리하는 연산자입니다.<br/>
+  일반적으로 <b style="color: coral;">if 조건문의 축약형으로 사용되며, 세 개의 문장으로 구성</b>된다.
+
+```js
+  조건문 ? 표현문1 : 표현문2
+```
+
+- 조건문은 반드시 결과가 참(true)과 거짓(false)로 반환되어야 한다.<br/>
+  그리고 그 결과가 <b style="color: coral;">true면 표현문1을 실행</b>, <b style="color: coral;">false면 표현문2를 실행</b>
+
+```js
+  let condition = 5 > 10
+  condition ? console.log('left') : console.log('right')  // right
+  
+  let result = condition ? (
+    console.log("삼항 연산식의 첫 번째 표현식 입니다."),
+    "표현식1"
+  ) : (
+    console.log("삼항 연산식의 두 번째 표현식 입니다."), // 삼항 연산식의 두 번째 표현식입니다.
+    "표현식2"
+  )
+  console.log(result) // result
+```
+
+- 해설
+  * 삼항 연산의 결과로 반환된 값은 다시 변수로 할당 할 수 있다.<br/>
+    이때 할당되는 값은 삼항 연산 실행문의 마지막 값이 할당된다. 
+  * 변수 result에 삼항 연산식을 대입한다. <br/>
+    condition의 값 false로 인해 두 번째 표현식이 실행되어 "삼항 연산식의 두 번째 표현식 입니다." 콘솔로그가 출력되고, 변수 result에는 마지막 값인 "표현식2"가 할당된다. 
+  * result에 할당된 "표현식2" 값이 콘솔로 출력된다.
