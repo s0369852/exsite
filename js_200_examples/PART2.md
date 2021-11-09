@@ -440,7 +440,136 @@
     * <b>키 : 값</b> 쌍의 모음들로 이루어져 있다.
     * 여기서 반드시 <b style="color: coral">키 이름은 큰 따옴표""로 표시된 문자열이어야 하고, 값은 오직 문자열, 숫자, 배열, true, false, null 또는 다른 JSON 객체만 가능</b>하다.
     ```json
-      {"key" : value}
+      {"key" : "value"}
     ```
     * 이처럼 객체와 JSON의 형태는 비슷해 보여도 동일하지 않다.
     * <b>JS에서는 JSON을 분석하고 직렬화하는 메소드들을 제공하는 JSON 객체가 있다.</b>
+    <br/><br/>
+
+### 29. 객체 이해하기2 (속성 접근/추가/수정/삭제)
+- 객체 내부에 있는 <b style="color: coral">특정 속성에 바로 접근하고, 새로운 속성을 추가/삭제하는 방법</b>
+```js
+  let family = {
+    'address' : 'Seoul'
+    members: {},
+    addFamily: function(age, name, role) {
+      this.members[role] = {
+        age: age,
+        name: name
+      }
+    },
+    getHeadcount: function(){
+      return Object.keys(this.members).length
+    }
+  }
+
+  family.addFamily(30, 'chloe', 'aunt')
+  family.addFamily(3, 'lyn', 'niece')
+  family.addFamily(10, 'dangdangi', 'dog')
+
+  let printMembers = function() {
+    let members = family.members
+    for(role in members) {
+      console.log(
+        'role => ' + role + ', 
+        name => '+ members[role].name +',
+        age => ' + members[role].age'
+        )
+    }
+  }
+  printMembers()
+  /*
+    role => aunt, name => chloe, age => 30
+    role => niece, name => lyn, age => 3
+    role => dog, name => dangdangi, age => 10
+  */
+
+  let members = family.members
+  members['nephew'] = {age: 3, name: 'hyun'}
+  members.niece = {age: 5, name: 'lyn'}
+  delete members.aunt
+  delete members['dog']
+  printMembers()
+  /*
+    role => niece, name => lyn, age => 5
+    role => nephew, name => hyun, age => 3
+  */
+```
+- 해설
+  * 1. 객체의 속성에 접근하는 방법은 <b>객체의 우측에 콤마(.)를 두고, <br/>
+      그 다음에 객체 속성으로 정의된 키 이름을 작성</b>하면 된다.
+    2. 대괄호<b>[""]</b>안에 키 값을 문자열로 작성하는 방법도 있으나, <br/>
+      <b style="color: coral">콤마로 속성에 접근하는 것이 선호되는 방식</b>이다.
+    3. 그 외 객체에 속성을 추가/수정/삭제하는 방법 역시 콤마와 대괄호를 사용하는 방식과 유사하다.
+  
+  * for-in으로 member 객체를 순환한다. members의 속성을 하나씩 접근할 때마다 name과 age 속성값을 반환하여 출력한다.
+
+  * `members['nephew']  {age: 3, name: 'hyun'}`는 객체에 새로운 속성을 추가하는 방법이다. <br/>
+    키가 'nephew'이고 값은 {age: 3, name: 'hyun'}인 속성을 members에 추가한다.
+
+  * `members.niece = {age: 5, name: 'lyn'}`는 'niece'라는 키 속성은 members 객체 변수 안에 원래 있는 값이다. <br/>
+    존재하는 속성 값을 수정하기 위해 콤마.로 접근하여 새로운 값 {age: 5, name: 'lyn'}을 할당한다. 
+    
+  * 객체의 특정 속성을 삭제하는 방법은 키워드 <b style="color: coral">delete</b>를 앞에 두고 특정 객체의 속성을 뒤에 작성하면된다.
+<br/><br/>
+
+### 30. ES6의 향상된 객체 문법 알아보기(단축 속성명)
+- 단축 속성명은 변수가 미리 준비되어 있는 경우 활용 가능하며, <b style="color: coral">변수명으로 속성의 키와 값을 한번에 정의</b> 할 수 있다. 
+```js
+  let address = 'Seoul',
+      members = {},
+      addFamily = function(age, name, role) {
+        this.members[role] = {age, name}
+      }
+  let getHeadcount = function(){
+        return Object.keys(this.members).length
+      }
+
+  let family = {address, members, addFamily, getHeadcount}
+
+      family.addFamily(30, 'chloe', 'aunt')
+      family.addFamily(3, 'lyn', 'niece')
+      family.addFamily(10, 'dangdangi', 'dog')
+      console.log(family.getHeadcount())  // 3
+```
+- 해설
+  * 각 속성의 키 이름을 변수명으로 정의하고, 값을 해당 변수에 할당한다.<br/>
+    따라서 변수 address, members, addFamily, getHeadcont에 해당하는 속성값이 할당된다.
+  * family 객체 리터럴을 선언한다. 정의한 변수들을 중괄호 {}안에 넣는다.<br/>
+    이 떄 {변수명}으로 정의한 객체는 <b style="color: coral">{변수명 : 변수값}</b>으로 정의된 것과 동일하다.<br/>
+    단축 속성명은 문자열, 객체, 함수 등 자료형에 상관없이 적용 가능하다. 
+<br/><br/>
+
+### 31. ES6의 향상된 객체 문법 알아보기 - 속성 계산명
+- 속성 계산명(Computed Property Name)은 속성 이름을 정의하는 다른 방법이다.<br/>
+  대괄호[]안에 식을 넣거나 변수를 대입하여 동적으로 객체 속성들을 생성할 수 있다. 
+  ```js
+    let obj = {}
+    for (let i = 0; i < 4; i++) {
+      obj['key' + i] = i
+    }
+    console.log(obj)
+
+    let profile = 'chloe:30'
+    let person = {
+      [profile] : true,
+      [profile.split(':')[0]]: profile.split(':')[1]
+    }
+    console.log(person)
+    /*
+      {key0: 0, key1: 1, key2: 2, key3: 3}
+      {chloe:30: true, chloe: '30'}
+    */
+  ```
+  - 해설
+    * 객체 obj에 속성을 추가한다. 속성 접근자[]를 활용해, 계산된 속성명을 정의한다.<br/>
+    이 때, 속성명은 key0, key1, key2, key3으로 숫자가 증가하도록 정의한다.
+    * 객체 obj를 콘솔 출력한다.
+    * 변수 profile에 'chloe:30' 문자열을 대입한다.
+    * 객체 person 리터럴 정의할 때 속성 계산명을 활용한다. <br/>
+      profile 문자열을 키값으로 하는 속성을 정의한다. <br/>
+      속성 접근자 구문과 동일한 대괄호 []를 사용하고 그 안에 profile 변수를 그대로 넣으면 해당 변수값이 속성명으로 정의된다. 
+    * `profile.split(':')[0]`은 문자 ':'를 중심으로 profile 문자열을 나누고,<br/>
+      나눠진 부분 중 왼쪽 문자열 chloe를 가져온다.<br/>
+      `profile.split(':')[1]`은 오른쪽 문자열 30을 의미한다.<br/>
+      계산된 값이 속성명, 속성값으로 정의되어, 속성 계산된 결과는 chloe : 30이 된다.
