@@ -638,6 +638,225 @@
     <b>일부 배열 요소를 무시하고, 원하는 요소만 가져오는 것도 가능하다.</b><br/>
     `[a, , , , , f]`중간에 4개 요소를 반환받고 싶지 않을 때 해당 위치의 요소는 콤마 사이에 공백으로 비워두면 된다.<br/>
     따라서 첫번째 요소 1이 a변수에 할당되고, 마지막 요소 6이 f변수에 할당된다. 
+<br/><br/>
+
+### 33. 심볼형 이해하기
+```js
+const symbol = Symbol();
+const hello = Symbol('hello');
+
+console.log(Number(3) === Number(3)); // true
+console.log(Symbol('symbol') === Symbol('symbol')); // false
+console.log(Symbol() === Symbol()); // false
+console.log(typeof Symbol()); // symbol
+
+const nationility = Symbol('nationility');
+const user = {
+  name : 'jay'
+}
+user[nationiliity] = 'korean'
+console.log(user[nationility]); // korean
+
+for (let key in user) }{
+  console.log(key)  // name
+}
+console.log(Object.keys(user))  // ["name"]
+console.log(Object.getOwnPropertyNames(user)) // ["name"]
+console.log(JSON.stringify(user)) // {"name" : "jay"}
+
+const symbolProperties = Object.getOwnPropertySymbols(user)
+console.log(symbolProperties) // [Symbol(nationility)]
+console.log(user[symbolProperties[0]])  // korean
+```
+  - 해설
+    * 심볼(Symbol)은 함수 호출을 통해 생성 가능하다. <br/>
+      <b style="color: coral">new 키워드를 통한 호출(new Symbol())을 사용할 경우 에러가 발생.</b>
+    * Symbol을 함수 호출 시 값을 전달 할 수 있는데, 이 값은 디버깅 용도이며<br/>
+      고유한 Symbol 값은 만들어지지 않습니다.<br/>
+      즉, <b style="color: coral">Symbol()은 늘 고유한 값을 반환</b>한다. 그래서 각각의 Symbol은 false로 서로 다르다고 나타남.
+    * <b style="color: coral">심볼은 객체의 키로 사용 가능</b>하다. 객체의 키로 사용하기 위해선 <b style="color: coral">Symbol에 대한 레퍼런스를 변수에 담고 있다가 접근할 때마다 사용해야 한다.</b>
+    * <b style="color: crimson">심볼이 객체의 키로 사용되면 for-in 루프를 통해 심볼 키를 가져올 수 없다.</b>
+    * <b style="color: coral">그렇기 때문에 Object의 키를 반환하는 메소드를 사용해도 가져올 수 없고, JSON 문자열로 만들 때에도 해당 키는 빠지게 된다.</b>
+    * 심볼을 객체의 키로 사용할 때 해당 키를 가져올 방법이 없는 것은 아니다. <br/>
+      `Object.getOwnPropertySymbols` <b style="color: crimson">메소드를 통해 해당 객체의 키에 해당하는 심볼들을 가져올 수 있다.</b> 
+<br/><br/>
+
+### 34. 함수 이해하기
+```js
+  function 함수 이름 (매개변수 목록) {
+    함수 실행부
+  }
+```
+- 함수 형태를 표현하면 크게 4가지로 구분된다.
+1. <b style="color: coral">키워드function</b><br/>
+  함수 자료형은 키워드 function을 앞에 붙여 함수로 정의한다. <br/>
+  그러나 ES6부터는 function 없이도 함수로 정의할 수 있다.
+2. <b style="color: coral">함수 이름</b><br/>
+  function과 소괄호()사이에 이름을 정의하며, 이를 통해 함수를 식별할 수 있다.<br/>
+  더 나아가 <b>함수 내에서 재귀로 자기 자신을 참조할 수도 있다.</b><br/>
+  이름을 정의하지 않은 함수도 존재한다. 이를 익명함수라고 부른다.
+3. <b style="color: coral">매개변수 목록</b><br/>
+  함수 이름 옆에 소괄호 ()로 둘러싸인 부분이 있다. <b style="color: coral">함수 선언 시 매개변수 목록을 정의하면 함수를 호출할 때 인자값을 전달 할 수 있다.</b><br/>
+  물론 함수 안에서 전역 변수를 가져와 처리할 수도 있지만, 되도록 매개변수를 통해 값을 전달하는 것을 권장한다. 
+4. <b style="color: coral">함수 실행부</b><br/>
+  함수가 호출되면 실행되는 몸통부로 중괄호 {} 안에 다발의 코드를 작성한다.
+<br/><br/>
+
+- JS에서는 함수를 만드는 데 2가지 다른 방식으로 나타낼 수 있다.
+1. 함수 표현식
+2. 함수 선언문
+
+```js
+  /* 1. 함수 표현식 */
+  let greeting_expression = function(name) {
+    console.log('Hi, ' + name)
+  }
+
+  /* 2. 함수 선언문 */
+  function greeting_declaration(name) {
+    console.log('Hi, ' + name)
+  }
+
+  greeting_expression('Chloe')  // Hi, Chloe
+  greeting_declaration('Chloe') // Hi, Chloe
+```
+- 해설
+  * 함수 표현식은 함수를 정의하면서 동시에 변수 greeting_expression에 바로 할당한다.<br/>
+    다시 말해, greeting_expression 변수에 함수 리터럴을 할당한다. 
+  * 함수 선언문은 일반적인 다른 개발 언어와 비슷한 함수 선언 방식으로, greeting_declaration이라는 함수 이름으로 선언한다. 
+  * 함수를 호출할 때는 함수 리터럴이 할당된 변수 이름 또는 함수 선언문의 함수 이름이 필요하다.<br/>
+    <b style="color: coral">주의할 점은 함수 표현식에서 정의한 함수 이름은 해당 함수 안에서만 호출이 가능하다.</b><br/>
+    그리고 선언된 함수가 매개변수를 필요로 하는 경우 소괄호 ()안에 전달할 값을 나열한다. <br/>
+    함수 표현식과 함수 선언문은 정의한 방식이 다르지만, 실행부 코드와 매개변수 목록이 같다.<br/><br/>
+- 많은 양의 코드를 연관 있는 것끼리 정리해서 함수로 만들면 코드를 보기 좋게 정리할 수 있다.
+- 또는 반복 사용하는 코드를 함수로 만들어 필요할 때마다 호출 할 수 있다. 
+- 중복 코드를 줄이고, 코드의 재사용이라는 장점을 이용해야 한다. 
+<br/><br/>
+
+### 35. 예외 처리하기
+- JS는 코드를 실행하다가 에러가 발생하면 그 즉시 중단된다. <br/>
+  이를 대비해서 예외 처리는 반드시 필요하다. 자바스크립트에서 사용할 수 있는 예외 처리 방법에는 <b style="color: coral">throw 문</b>과 <b style="color: coral">try-catch-finally 문</b>이 있다.
+- 예외 처리 시 에러 종류는 크게 두가지로 나뉜다. 
+  1. 예상치 못한 에러
+  2. 개발자가 의도한 에러
+- 여기서 개발자가 의도한 에러란, 코드에서 잘못될 가능성을 예상하고 발생시키는 에러를 의미한다.<br/>
+  <b style="color: coral">throw문은 고의로 에러를 발생시켜 예외 상황을 알리는 역할을 한다.</b> <br/>
+  그리고 throw문이 실행되면 살행되고 있던 블록을 빠져나간다. <br/><br/>
+
+```js
+  function checkNumber(val) {
+    if (typeof val !== 'number') throw '유효하지 않은 값입니다.'
+    console.log('숫자형 값으로 확인되었습니다.')
+  }
+
+  checkNumber(100)  // 숫자형 값으로 확인 되었습니다.
+  checkNumber('Wrong type')
+  /*
+    if (typeof val !== 'number') throw '유효하지 않은 값입니다.'
+      ^
+    유효하지 않은 값입니다.
+  */
+  console.log('완료')
+```
+- 해설
+  * 숫자형 값 여부를 확인하는 함수를 선언한다.
+  * typeof val을 통해 숫자형 값이 아닌 경우, throw문을 통해 함수 블록을 빠져나간다.
+  * 숫자형이 확인되면 출력되는 문장
+  * 숫자형 값 100을 넣으면 3라인이 출력된다.
+  * 문자형 값 'Wrong type'을 넣으면 typeof val 결과값은 string을 반환한다. <br/>
+    따라서 2라인 조건문 아래 throw문이 실행된다.
+  * 7라인에서 에러가 발생하여 예제 코드 실행이 중단된다. <br/>
+    마지막 8라인은 실행되지 않는다. 
+<br/><br/>
+
+- throw 문은 예외 상황을 미리 파악하고 에러를 발생시켜 이후 코드가 실행되지 않도록 합니다. <br/>
+  이는 결국 에러를 발생시킨 것이므로, 프로그램이 중단되는 것은 막을 수 없습니다. <br/>
+  이 에러 발생에 대한 대응책이 바로 <b style="color: coral">try-catch-finally 문이다. 그리고 try-catch-finally 문을 통해 앞에서 설명한 예상치 못한 에러와 개발자가 의도한 에러 모두 대응 가능하다. </b>
+- try-catch-finally 문은 try 블록 안에서 발생된 에러를 잡아내고, catch 블록으로 제어권을 넘깁니다. try 블록에서 발생된 에러 정보는 catch 문의 변수로 전달되기 때문에, 개발자는 프로그램 종료 없이 어떤 에러가 발생했는지 확인할 수 있습니다. finally 블록은 에러 발생 여부와 상관없이 실행되는 블록이다.<br/>
+  예를 들어, 이를 활용하면 파일 읽기/쓰기를 할 때 에러가 발생되더라도 항상 파일 close 구문을 실행할 수 있다. 
+
+```js
+  function checkNumber(val) {
+    if (typeof val !== 'number') throw '유효하지 않은 값입니다.'
+    console.log('숫자형 값으로 확인되었습니다.')
+  }
+
+  try {
+    checkNumber(100); // 숫자형 값으로 확인되었습니다.
+    checkNumber('Wrong type')
+  } catch (e) {
+    console.log(`에러가 발생했습니다. >>> ${e}`)  // 에러가 발생했습니다. >>> 유효하지 않은 값입니다.
+  } finally {
+    console.log('완료') // 완료
+  }
+```
+- 해설
+  * 8라인에서 에서가 발생한다. 그러나 try문의 블록 안에 있기 때문에 발생된 에러 정보는 catch 블록으로 전달된다.
+  * 변수 e에 에러 정보가 전달된다. 여기에는 2라인에서 throw 문의 문자열 '유효하지 않은 값입니다.'가 대입되어 있다. 콘솔로 에러 정보를 출력한다.
+  * finally 블록은 6~10라인의 코드가 모두 처리되고 난 뒤 마지막에 실행된다. 에러 여부와 상관없이 항상 실행되기 때문에 '완료' 문자열이 출력된다. 
+<br/><br/>
+
+### 36. arguments 객체 이해하기
+- JS 함수는 매개변수를 가진다. 여기서 매개변수와 같이 사용되는 용어가 있는데,<br/>
+  바로 <b style="color: coral">전달 인자(argument)</b>이다. 매개변수가 함수 선언 시 작성되는 변수라면, <b style="color: coral">전달 인자는 함수가 호출될 때 전달되는 값이다.</b>
+- <b style="color: coral">JS는 전달 인자의 개수와 매개변수의 개수가 달라도 에러를 발생하지 않는다.</b><br/>
+  그래서 매개변수와 무관하게 함수 호출 시 더 많은 인자를 전달할 수 있다.<br/>
+  매개변수 외에 함수에서만 사용가능한 특별한 객체를 제공한다. 바로 argumnets 객체
+<br/><br/>
+
+```js
+  function sum() {
+    let total = 0;
+    for (let i = 0; i < arguments.length; i++) {
+      total += arguments[i]
+    }
+    console.log(arguments instanceof Array) // false
+    return total
+  }
+
+  let sumOf1to3 = sum(1,2,3)
+  console.log(sumOf1to3)  // 6
+
+  function testArg() {
+    let newArr = Array.prototype.slice.call(arguments);
+    console.log(newArr) // ["a", "b"]
+    console.log(newArr.indexOf('b'))  // 1
+    console.log(arguments.indexOf('b')) // function-arguments.js::19 Uncaught TypeError: arguments.indexOf is not a funtion
+  }
+
+  testArg('a', 'b')
+```
+  - 해설
+    * sum 함수를 정의하면서 내부에 arguments 객체를 통해 전달된 인자의 합을 반환한다. <br/>
+      <b style="color: coral">arguments 객체는 배열과 유사하게 인덱스를 통해 접근할 수 있다. 하지만, length 속성 외에는 배열의 어떠한 속성과 메소드를 가지고 있지 않다. </b>
+    * instanceof 연산자를 이용하여 arguments 객체가 배열이 아닌 것을 확인할 수 있다.
+    * sum 함수는 매개변수를 정의하고 있지 않지만, 전달 인자로는 1,2 그리고 3을 전달하고 있다.
+    * arguments 객체를 배열로 바꾸기 위해 배열의 프로토타입에 정의된 slice 메소드를 호출한다. 이렇게 하면 arguments 객체의 요소들을 복사하는 새로운 배열이 만들어진다.
+    * 배열이기 때문에 indexOf 메소드를 사용하여 문자열 b의 인덱스를 반환한다.
+    * arguments 객체는 배열이 아니기 때문에 에러가 발생한다.
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
