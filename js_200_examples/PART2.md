@@ -834,12 +834,163 @@ console.log(user[symbolProperties[0]])  // korean
     * arguments 객체를 배열로 바꾸기 위해 배열의 프로토타입에 정의된 slice 메소드를 호출한다. 이렇게 하면 arguments 객체의 요소들을 복사하는 새로운 배열이 만들어진다.
     * 배열이기 때문에 indexOf 메소드를 사용하여 문자열 b의 인덱스를 반환한다.
     * arguments 객체는 배열이 아니기 때문에 에러가 발생한다.
-    
+<br/><br/>
 
+### 37. 함수 기본 매개변수 처리하기
+- ES6에 새롭게 추가된 기본 매개변수는 매개변수를 정의할 때 <b style="color: coral">기본으로 할당될 인자값과 함께 작성하는 매개변수를 말한다.</b> <br/>
+  값을 할당하는 연산자인 =를 이용하여 정의하게 된다.
 
+```js
+  function drawChart(width = 200, height = 400) {
+    console.log(`${width} X ${height} 차트를 그립니다.`)
+  }
+  drawChart(100)  // 100 X 400 차트를 그립니다.
+  drawChart() // 200 X 400 차트를 그립니다.
 
+  function drawChart2(width = 200, height = width / 2 ) {
+    console.log(`${width} X ${height} 차트를 그립니다.`)
+  }
+  drawChart2(300) // 300 X 150 차트를 그립니다.
+  drawChart2(); // 200 X 100 차트를 그립니다. 
+```
+  - 해설
+    * 1~3 drawChart를 정의할 때 매개변수로 width와 height을 선언한다. 이때 전달 인자가 없을 때 기본으로 할당될 값으로 200과 400을 함께 작성한다.
+    * 4 drawChart를 호출할 때 인자로 100을 전달한다. width에는 100이 할당되지만 height에는 전달 인자가 없어 기본값인 400이 할당된다.
+    * 5 전달 인자 없이 drawChart를 호출한다. 그래서 width와 height에는 기본값인 200과 400이 할당된다.
+    * 7~9 drawChart2는 width와 height을 기본 매개변수로 정의하는데, height의 기본값으로 앞의 매개변수인 width를 참조하여 작성한다. width로 전달되는 값의 2로 나눈 값이 height의 기본값이 된다. 
+    * 10 drawChart2를 호출할 때 인자로 300을 전달한다. width에는 300이 할당되지만 height에는 전달인자가 없어 앞의 width를 2로 나눈 값인 150이 할당된다. 
+    * 11 전달 인자 없이 drawChart2를 호출한다. 그래서 width와 height에는 기본값인 200과 200을 2로 나눈 값인 100이 할당된다. 
+<br/><br/>
 
+### 38. 함수 나머지 매개변수 이해하기
+- ES6에서 새로 추가된 나머지 매개변수는 매개변수를 정의할 때 정해지지 않은 매개변수들을 정의할 수 있게 한다.
+- argument 객체와 유사하나 argument 객체는 함수에 전달되는 모든 전달 인자를 포함하는 반면에, <b style="color: coral">나머지 매개변수는 정해지지 않은 나머지를 의미한다.</b>
+- 나머지 매개변수는 argument 객체와 다르게 <b style="color: coral">매개변수를 작성하는 곳에서 작성하고, 다른 매개변수와의 차이점을 두기 위해 ...연산자와 함께 작성한다.</b>
 
+```js
+  function(parameter, ...restParameter) {
+    // arguments 객체는 나머지 매개변수와 다르게 함수 몸통에서만 사용한다.
+  }
+```
+
+- arguments 객체와 나머지 매개변수와의 <b style="color: coral">가장 큰 차이점은 arguments 객체는 배열이 아니지만 나머지 매개변수는 배열이라는 점이다.</b>
+<br/><br/>
+
+```js
+  function sum(...args){
+    let total = 0;
+    for(let i = 0; i < args.length; i++) {
+      total += args[i]
+    }
+    console.log(args.indexOf(1))  // 0
+    return total;
+  }
+  console.log(sum(1, 2, 3)) // 6
+
+  function sum2(a, b, ...others) {
+    let total = a + b;
+    for (let i = 0; i < others.length; i++) {
+      total += others[i]
+    }
+    return total
+  }
+  console.log(sum2(1, 2)) // 3
+  console.log(sum2(1, 2, 3, 4)) // 10
+```
+- 해설
+  * 1~9. sum 함수를 나머지 매개변수로 정의하고 있다. 나머지 매개변수인 args는 배열이기 때문에 [인덱스]를 통해 접근이 가능하고 indexOf와 같은 메소드를 사용할 수 있다.  <br/>
+  9라인에서 전달한 1, 2, 3 전달 인자들은 args 배열이 되고 배열을 순차적으로 접근하여 total 변수값과 더 하면서 그 결과를 바로 대입한다. 마지막으로 전체 합계인 total을 반환한다. 
+  * 11~17. sum2 함수는 sum 함수와 다르게 a와 b 매개변수를 가지고 있다. 그리고 두 매개변수 외에 others라는 나머지 매개변수를 정의하고 있다.
+  * 18 . sum2 함수 호출 시 a와 b 매개변수에 1과 2로 인자들을 전달하고 있다.
+    이때 others는 빈 배열이 된다.
+  * 19 . sum2 함수 호출 시 a와 b 두 매개변수보다 더 많은 인자가 전달되기 때문에 1과 2는 각각 a와 b에 전달되고 나머지 3과 4는 others 나머지 매개변수의 배열의 요소로 전달된다.
+<br/><br/>
+
+### 39. 스코프 이해하기
+- 스코프는 <b style="color: coral">유효 범위로써 변수와 매개변수가 어디까지 유효한지를 나타냅니다.</b><br/> 
+예를 들어, 코드에서 a라고 작성했을 때, a라는 식별자가 어디를 참조할지, 실제 값이 무엇인지를 찾을 때 스코프를 활용하여 찾게 된다.
+- JS는 기본적으로 <b style="color: coral">전역</b>과 <b style="color: coral">함수 단위</b>로 스코프를 생성한다. <br/>
+  <b style="color: coral">함수 안에서 선언된 변수는 함수 블록 안에서만 접근이 가능하다. 그리고 전역에 선언한 변수들은 코드 어디에서든 접근이 가능하다.</b> 
+
+```js
+  let a = 10;
+  console.log(a)  // 10
+
+  function print() {
+    let b = 20;
+    if(true) {
+      let c = 30
+    }
+    console.log(c)  // 30
+  }
+
+  print()
+  console.log(b)  // ReferenceError: b is not defined
+```
+- 해설
+  * 1 : 변수 a를 전역으로 선언하고 10을 대입한다.
+  * 2 : a에 해당하는 값을 찾아 콘솔에 출력한다. 이때 전역 스코프에서 a 식별자에 연결된 10을 찾아서 출력한다. 
+  * 4 : print라는 이름으로 함수를 선언한다.
+  * 5 : 함수 내부에 변수 b를 선언하고 20을 대입한다.
+  * 6~9 : if문 안의 블록에서 변수 c를 선언하고 블록 밖에서 c를 출력한다. <br/>
+    <b style="color: coral">변수 c는 if문 안의 블록에서 선언된었지만 let 키워드로 선언한 변수들은 모두 함수 스코프에 정의된다. 그래서 print 함수 내 어디에서든 변수 c에 접근할 수 있다.</b>
+  * 13 : print 함수에서 선언한 변수 b에 접근하려 한다. 함수 스코프에 정의된 변수 b는 해당 함수 내에서만 접근이 가능하기 때문에 함수 밖에서는 접근할 수 없고, 전역에도 b라는 이름으로 정의된 겂이 없기 때문에 ReferenceError가 출력된다.
+<br/>
+-  스코프는 일반적으로 <b style="color: coral">렉시컬(Lexical) 스코프</b>와 <b style="color: coral">다이나믹(Dynamic) 스코프</b>로 분류된다. <br/>
+  <b style="color: coral">렉시컬 스코프는 코드를 작성하는 시점에 스코프가 결정되어진다고 해서 정적 스코프라고도 부른다.</b><br/>
+  <b>JS는 대표적인 렉시컬 스코프다.</b>
+<br/><br/>
+
+```js
+  let a = "global";
+
+  function print1() {
+    console.log(a)
+  }
+
+  function print2() {
+    let a = "local"
+    print1()
+  }
+
+  print1()  // global
+  print2()  // global
+```
+- 해설
+  * 위의 코드를 실행하면 모두 global이 출력된다. <b style="color: coral">만약 JS가 다이나믹 스코프였다면 global 다음에 local이 출력되었을 것이다.</b>
+  * 1~5 : 전역으로 변수 a, print1 함수를 선언한다. 전역 변수 a에는 문자열 global을 대입한다.
+  * 7~10 : print2 함수 내부에 a 이름으로 지역변수를 선언하고 문자열 local을 대입한다. 내부에서 전역에 정의된 print1 함수를 호출한다.
+  * 12 : print1 함수를 호출한다. print1 함수 블록이 실행되는데 a에 해당하는 값을 찾아 콘솔에 출력하게 된다. a는 print1 함수 스코프에서 찾을 수 없어 전역에서 찾아 문자열 global을 출력하게 된다. 
+  * 13 : print2 함수를 호출한다. 하지만 함수 내부에서 print1 함수를 호출하고 있기 때문에 print1 함수 블록이 실행된다. 이때 a라는 이름을 전역에서 정의된 a로 찾을 건지 print2 내부에서 정의된 a로 찾을 건지가 렉시컬 스코프와 다이나믹 스코프에 따라 다르게 해석된다. <br/>
+  JS는 렉시컬 스코프이기 때문에 코드를 작성하는 시점에 확정된다. 그래서 print1이 작성될 때에는 이미 전역 a를 참조하고 있기 때문에 문자열 global이 출력된다.
+  <br/><br/>
+
+  ### 40. 함수 호이스팅 이해하기
+  - <b style="color: coral">JS에서는 함수를 선언하기 전에 호출이 가능하다.</b> 이러한 현상을 호이스팅이라고 한다. <br/>
+    호이스팅을 직역하면 '끌어 올리기'인데 <b style="color: coral">함수가 실제 호출하기 이전으로 끌어올라간 것처럼 동작하기 때문이다.</b>
+<br/><br/>
+
+```js
+  hello() // 안녕하세요.
+  function hello(){
+    console.log('안녕하세요.')
+  }
+```
+<br/><br/>
+
+```js
+  hello2()  // Uncaught TypeError: hello is not a function
+  let hello2 = function(){
+    console.log("안녕하세요")
+  }
+```
+- 해설
+  * 1 : TypeError 에러가 발생한다. 에러의 종류가 TypeError라는 점이 조금 의외인데, 실제로는 hello2 이름으로 선언된 변수는 호이스팅이 이루어졌고, 여기에 undefined가 할당된다.<br/>
+  그래서 undefined는 호출할 수 없기 때문에 TypeError가 발생한 것이다. 만약 호이스팅이 이루어지지 않았다면 ReferenceError로 hello가 선언되지 않았다는 에러가 나와야 한다.
+<br/><br/>
+- 호이스팅은 JS의 코드를 해석하고 실행하는 방식 때문에 나타난다.<br/>
+  간단하게 생각하면 JS는 코드를 해석하는 단계와 실행하는 단계로 나뉘고, 해석하는 단계에서 선언 문장을 초기화하면서 스코프를 형성하고 실행하는 단계에서 값을 할당하거나 계산을 하는 행위를 한다고 볼 수 있다.
+- 두 번째 코드를 예들 들면, 해석 단계에서 2라인의 hello2 변수를 선언하는 문장이 먼저 초기화를 하여 스코프에 hello2라는 이름에 undefined라는 값을 할당했다가 실행 단계에서 1라인의 hello2()를 호출하는 것이다. 
 
 
 
