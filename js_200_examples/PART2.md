@@ -991,16 +991,154 @@ console.log(user[symbolProperties[0]])  // korean
 - 호이스팅은 JS의 코드를 해석하고 실행하는 방식 때문에 나타난다.<br/>
   간단하게 생각하면 JS는 코드를 해석하는 단계와 실행하는 단계로 나뉘고, 해석하는 단계에서 선언 문장을 초기화하면서 스코프를 형성하고 실행하는 단계에서 값을 할당하거나 계산을 하는 행위를 한다고 볼 수 있다.
 - 두 번째 코드를 예들 들면, 해석 단계에서 2라인의 hello2 변수를 선언하는 문장이 먼저 초기화를 하여 스코프에 hello2라는 이름에 undefined라는 값을 할당했다가 실행 단계에서 1라인의 hello2()를 호출하는 것이다. 
+<br/><br/>
 
+### 41. let으로 변수 선언하기
+- ES6가 나오기 전까지 변수는 var 키워드로만 정의할 수 있었다.<br/>
+  하지만 ES6에서 <b style="color: coral">let 키워드가 나오면서 변수 선언 시 변수의 유효 범위를 블록 범위로 지정할 수 있게 되었다.</b>
 
+```js
+  if(true) {
+    var functionScopeValue = 'global'
+    let blockScopeValue = 'local'
+  } 
+  console.log(functionScopeValue) // global
+  console.log(blockScopeValue)  // ReferenceError
+```
+  - 해설
+    * 1~4 : if 문의 블록 안에 두 변수를 정의한다. 하나는 var 키워드로 정의하고 다른 하나는 let 키워드로 정의한다. 
+    * 5 : var 키워드로 정의한 functionScopeValue 변수는 함수 단위의 유효 범위를 가지게 되어 if 문의 블록에서 정의하여도 블록 밖에서도 접근이 가능하다.
+    * 6 : let 키워드로 정의한 blockScopeValue 변수는 블록 단위의 유효 범위를 가지게 되어 if 문의 블록 밖에서 접근할 경우 ReferenceError가 발생한다. 
 
+```js
+  let value = "바깥값"
+  if (true) {
+    console.log(value)
+    let value = "안쪽값"
+  } // Uncaught ReferenceError: value is not defined
+```
+  - 해설
+    * 1~5 : let으로 선언한 변수는 호이스팅에서 설명한 것과 동일하게 블록 단위로 일어난다. 하지만 var과 다르게 undefined 값이 할당되기보다는 블록 시작부터 선언이 이루어진 라인까지 일시적으로 접근을 막는다. 만약 4라인이 없다면 전역에서 정의된 value를 참조하여 "바깥값"이 출력된다. 하지만 if 블록 안에서 let으로 변수를 정의하였기 때문에, value는 if 블록문 안에 위쪽으로 호이스팅되어 실제 let으로 선언이 이루어지기 전까지 일시적으로 접근이 안되는 영역을 만들고 그 안에서 접근을 하게 되면 에러가 발생한다.
+<br/><br/>
 
+### 42. const로 상수 선언하기
+- ES6에서 추가된 const 키워드는 let 키워드와 마찬가지로 블록 단위로 스코프를 정의할 수 있습니다. 하지만 let과의 큰 차이점은 선언 시 값을 할당해야 하고 이후에 재할당을 할 수 없다.
+```js
+  const URL = 'http://js.com'
+  URL = 'http://js.com'
 
+  if(true) {
+    const URL2 = 'http://js.com'
+  }
 
+  console.log(URL2) //
+```
+  - 해설
+    * 2 : const로 정의된 URL 상수에 새로운 문자열을 할당하면 Uncaught TypeError: Assignment to constant variable. 에러가 발생한다. 그리고 <b style="color: coral">const는 관례적으로 변하지 않는 값을 정의하기 때문에 대문자로 작성한다.</b>
+    * 4~8 : if 문 <b style="color: coral">블록 안에서 const로 정의된</b> URL2 <b style="color: coral">변수는 블록 밖에서 접근할 경우 에러가 발생한다.</b><br/> 
+    const 키워드로 정의된 상수에 객체를 할당하면 불변 객체(Immutable Object)가 되지는 않는다. 불변 객체는 정의된 후에 그 상태를 바꿀 수 없는 객체를 의미한다.</br>
+    
+```js
+  const CONST_USER = {name: 'jay', age: '30'}
+  console.log(CONST_USER.name, CONST_USER.age)  // jay 30
+  CONST_USER.name = 'jay2'
+  CONST_USER.age = 31
+  console.log(CONST_USER.name, CONST_USER.age)  // jay2 31
+  CONST_USER = {name: 'bbo'}  // Uncaught TypeError: Assignment to constant variable
+```   
+  - 해설
+    * 1~5 : const로 정의된 CONST_USER는 불변 객체가 아니라서 name 속성에 다른 값을 할당할 수 있다. 마찬가지로 age 속성도 변경 가능하다. 객체의 내부 상태가 변경 가능하기 때문에 const로 배열을 선언하여도 새로운 요소를 추가하거나 변경할 수 있다.
+    * 6 : const로 정의되었기 때문에 재할당만 되지 않는다. 즉 <b style="color: coral">새로운 객체로 할당은 못하고 객체 내부의 상태만 변경할 수 있다.</b>
+<br/><br/>
 
+### 43. 스코프 체인 이해하기
+- 스코프 체인은 문자 그대로 스코프가 연결되어 있음을 나타낸다. JS에서 스코프 체인을 이해하기 위해서는 <b style="color:coral">실행 컨텍스트</b>(Execution Context)와<b style="color:coral">렉시컬 환경</b>(Lexical Environment)에 대해 먼저 알아야 한다.
+- <b style="color: coral">실행 컨텍스트</b>는 코드가 실행되기 위해 필요한 정보를 가지고 있다. 이 <b style="color: coral">실행 컨텍스트는 실행 가능한 코드가 실행될 때 생성된다.</b> 대표적인 실행 가능한 코드로는 <b style="color: coral">전역 코드</b>와 <b style="color: coral">함수 코드</b>가 있다. 그 외에 <b style="color: coral">eval</b>과 <b style="color: coral">모듈 코드</b>도 있다.
+- 처음에는 전역 코드가 먼저 실행된다.<br/>
+  이때 전역 컨텍스트를 만들고 전역 코드를 순차적으로 평가한다.<br/> 
+  그러다가 함수가 호출문을 만나면 새로운 실행 컨텍스트가 만들어지면서 해당 함수 실행부의 코드를 순차적으로 평가한다.<br/>
+  이 때 스택(Stack)을 이용해 실행 컨텍스트를 관리하게 되는데, <br/>
+  새로운 실행 컨텍스트가 생성되면 스택에 쌓고 실행 중인 코드가 종료되면 해당 실행 컨텍스트를 스택에서 제거한다. <br/>
 
+```js
+  let person = 'harin'
 
+  function print() {
+    let person2 = 'jay'
 
+    function innerPrint() {
+      console.log(person);
+      console.log(person2);
+    }
+  
+  innerPrint();
+
+  console.log('print finisihed')
+  }
+
+  print()
+  /**
+   * harin
+   * jay
+   * print finished
+  */
+  console.log('finished') // finished
+```   
+  - 해설
+    * 16문장 전까지 전역실행 컨텍스트
+    * 16문장에서 print 실행컨텍스트 생성
+    * 4~11문장까지 실행 후 innerPrint 실행 컨택스트 생성
+    * 13문장 print 실행 컨택스트 실행(innerPrint 실행 컨텍스트 삭제)
+    * 17문장 전역 실행 컨택스트 실행(print 실행 컨텍스트 삭제)
+<br/><br/>
+
+  - 실행 컨텍스트는 렉시컬 환경을 가지고 있는데, 렉시컬 환경은 환경 레코드(EnvironmentRecord)와 외부 렉시컬 환경(OuterLexicalEnvironment)으로 구성된다. 실행 컨텍스트를 JS 객체 형태로 표현하면 다음과 같다.
+```js
+  ExcutionContext = {
+    LexicalEnvironment: {
+      EnvironmentRecord: {
+
+      },
+      OuterLexicalEnvironment: 참조
+    }
+  }
+```
+  - 실제 함수와 변수같은 식별자와 그 식별자가 가리키는 값은 키(key)와 값의 쌍으로 환경 레코드(EnvironmentRecord)에 기록된다. <br/>
+  그리고 렉시컬 환경은 환경 레코드 외에 자신의 실행 환경을 감싸는 외부 실행 환경에 대한 참조를 가지고 있다.
+
+```js
+  // 전역 실행 컨텍스트
+  LexicalEnvironment: {
+    environmentRecord: {
+      person: 'harin',
+      print: `<function>`
+    }
+    outerLexicalEnvironment: null
+  }
+
+  // print 실행 컨텍스트
+  LexicalEnvironment: {
+    environmentRecord: {
+      person: 'jay',
+      print: `<function>`
+    }
+    outerLexicalEnvironment: `전역 실행 컨텍스트`
+  }
+
+  // inner 실행 컨텍스트
+  LexicalEnvironment: {
+    environmentRecord: {
+    }
+    outerLexicalEnvironment: `print 실행 컨텍스트`
+  }
+``` 
+  - 각 실행 컨텍스트는 outerLexicalEnvironment로 체인처럼 연결되어 있다. <br/>
+    이렇게 각 렉시컬 환경이 연결되어 있기 때문에 스코프 체인이 형성될 수 있다.
+  - 7~8 : 11라인에 의해 innerPrint 함수가 호출될 때 두 변수 person과 person2, 즉 각 식별자는 연결된 값을 자신의 실행 컨텍스트의 렉시컬 환경에서 찾는다.<br/>
+    하지만 person과 person2는 innerPrint 함수 내에 선언되지 않았다.<br/> 
+    그러면 위 코드 처럼 inner 실행 컨텍스트의 환경 레코드에는 아무런 키-값의 쌍이 없게 된다. 
+  - 이렇게 자신의 실행 컨텍스트에 없으면 외부 렉시컬 환경의 참조를 통해 연결된 print 실행 컨텍스트에서 해당 식별자를 찾게 된다.<br/> 
+    이떄 person을 print 실행 컨텍스트의 환경 레코드에서 찾아서 "jay"를 출력하게 된다.<br/> 마찬가지로 person2는 전역 실행 컨텍스트까지 가서 찾아 값을 출력한다. 
 
 
 
