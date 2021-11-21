@@ -1139,31 +1139,121 @@ console.log(user[symbolProperties[0]])  // korean
     그러면 위 코드 처럼 inner 실행 컨텍스트의 환경 레코드에는 아무런 키-값의 쌍이 없게 된다. 
   - 이렇게 자신의 실행 컨텍스트에 없으면 외부 렉시컬 환경의 참조를 통해 연결된 print 실행 컨텍스트에서 해당 식별자를 찾게 된다.<br/> 
     이떄 person을 print 실행 컨텍스트의 환경 레코드에서 찾아서 "jay"를 출력하게 된다.<br/> 마찬가지로 person2는 전역 실행 컨텍스트까지 가서 찾아 값을 출력한다. 
+    <br/><br/>
 
+### 44. 클로저 이해하기
+```js
+  function createCounterClosure(){
+    let count = 0
+    return {
+      increase: function() {  // 클로저
+        // 클로저 : "자유 변수에 엮여 있는 함수"로 많이들 표현한다.
+        count++
+      },
+      getCount: function() {  // 클로저
+        return count
+      }
+    }
+  }
 
+  const counter1 = createCounterClosure()
+  const counter2 = createCounterClosure()
 
+  counter1.increase()
+  counter1.increase()
+  console.log('conuter1 의 값 : ' + counter1.getCount())  
+  // counter1 의 값 : 2
+  counter2.increase()
+  console.log('counter2 의 값 : ' + counter2.getCount())
+  // counter2 의 값 : 1
+```
+  - 해설
+    * 1~2 : createCounterClosure 함수를 정의하고 count 변수에 0을 할당한다.
+    * 3~11 : createCounterClosure 함수는 객체를 반환하는데 객체는 increase와 getCount 메소드가 있고, 모두 count 변수에 접근합니다. 
+    * 13~14 : createCounterClosure 함수를 호출하고 반환된 객체를 counter1과 counter2에 할당한다.
+    * 16~20 : counter1과 counter2 객체의 increase 메소드를 호출하면 2라인에서 볼 수 있는 createCounterClosure 함수 내부의 count 변수에 모두 접근한다. <br/>
+    하지만 counter1과 counter2의 getCount를 호출한 결과를 보면 counter1의 메소드들이 가리키는 count와 counter2의 메소드들이 가리키는 count가 다른 값을 가지고 있는 것을 알 수 있다.
+    <br/><br/>
+  - 위 코드에서 counter1과 counter2의 메소드들이 다른 count에 접근하는 것은 다른 렉시컬 환경의 환경 레코드에서 count에 접근하는 것이다. <br/>
+  이러한 현상이 가능한 이유는 바로 클로저 때문.
+  - <b style="color: coral">클로저</b>란 함수가 정의될 때의 렉시컬 환경을 기억하는 함수를 말한다.
+  - 4라인과 7라인의 increase와 getCount 함수가 정의될 때의 렉시컬 환경은 createCounterClosure 실행 컨텍스트의 렉시컬 환경이다. <br/>
+  이 실행 컨텍스트는 13, 14라인에서 각각 생성된다. 그래서 increase 함수와 getCount 함수는 createCounterClosure 실행 컨텍스트의 렉시컬 환경을 기억하고 있는 클로저가 된다.
+  - 대체로 실행 컨텍스트가 컨텍스트 스택에서 제거되면 해당 환경은 사라지가 마련인데 위 예제 처럼 클로저가 만들어지면 해당 환경은 사라지지 않는다.<br/>
+  왜냐하면 해당 참조가 존재하기 때문이다. (예제는 counter1과 counter2가 전역 변수에 할당되어 참조가 존재한다.)
+  <br/><br/>
+  - JS는 1급 객체로 취급한다. <b style="color: coral">이는 함수를 다른 함수의 인자로 넘길 수도 있고, <br/>
+    return으로 함수를 통째로 반환받을 수도 있다.</b>
+  - 최종 반환되는 함수가 외부 함수의 지역변수에 접근하고 있다는 것이 중요하다.<br/>
+    이 지역변수에 접근하려면 함수가 종료되어 외부함수의 컨텍스트가 반환되더라도, <br/>
+    변수 객체는 반환되는 <b style="color: coral">내부 함수의 스코프체인에 그래도 남아있어야만 접근할 수 있다.</b><br/>
+    이것이 바로 클로저다.
+  - 쉽게 풀어 말하면, <br/>
+    <b style="color: coral">이미 생명주기가 끝난 외부 함수의 변수를 참조하는 함수를 클로저라고 한다.</b>
+    <br/><br/>
 
+### 45. 객체 속성 기술자 이해하기
+```js
+  let user = {
+    name: "jeado"
+  }
+  let desciptor = Object.getOwnPropertyDescriptot(user, 'name')
+  console.log(descriptor) // {value: 'jeado', writable: true, enumerable: true, configurable: true }
 
+  let user2 = {}
+  Object.defineProperty(user2, "name", {
+    value: "jeado", //  값
+    enumerable: true, // 나열 가능 여부
+    configurable: true, // 속성 기술자의 변경 여부
+    writable: false // 값이 변할 수 있는 여부
+  })
+  console.log(user2.name) // jeado
+  user2.name = "bbo"  // jeado
+  console.log(user2.name) // name
 
+  let user3 = {
+    name: 'jeado',
+    toString(){
+      return this.name
+    }
+  }
+  Object.defineProperty(user3, "toString", {
+    enumerable: false
+  })
+  for (let key in user3) {
+    console.log(key)  // {name: "jeado"}
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  let user4 = {}
+  Object.defineProperty(user4, "name", {
+    value: "jeado",
+    configurable: false
+  })
+  delete user4.name
+  console.log(user4)  // Uncaught TypeError: Cannot redefine property: name
+  Object.defineProperty(user4, "name", {
+    writable: true
+  })
+```
+  - 해석
+    * 1~5 : JS의 모든 객체 속성은 <b>자기 자신에 대한 정보를 담고 있는 <b style="color: coral">속성 기술자</b>(Property Descriptor)를 가지고 있다.</b> 이 속성 기술자는 객체로 표현된다.<br/>
+    4라인 처럼 <b style="color:coral">Object.getOwnPropertyDescriptor</b>를 통해 속성 기술자 객체를 가지고 올 수 있다.
+    * 7~16 : user2 객체를 선언하고 Object.defineProperty를 통해 객체의 속성을 정의한다.<br/>
+    1번째 인자는 속성을 정의할 객체이고 2번째 인자는 속성명, 그리고 3번째 인자는 속성 기술자다.  
+    * 속성 기술자는 객체로써 다음과 같은 <b style="color: coral">속성</b>을 가진다. <br>
+      <b style="color: coral">value</b> : 값을 나타낸다. <br>
+      <b style="color: coral">enumerable</b> : for...in 루프나 Object.keys 메소드 같이 속성을 나열할 때 나열 가능여부를 정의한다. false일 경우 나열되지 않는다. <br>
+      <b style="color: coral">writable</b> : 값을 변경할 수 있는 여부를 정의한다. false일 경우 값이 변하지 않는다.<br>
+      <b style="color: coral">configurable</b> : 속성 기술자를 변경할 수 있는 여부를 정의한다. false일 경우 속성 기술자를 다시 변경할 수 없다.<br>
+    * user2 속성 기술자에 writable 속성을 false로 주고 value를 jeado로 주었다. <br>
+      그렇기 떄문에 15라인에서 bbo로 값을 재할당해도 콘솔에는 바뀌지 않고 기존 값이 출력된다. 
+    * 18~29 : user3 객체에 toString 메소드로 정의하고 속성 기술자를 통해 이 메소드 enumerable을 false로 재정의한다. 그런 후 27~29라인에서 for...in 루프로 모든 속성에 접근하여 속성 이름을 콘솔에 출력한다. <br>
+    하지만 toString 속성은 enumerable를 false로 정의하여 출력되지 않는다.
+    * 31~40 : user4 객체에 속성 기술자를 통하여 name 속성을 정의하면서 configurable 속성을 false로 하였다.<br>
+      configurable이 false라서 delete를 통하여 name 속성을 지우려고 하면 해당 속성이 지워지지 않고 false가 리턴된다. <br>
+      37라인에서 지워지지 않은 것을 확인하기 위해 콘솔에 출력하는데, 결과를 보면 이전과 동일하게 name 속성에 jeado가 할당된 것을 확인할 수 있다.<br>
+      그리고 새롭게 name 속성을 속성 기술자로 재정의하려면 configurable이 false이기 때문에 에러가 발생하는 것을 확인 할 수 있다. <br><br>
+  - Object.defineProperty -> 데이터 정보 정의, 데이터에 접근하는 방법 정의를 할 수 있다. (get, set 함수를 통해 할 수 있다.)
 
 
 
