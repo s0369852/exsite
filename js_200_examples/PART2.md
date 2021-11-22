@@ -1254,12 +1254,218 @@ console.log(user[symbolProperties[0]])  // korean
       37라인에서 지워지지 않은 것을 확인하기 위해 콘솔에 출력하는데, 결과를 보면 이전과 동일하게 name 속성에 jeado가 할당된 것을 확인할 수 있다.<br>
       그리고 새롭게 name 속성을 속성 기술자로 재정의하려면 configurable이 false이기 때문에 에러가 발생하는 것을 확인 할 수 있다. <br><br>
   - Object.defineProperty -> 데이터 정보 정의, 데이터에 접근하는 방법 정의를 할 수 있다. (get, set 함수를 통해 할 수 있다.)
+<br><br>
 
+### 46. Get, Set을 통한 속성 접근 관리하기
+- 객체의 속성에 접근하여 값을 가져오거나 대입할 때 get 함수와 set 함수를 통해 속성 접근을 관리하는 방법.
+<br><br>
 
+```js
+  let user = {}
+  Object.defineProperty(user, "age", {
+    get: function() {
+      return this._age
+    },
+    set: function(age) {
+      if (age < 0) {
+        console.log('0보다 작은 값은 올 수 없습니다.')
+      } else {
+        this._age = age
+      }
+    },
+    enumerable: true
+  })
+  user.age = 10
+  console.log(user.age) // 10
+  user.age = -1 // 0보다 작은 값은 올 수 없습니다.
 
+  let user2 = {
+    get name(){
+      return this._name
+    },
+    set name(val) {
+      if (val.length < 3) {
+        throw new Error('3자 이상이어야 합니다.')
+      }
+      this._name = val
+    }
+  }
+  user2.name = 'harin'
+  console.log(user2.name) // harin
+  user2.name = 'ha' // 3자 이상이어야 합니다. 
+```
 
+-  해설
+  * 1~14 : 속성 기술자를 통해 user 객체의 age 속성을 정의한다. <br>
+    이때 <b>값에 접근하는 방식을 정의하는 객체를 전달하는데 이 객체</b>를 <b style="color: coral">접근 기술자</b>(Accessor Descriptor)라 하고, <b style="color: coral">get</b>과 <b style="color: coral">set</b>을 메소드로 가진다.<br>
+    age 속성의 접근 기술자의 <b style="color: coral">get 메소드는 속성에 접근할 때 호출</b>된다. <br>
+    그리고 <b style="color: coral">set 메소드는 속성에 값을 대입할 때 호출</b>한다.
 
+  * 3~5 : get 메소드는 속성에 접근할 때 호출된다. <br>
+  그래서 user.age에 접근하면 user._age의 결과를 반환한다.
 
+  * 6~11 : set 메소드는 속성에 값을 대입할 때 호출된다. <br>
+    그래서 user.age에 값을 할당할 때 0보다 작은 값을 주면 에러 로그를 출력하고 0보다 큰 값을 주었을 때 user 객체의 _age 속성에 값을 대입한다. 
+
+  * 15~16 : user.age 값 10을 대입한다. 그러면 age 속성 접근 기술자의 set 메소드가 호출되고, user 객체의 _age 속성에 값 10이 할당된다.<br> 
+  그리고 user.age 결과를 콘솔에 출력하는데 이때 접근 기술자의 get 메소드가 호출되면서 _age 속성값인 10을 반환한다.
+
+  * 17 : user.age에 값 -1을 대입한다. 접근 기술자의 set 메소드가 호출되면서 if(age < 0)에 의해 콘솔에 에러가 출력된다.
+
+  * 19~29 : user2 객체를 정의할 때 name 속성의 접근 기술자를 정의한다. <br>
+  객체를 정의할 때 메소드를 정의하는 <b style="color: coral">메소드명 앞에 get과 set으로 각각의 get 메소드와 set 메소드를 정의할 수 있다.</b>
+
+  * 30~32 : user2 객체의 name 속성에 값을 할당할 때 접근 기술자의 set 메소드가 호출된다. <br>
+  마지막 라인에서 'ha'룰 할당하면 글자수가 3자 이상이 되진 안항 콘솔에 에러가 출력된다. 
+
+- 속성 이름에 _를 붙이는 것은 암묵적 비공개(Private) 속성임을 나타낸다. <br>
+  JS 객체는 속성 접근 제한자가 없어서 모든 속성은 공개(Public)이다. 그래서 대체로 이름 규칙을 통해 비공개임을 나타낸다.
+<br><br>
+
+### 47. 화살표 함수 이해하기
+- ES6에서는 기존 함수를 간결하게 표현할 수 있고 기능이 개선된 화살표 함수가 추가됨.
+- 화살표 함수는 `function` 키워드를 사용하지 않고 화살표 모양의 `=>` 연산자를 이용하여 정의한다. 화살표 함수를 정의할 때는 몇가지 규칙이 있다. 
+- * <b style="color: coral">매개변수가 하나</b>일 경우에는 <b style="color: coral">인자를 정의할 때 괄호를 생략</b>할 수 있다.
+  * <b style="color: coral">매개변수가 없거나 둘 이상일 경우 괄호를 작성</b>해야 한다. 
+  * 화살표 함수 코드 블록을 지정하지 않고 한 문장으로 작성 시 return 문을 사용하지 않아도 <b style="color: coral">화살표 오른쪽 표현식의 계산 결과값이 반환</b>된다. 
+  * <b style="color: coral">화살표 함수 코드 블록을 지정했을 경우 반환하고자 하는 값에 return 문을 작성해야 한다.</b><br> return 문이 없을 시 undefined가 반환된다. 
+
+```js
+  const double = x > x + x
+  console.log(double(2))  // 4
+
+  const add = (a, b) => a + b
+  console.log(add(1,2)) // 3
+
+  const printArguments = () => {
+    console.log(arguments)  // Uncaught ReferenceError: arguments is not defined
+  }
+  printArguments(1, 2, 3) 
+
+  const sum = (...args) => {
+    let total = 0
+    for (let i = 0; i < args.length; i++) {
+      total += args[i]
+    }
+    return total
+  }
+  console.log(sum(1, 2, 3)) // 6
+
+  setTimeout(() => {
+    console.log('화살표 함수!') // 화살표함수!
+  }, 10)
+```
+<br><br>
+
+-  해설
+-   * 1~2 : 매개변수 x를 전달 받아 x + x 결과를 반환하는 화살표 함수를 정의하고 double 변수에 할당한다. double(2)는 2 + 2 결과인 4가 반환되고, console.log에 전달하여 4가 출력된다. <br><br>
+    
+    * 4~5 : a와 b 두 매개변수를 가지는 화살표 함수를 정의하였다. <br>
+      그래서 매개변수에는 괄호를 사용하였고, 코드 블록은 한문장이기 때문에 두 매개변수 합의 결과값이 반환된다. <br><br>
+
+    * 7~10 : 아무런 매개변수를 정의하지 않았기 때문에 괄호로 빈 매개변수를 표현한다. <br>
+      화살표 함수 코드 블록을 작성하고 내부에 arguments 객체를 콘솔에 출력한다.<br> return문이 없기 때문에 반환값은 없다.<br>
+      10라인에서 인자로 1, 2, 3을 전달하면서 정의된 화살표 함수를 호출하지만, 콘솔에는 Uncaught ReferenceError 에러가 발생한다.<br>
+      <b style="color: coral">화살표 함수는 기본 함수와 다르게 arguments 객체가 만들어지지 않아 에러가 발생하게 된다.</b> <br><br>
+
+    * 12~19 : 전달받은 인자들의 합을 구하는 화살표 함수를 정의한다. <br>
+      arguments 객체 대신 나머지 연산자를 통하여 매개변수를 정의한다. <br>
+      args는 전달받은 인자 목록을 배열로 사용할 수 있다. <br>
+      그리고 화살표 함수 <b style="color: coral">코드 블록에 대괄호를 사용하였기 때문에 return 문을 작성하여 반환값을 명시</b>한다. <br><br>
+
+    * 21~23 : <b style="color: coral">화살표 함수 또한 함수의 인자로 전달 가능</b>하다. <br>
+      setTimeout 함수의 인자로 화살표 함수가 전달되고 이때 매개변수가 없어 괄호를 작성해 준다. 
+<br><br>
+
+### 48. 자바스크립트 객체지향 프로그래밍 이해하기
+- 자바스크립트에서 객체지향 프로그래밍을 어떻게 지원하는가?
+- 객체지향 프로그래밍이란, <b style="color: coral">프로그램을 객체들로 구성하고 객체들 간에 서로 상호작용하도록 작성하는 방법</b>이다.<br>
+  그러면 객체에 대해 다시 정의할 필요가 있다. <br>
+  "객체 이하히기"에서 객체 값들을 그룹으로 묶은 데이터 모음이라고 소개를 했다. <br>
+  하지만 객체지향에서 객체란, 식별 가능한 구체적인 사물 또는 추상적인 개넘이라고 정의한다.<br>
+  그리고 객체는 <b style="color: coral">특징적인 행동</b>과 <b style="color: coral">변경 가능한 상태</b>를 가진다.<br>
+  자바스크립트에서는 <b style="color: coral">함수 값으로 가지는 속성을 메소드</b>라고 하는데, 이 메소드를 특징적인 행동이며, 그 외에 다른 값들은 변경 가능한 상태라 볼 수 있다.
+- 자바스크립트의 객체를 객체지향에서 말하는 객체로 사용하려면 코드를 작성하는 프로그래머가 그에 맞게 작성해야 한다. 단순히 객체를 정의하였다고 객체지향 프로그래밍을 하는것은 아니다.
+<br><br>
+
+```js
+  const teacherJay = {
+    name: '제이',
+    age: 30,
+    teachJavascript: function(student) {
+      student.gainExp()
+    }
+  }
+
+  const studentBbo = {
+    name: '뽀',
+    age: 20, 
+    exp: 0,
+    gainExp: function(){
+      this.exp++
+    }
+  }
+  console.log(studentsBbo.exp)  // 0
+  teacherJay.teachJavascript(studentBbo)
+  console.log(studentBbo.exp)  // 1
+```
+- 해설
+- * 1~7 : 제이 선생을 객체로 표현한다. 제이 선생은 이름과 나이를 속성으로 가지고 있고 자바스크립트를 가르치는 행위를 한다. teachJavascript 메소드는 학생을 매개변수로 정의하고 있다. <br>
+  즉, teachJay 객체는 student 객체를 사용한다. <b style="color: coral">객체지향에서는 객체들이 서로 의사소통을 하게 되는데, 메소드를 통해 서로 메시지를 전달</b>한다. <br>
+  그리고 객체지향에서는 협력하지 않는 객체란 존재하지 않는다. 이때 협력은 메시지 전달을 통해 이루어 진다.<br><br>
+
+  * 9~16 : 뽀 학생을 객체로 표현한다. 뽀 학생은 이름과 나이 그리고 경험치를 상태로 가지고 있다. 그리고 경험치를 얻는 행위를 한다. 이 행위를 통해 내부 상태인 경험치를 변경 시킬 수 있다. <br><br>
+
+- 객체지향에서는 무수히 많은 객체들을 <b style="color: coral">공통적인 특성을 기준으로 객체를 묶어서 하나의 타입으로 정의한다.</b> <br>
+  이렇게 <b style="color: coral">타입을 정의하는 작업을 분류(classification)라고 하며</b>, 이는 일종의 추상화를 하는 것이다. <br>
+  예를 들어 세상에는 자바스크립트를 가르치는 많은 선생이 존재하고, 제이도 그 중의 일부 객체이다. <br>
+  이떄 우리는 자바스크립트 선생이란 타입을 분류하고 모든 자바스크립트 선생은 자바스크립트를 가리키는 공통 특징이 있다고 정의할 수 있다.
+
+- 자바스크립트는 프로토타입 기반으로 객체지향 프로그래밍을 지원한다. <br>
+  자바의 클래스 기반 과의 큰 차이점으로 <b style="color: coral">프로토타입으로 객체에 공통 사항을 적용할 수 있다.</b><br>
+  즉, 모든 객체는 다른 객체의 <b style="color: coral">원형(Prototype)</b>이 될 수 있다. <br>
+  특징을 묘사하는 원형 객체를 만들고 이 원형객체에 기반하는 여러 객체들을 만들면 모두 같은 특징을 가질 수 있다. 
+
+```js
+  const studentProto = {
+    gainExp: function(){
+      this.exp++
+    }
+  }
+
+  const harin =  {
+    name: '하린',
+    age: 10,
+    exp: 0,
+    __proto__: studentProto
+  }
+
+  const bbo = {
+    name: "뽀",
+    age: 20,
+    exp: 10,
+    __proto__: studentProto
+  }
+
+  bbo.gainExp() // 11
+  harin.gainExp() // 1
+  harin.gainExp() // 2
+  console.log(harin)  // {name: 하린, age: 10, exp: 2}
+  console.log(bbo)  // {name: 뽀, age: 20, exp: 11}
+```
+
+- 해설
+- * 1~5 : 학생의 경험치를 얻는 행위를 gainExp 메소드로 작성한 원형(prototype)객체를 정의한다. <br><br>
+  * 7~12 : 이름이 하린이고 나이와 경험치를 가지는 harin 객체를 정의한다. <br>
+  그리고 자바스크립트에서는 `__proto__` 속성으로 원형 객체를 정의할 수 있다.<br>
+  <b style="color: coral">모든 자바스크립트 객체는 `__proto__`속성을 가지는데 예제 코드에서 처럼 별로로 `__proto__`속성에 다른 객체를 할당하지 않으면 기본적으로 Object.prototype 객체가 연결되어 있다.</b> <br>
+  harin객체는 `__proto__` 속성에 studentProto 객체를 연결했기 때문에 경험치를 얻는 행위가 가능하게 된다. <br><br>
+  * 14~19 : 앞에서 정의한 harin 객체와 유사한 bbo 객체를 정의한다.<br>
+    같은 속성 키를 가지지만 다른 값을 가진다. 이름도 뽀이고 나이와 경험치도 다르다. <br>
+    하지만 bbo 객체 또한 `__proto__`속성에 studentProto 객체를 할당함으로써 경험치를 얻는 행위를 할 수 있다. <br><br>
+  * 21~23 : harin 객체와 bbo 객체 모두 경험치를 얻는 행위를 할 수 있다. <br>
+    두 객체 모두가 공통된 경험치를 얻는 행위가 가능하다. 왜냐하면 모두 같은 원형 객체에 연결되어 있기 때문이다. 그래서 두 객체는 학생 타입이라 할 수 있다. <br>
+    그리고 경험치를 한 행위 때문에 변경된 상태를 콘솔에 출력한다. 
 
 
 
