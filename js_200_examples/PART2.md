@@ -1466,9 +1466,73 @@ console.log(user[symbolProperties[0]])  // korean
   * 21~23 : harin 객체와 bbo 객체 모두 경험치를 얻는 행위를 할 수 있다. <br>
     두 객체 모두가 공통된 경험치를 얻는 행위가 가능하다. 왜냐하면 모두 같은 원형 객체에 연결되어 있기 때문이다. 그래서 두 객체는 학생 타입이라 할 수 있다. <br>
     그리고 경험치를 한 행위 때문에 변경된 상태를 콘솔에 출력한다. 
+  <br><br>
 
+### 49. 생성자 함수 이해하기
+- 객체를 생성하는 생성자 함수를 정의하고 사용하는 법을 배운다.
 
+- JS 함수는 재사용 가능한 코드의 묶음으로 사용하는 것 외에 객체를 생성하기 위한 방법으로도 사용된다. <br>
+  객체를 생성하기 위해 직접적으로 객체를 반환해도 되지만, <b style="color: coral">new 키워드를 사용하여 함수를 호출하게 되면 return 문이 없어도 새로운 객체가 반환된다.</b> <br>
+  그리고 함수 바디에서 <b style="color: coral">this</b> 키워드를 사용하여 반환되는 객체의 초기 상태와 행위를 정의할 수 있다.<br>
 
+- <b style="color: coral">객체를 생성하는 역할</b>을 하는 함수를 생성자 함수라고 하는데 <b style="color: coral">생성자 함수는 new 키워드를 사용하지 않으면 일반적인 함수와 동일하게 동작하며 새로운 객체를 반환하지 않는다.</b><br>
+  그렇기 때문에 함수명을 대문자로 시작하는 관례를 가진다.
+
+- 객체에 타입이 적용되면 해당 객체는 그 타입의 <b style="color: coral">인스턴스</b>라고 부른다.<br>
+  <b>생성자 함수는 새로운 타입을 정의하는데 사용</b>된다. <br>
+  그래서 <b style="color: coral">new 키워드로 만들어진 객체는 해당 타입의 인스턴스</b>가 된다.
+
+```js
+function Teacher(name, age, subject) {
+  this.name = name
+  this.age = age
+  this.subject = subject
+  this.teach = function (student) {
+    console.log(student + '에게' + this.subject + '를 가르칩니다.')
+    // bbo에게 JavaScript를 가르칩니다.
+  }
+}
+
+const jay = new Teacher('jay', 30, 'JavaScript')
+console.log(jay)
+// Teacher {name: "jay", age: 30, subject: "JavaScript", teach: f}
+jay.teach('bbo')
+
+console.log(jay.constructor)
+/**
+ * f Teacher(name, age, subject){
+ *  this.name = name
+ *  this.age = age
+ *  this.subject = subject
+ *  this.teach = function(student) {
+ *    console.log(student + '에게' + this.subject + '를 가르칩니다.')
+ *  }
+ * }
+*/
+console.log(jay instanceof Teacher) // true
+
+const jay2 = Teacher('jay', 30, 'JavaScript')
+console.log(jay2) // undefined
+console.log(age)  // 30
+```
+
+- 해설
+  * 1~8 : Teacher 생성자 함수를 정의. 매개변수로 name, age, subject를 정의하고 전달받은 매개변수들의 값을 this 속성으로 대입한다. 그리고 teach 메소드를 정의한다. 
+  <br><br>
+  * 10 : <b style="color: coral">new 키워드와 함께 생성자 함수를 호출하면 생성자 함수 블록이 실행되고 별도의 return문이 없어도 새로운 객체가 반환된다.</b> 이때 <b>반환되는 새로운 객체를 가리키는 것이 <b style="color: coral">this</b>다.</b> 그래서 jay 변수에 반환된 객체가 할당된다. 
+  <br><br>
+  * 11~12 : Teacher 타입의 객체를 콘솔에 출력한다. 그리고 해당 객체의 teach 메소드를 호출한다. 콘솔에 "bbo에게 JavaScript를 가르칩니다."가 출력되는 것을 확인할 수 있다.
+  <br><br>
+  * 14~15 : <b style="color: coral">모든 객체는 constructor 속성을 가진다.</b> 이 속성은 객체를 만든 생성자 함수를 가리킨다. 그렇기 때문에 jay 객체의 constructor 속성은 Teacher 생성자 함수를 가리키고 콘솔에 해당 내용이 출력된다. 그리고 <b style="color: coral">instanceof</b> 연산자를 이용하여 jay 객체가 Teacher <b style="color: coral">생성자 함수의 인스턴스 여부를 확인</b>할 수 있다. <br><br>
+  * 17~19 : <b>new 키워드를 빼고 Teacher 생성자 함수를 호출한다. 이때 생성자 함수의 <b style="color: coral">this는 전역 객체를 가리키게 된다.</b></b> 전역 객체에 name과 age 그리고 subject 속성으로 전달받은 매개변수가 할당된다. 그래서 전역 변수의 age를 참조해 콘솔에 30이 출력된다. 그리고 새로운 객체가 반환되지 않아 jay2는 undefined가 출력된다.
+<br><br>
+
+- 생성자 함수의 new 호출을 통한 객체 생성 과정은 다음과 같다. 
+1. 빈 객체를 만든다.
+2. 만든 빈 객체를 this에 할당한다.
+3. 생성자 함수 바디의 코드를 실행한다. (this에 속성 및 메소드 추가)
+4. 만든 빈 객체의 `__proto__`에 생성자 함수의 prototype 속성을 대입한다.
+5. this를 생성자의 반환값으로 변환한다. 
 
 
 
