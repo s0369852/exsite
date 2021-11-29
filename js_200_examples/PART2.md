@@ -1533,7 +1533,108 @@ console.log(age)  // 30
 3. 생성자 함수 바디의 코드를 실행한다. (this에 속성 및 메소드 추가)
 4. 만든 빈 객체의 `__proto__`에 생성자 함수의 prototype 속성을 대입한다.
 5. this를 생성자의 반환값으로 변환한다. 
+<br><br>
 
+### 50. 프로토타입 기반 상속 이해하기
+- JS 프로토타입 기반의 상속에 대해 배운다.
+- JS에서 생성자 함수로부터 만들어진 객체는 그 생성자 함수의 프로토타입(Prototype)객체를 상속한다.<br>
+  즉, 모든 인스턴스는 해당 생성자 함수의 프로토타입 객체의 속성과 메소드들을 사용할 수 있다.
+- JS에서 모든 함수는 prototype 속성으로 프로토타입 객체를 가진다.<br>
+  그리고 "객체지향 프로그래밍" 예제에서 본 것과 같이 모든 객체는 `__proto__`속성을 가지는데, `__proto__`속성은 해당 객체를 생성한 생성자 함수의 protorype 객체를 가리킨다.<br>
+  그래서 생성자 함수를 통해서 타입을 정의할 수 있다.
+  <br><br>
+
+```js
+  function Storage() {
+    this.dataStore = {}
+  }
+  Storage.prototype.put = function(key, data) {
+    this.dataStore[key] = data
+  }
+  Storage.prototype.getData = function(key) {
+    return this.dataStore[key]
+  }
+
+  const productStorage = new Storage()
+  productStorage.put('id001', {name: '키보드', price: 2000})
+  console.log(productStorage.getData('id001')) // {name: "키보드", price: 2000}
+
+  function RemovableStorage() {
+    Storage.call(this)
+  }
+  RemovableStorage.prototype = Object.create(Storage.prototype)
+  RemovableStorage.prototype.removeAll = function() {
+    this.dataStore = {}
+  }
+  const productStorage2 = new RemovableStorage()
+  productStorage2.put('id001', {name: '키보드', price: 2000})
+  productStorage2.removeAll()
+  const item2 = productStorage2.getData('id001')
+  console.log(item2)  // undefine
+```
+- 해설
+  * 1~3 : Storage 생성자 함수를 정의한다. 내부 속성으로 dataStore를 가지고 빈 객체를 할당한다. 
+  * 4~6 : Storage 생성자 함수의 프로토타입 객체에 put 메소드를 추가한다. put 메소드는 주어진 키에 해당하는 값을 dataStore 속성에 할당한다. 
+  * 7~9 : Storage 생성자 함수의 프로토타입 객체에 getData 메소드를 추가한다. getData 메소드는 매개변수의 값을 키로 해서 dataStore 속성에서 찾아 반환한다.
+  * 11~12 : Storage 타입의 인스턴스를 생성하면 인스턴스는 해당 생성자 함수의 프로토타입을 상속한다. 그래서 Storage 생성자 함수의 프토로 타입에 정의된 메소드들을 해상 인스턴스들은 사용할 수 있다.
+  * 15~17 : RemovableStorage 생성자 함수를 정의한다. 이때 Storage 함수를 호출하면서 this를 전달하는데 이렇게 되면 Storage 생성자 함수가 호출되면서 RemovableStorage 생성자 함수의 this에 Storage 생성자 함수에서 정의한 대로 dataStore가 속성으로 추가된다. 
+  * 18~21 : Object.create 메소드는 주어진 인자를 `__proto__`에 연결한 새로운 객체를 반환한다. Object.create를 이용하면 간단히 상속 관계를 형성할 수 있다. RemovableStorage.prototype에 Object.create(Storage.prototype)를 할당하면 Storage 함수의 프로토타입 객체가 RemovableStorage 함수의 프로토타입 객체의 `__proto__`에 할당된다. 그러면 두 프로토타입이 상속 관계를 형성하게 된다. 그리고 RemovableStorage 생성자 함수의 프로토타입 객체에 removeAll 메소드를 추가한다. 
+  * 22~26 : RemovableStorage 생성자 함수에 의해 만들어지는 인스턴스들은 내부에 없는 메소드를 RemovableStorage 생성자 함수의 프로토타입에서 먼저 찾고, 없으면 Storage 생성자 함수의 프로토타입에서 찾게 된다. 나아가 Object.prototype에서까지 찾게 된다. 이렇게 프로토타입 객체가 서로 연결되어 있다 하여 이를 <b style="color: coral">프로토타입 체인</b>이라고 한다. 다음은 각 생성자 함수의 프로토타입이 연결된 형태를 보여준다.  
+  <br><br>
+
+  ### 51. 클래스 정의하기
+  - ES6에서 추가된 class 키워드를 통해 클래스를 어떻게 정의하고 사용하는지 알아봅니다.
+  <br><br>
+  - ES6부터 class 키워드를 통해 클래스를 정의할 수 있다. <br>
+    <b style="color: coral">클래스</b>는 별도 타입의 객체를 생성하는 <b style="color: coral">설계 도면</b>이라 볼 수 있다. 예를 들어, 붕어빵 틀은 붕어빵을 만들기 위한 틀이라고 볼 수 있는데, 여기서 붕어빵은 객체이고 붕어빵 틀이 클래스라고 볼 수 있다.
+  <br><br>
+  - <b style="color: coral">클래스를 통해 객체가 가져야 할 상태와 행위들을 속성과 메소드로 정의할 수 있다.</b> 예를들어, 카트 객체들은 상품을 추가할 수 있어야 하고, 상품 아이디에 따라 상품을 반환해야 한다. 이러한 카트 객체들의 특성을 카트 클래스로 정의하고 해당 클래스에서 만들어진 객체들은 모두 이러한 행위를 할 수 있게 된다. 
+  <br><br>
+  - 카트 클래스에서 만들어진 객체들을 카트 인스턴스라고 한다. <b style="color: coral">즉, 특정 클래스를 통해 만들어진 객체를 해당 클래스의 인스턴스라고 한다.</b> 
+  <br><br>
+
+```js
+  class Cart {
+    constructor() {
+      this.store = {}
+    }
+
+    addProduct(product) {
+      this.store[product.id] = product
+    }
+
+    getProduct(id) {
+      return this.store[id]
+    }
+  }
+
+  const cart1 = new Cart()
+
+  cart1.addProduct({id: 1, name: '노트북'})
+  console.log(cart1.store)  // {'1': {id: 1, name: '노트북'}}
+
+  const p = cart1.getProduct(1)
+  console.log(p)  // {id: 1, name: '노트북'}
+```
+- 해설
+  * class 키워드를 이용해서 Cart 클래스를 정의한다. 관례상 클래스 이름의 첫 글자는 대문자로 작성한다. 클래스를 정의할 때 클래스 명 이후로 중괄호가 오고 그 안을 클래스 몸통(Body)이라고 부른다.
+  <br><br>
+  * 2~4 : <b style="color: coral">클래스 몸통에는 생성자 함수를 작성할 수 있다.</b> constructor로 작성하고 매개변수도 정의 할 수 있다. 여기서는 아무런 매개변수를 정의하고 있지 않는다. <br>
+  ES6 이전의 생성자 함수와 같은 역할을 하지만 funciton 키워드가 없고 함수 이름이 constructor로 고정되었다고 볼 수 있다.<br>
+  <b style="color: coral">그리고 꼭 하나의 생성자만 정의할 수 있다.</b> 생성자는 new 키워드를 통해 객체가 생성될 때 호출된다. 여기서는 store 속성에 빈 객체를 추가한다. <br> 요약하면, <b style="color: coral">생성자 함수에서는 매개변수에서 전달받은 값을 속성으로 추가하거나, 속성의 초기값을 대입하는 초기화 과정을 주로한다.</b> 
+  <br><br>
+  * 6~12 : addProduct 메소드와 getProduct 메소드를 정의한다.<br> 
+    <b style="color:coral">메소드는 클래스가 생성한 객체를 통해 사용할 수 있다.</b> 17라인에서 cart1 인스턴스를 통해 addProduct를 호출하는 것을 볼 수 있다. 여기서는 전달받은 product 객체의 id를 store 객체의 키로 하여 객체 자체를 값으로 저장하고 있다.<br>
+    getProduct 메소드를 통해 전달받은 id 인자에 해당하는 product를 반환한다. 
+    <br><br>
+  * 15 : Cart 클래스를 new 키워드를 사용하여 객체를 생성한다. 이렇게 만들어진 인스턴스를 cart1변수에 할당한다. <br>
+  const를 통해 정의하기 때문에 cart1에는 다른 값을 대입할 수 없다. 
+  <br><br>
+  * 17~19 : cart1 인스턴스의 addProduct 메소드에 아이디가 1이고 이름이 "노트북"인 상품 객체를 전달하여 호출한다. 6~7라인에 정의한대로 store 속성에 1이라는 키에 해당 상품 객체가 값으로 추가된다.<br>
+  18라인에서 cart1의 store 속성을 출력하면 실제 추가된 내용이 콘솔에 출력되는 것을 볼 수 있다. 
+  <br><br>
+  * 20~21 : getProduct 메소드를 통해 아이디에 1에 해당하는 상품 객체를 반환 받는다. <br>
+  그리고 반환된 상품 객체의 내용을 확인하기 위해 콘솔에 출력한다.
 
 
 
