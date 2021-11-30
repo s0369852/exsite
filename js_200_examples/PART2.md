@@ -1635,7 +1635,133 @@ console.log(age)  // 30
   <br><br>
   * 20~21 : getProduct 메소드를 통해 아이디에 1에 해당하는 상품 객체를 반환 받는다. <br>
   그리고 반환된 상품 객체의 내용을 확인하기 위해 콘솔에 출력한다.
+  <br><br>
 
+### 52. 클래스 상속 이해하기
+- 클래스로 상속을 어떻게 할 수 있는지 배운다.
 
+```js
+class Chart {
+  constructor(width, height){
+    this.width = width
+    this.height = height
+  }
+
+  drawLine() {
+    console.log('draw line')
+  }
+}
+
+class BarChart extends Chart {
+  constructor(width, height) {
+    super(width, height)
+  }
+
+  draw() {
+    this.drawLine()
+    console.log(`draw ${this.width} X ${this.heihgt} barChart`)
+  }
+}
+
+const barChart1 = new BarChart(100, 100)
+barChart1.draw()
+// draw line
+// draw 100 X 100 barChart
+```
+
+- 해설
+  *  1~10 : 차트 클래스를 정의한다. drawLine 메소드를 통해 라인을 그리는데, 편의상 콘솔에서만 출력하도록 작성되었다.
+  <br><br>
+  * 12~15 : 차트 클래스를 상속하는 바차트 클래스를 정의한다.<br> 
+  <b style="color: coral">클래스의 상속은 extends 키워드를 사용</b>한다.<br>
+  상속을 하게 되면 생성자 함수에서 <b style="color: coral">상속한 부모 클래스의 생성자를 호출해야 하는데 이때 super 키워드를 사용</b>한다.<br>
+  즉, super가 부모 생성자 함수를 가리킨다.
+  <br><br>
+  * 17~20 : 상속을 했기 때문에 부모 클래스에 정의된 메소드를 사용할 수 있다. 
+  <br><br>
+  * 23~24 : 바차트 클래스의 인스턴스를 만들고 draw 메소드를 호출합니다. 부모 클래스인 차트 클래스의 생성자 함수가 호출되어 width와 height 속성에 주어진 값이 할당되고, 부모 클래스에 정의된 drawLine 메소드도 잘 호출되는 것을 확인할 수 있다.
+  <br><br>
+  * ES6의 클래스를 통한 상속은 앞에서 배운 생성자 함수의 프로토타입 기반의 상속과 크게 다르지 않다. JS는 새로운 기능이 추가되면 하위 버전의 코드로 변환이 되어야 한다. 그래서 <b style="color: coral">ES6의 클래스는 생성자 함수로 변환</b>되고, <b style="color:coral">extends 키워드의 상속은 prototype 기반 상속 코드로 변경</b>될 수 있다. <b style="color: coral">JS는 여전히 프로토타입 기반의 상속</b>임을 알아햐 한다.
+<br><br>
+
+### 53. 클래스 정적 메소드와 속성 정의하기
+- <b style="color: coral">일반적인 메소드는 해당 클래스의 인스턴스를 통해 호출</b>한다.<br> 
+반면 <b>정적 메소드는 클래스를 통해 직접 호출하는 메소드</b>를 말한다. 클래스에서 정적 메소드는 <b style="color: coral">static 키워드를 사용</b>하여 정의한다. 
+<br><br>
+
+```js
+  class Product {
+    static build(name, price) {
+      const id = Math.floor(Math.random() * 1000)
+      return new Product(id, name, price)
+    }
+
+    static getTaxPrice(product) {
+      return (product.price * 0.1) + product.price
+    }
+
+    constructor(id, name, price) {
+      this.id = id
+      this.name = name
+      this.price = price
+    }
+  }
+
+  class DeposableProduct extends Product {
+    depose() {
+      this.depose = true
+    }
+  }
+
+  const gum = Product.build('껌', 1000)
+  console.log(gum)  // Product {id: 420, name: '껌', price: 1000}
+
+  const clothes = new DeposableProduct(1, '옷', 2000)
+  const taxPrice = DeposableProduct.getTaxPrice(clothes)
+  console.log(taxPrice) // 2000
+```
+- 해설
+  * 1~5 : static 키워드를 사용하여 build 정적 메소드를 정의한다. build 정적 메소드를 정의할 때 Math.random 함수를 사용하는데 Math.random 함수를 호출하면 0부터 1까지의 난수가 반환된다.<br>
+  반환된 값에 1000을 곲하고 그 결과를 Math.floor 함수의 인자로 전달하면 소수점을 버려서 0부터 1000의 난수 값을 얻을 수 있다. build 정적 메소드는 난수를 아이디로 하는 상품 인스턴스를 반환한다.
+  <br><br>
+  * 7~8 : 세금을 계싼하여 반환하는 getTaxPrice 정적 메소드를 정의한다.
+  <br><br>
+  * 11~15 : 상품 클래스의 생성자 함수를 정의한다.
+  <br><br>
+  * 18~22 : 폐기가 가능한 상품 클래스를 정의한다. DeposableProduct 클래스는 상품 클래스를 상속한다. <b style="color: coral">생성자 함수의 prototype 기반 상속과는 다르게 클래스로 상속을 하게 되면 정적 메소드 또한 상속하게 된다.</b>
+  <br><br>
+  * 24~25 : Product 클래스의 build 정적 메소드를 호출한다. 랜덤하게 아이디가 부여된 이름이 "껌"인 상품 인스턴스가 반환되고 콘솔에 인스턴스를 출력한다. 
+  <br><br>
+  * 27~29 : DeposableProduct 인스턴스를 생성한다. DeposableProduct 클래스에서 getTaxPrice 정적 메소드를 정의하지 않았지만 Product 클래스를 상속하였기 때문에 호출이 가능하다.
+<br><br>
+- 클래스를 정의할 때 정적 속성 또한 <b style="color: coral">static</b> 키워드와 <b style="color: coral">get</b> 키워드를 통해 정의할 수 있다.
+<br><br>
+
+```js
+  class ProductWithCode {
+    static get CODE_PREFIX() {
+      return "PRODUCT-"
+    }
+
+    constructor(id) {
+      this.id
+      this.code = ProductWithCode.CODE_PREFIX + id
+    }
+  }
+
+  const product1 = new ProductWithCode('001')
+  console.log(ProductWithCode.CODE_PREFIX) // PRODUCT-
+  console.log(product1.code)  // PRODUCT-001
+```
+- 해설
+  * 1~4 : ProductWithCode 클래스를 정의하면서 codePrefix 정적 속성을 정의한다.<br>
+    물론 클래스 몸통 블록 밖에서 ProductWithCode.CODE_PREFIX = "PRODUCT-"로 정의할 수 있다. 하지만 <b style="color: coral">코드의 가독성을 높이려면 몸통 안에서 정의하는 것이 좋다.</b><br>
+    위 코드처럼 몸통 안에서 <b style="color: coral">static get</b> 키워드를 통해 정의한다.
+  <br><br>
+  * 6~10 : ProductWithCode 클래스의 생성자 함수를 정의한다. 이때 코드 속성을 정의하는데 ProductWithCode.CODE_PREFIX와 id의 조합으로 정의한다.
+  <br><br>
+  * 12~14 : ProductWithCode 클래스의 인스턴스를 생성한다. 그리고 해당 인스턴스의 code값과 ProductWithCode 클래스의 CODE_PREFIX 정적 속성을 콘솔에 출력한다.
+
+  
 
 
