@@ -1761,7 +1761,147 @@ barChart1.draw()
   * 6~10 : ProductWithCode 클래스의 생성자 함수를 정의한다. 이때 코드 속성을 정의하는데 ProductWithCode.CODE_PREFIX와 id의 조합으로 정의한다.
   <br><br>
   * 12~14 : ProductWithCode 클래스의 인스턴스를 생성한다. 그리고 해당 인스턴스의 code값과 ProductWithCode 클래스의 CODE_PREFIX 정적 속성을 콘솔에 출력한다.
+<br><br>
 
+### 54. this 이해하기 
+- JS에서 this 키워드가 사용 방법에 따라 어떤 값을 반환하는지 살펴본다.
+<br><br>
+- this는 함수가 어떻게 호출되는지에 따라 동적으로 결정된다. this의 주요 목적은 작성된 코드를 여러 목적으로 재사용하기 위해 존재하는데, 호출되는 방식에 따라 동적으로 결정되어 간혹 잘못된 코드를 작성할 수 있다. 
+<br><br>
+- this는 전역에서 사용할 수도 있도 함수 안에서도 사용할 수 있다. <br>
+  하지만 <b style="color: coral">함수는 객체 안에 메소드로 정의</b>될 수도 있고 <b style="color: coral">생성자 함수</b>로 사용될 수도 있고 <b style="color: coral">특정 로직을 계산하여 값을 반환하는 목적</b>으로 사용할 수도 있다. 
+<br><br>
+- 이렇게 함수가 다양하게 사용되다 보니 this도 각 함수별로 다르게 해석된다. <br>
+  물론 화살표 함수에서의 this도 다르게 해석된다. 그리고 class 안에서 사용되는 this는 생성자 함수와 동일하다.
+<br><br>
+
+```js
+  this.valueA = "a"
+  console.log(valueA) // a
+  valueB = "b"  // b
+  console.log(this.valueB)
+
+  function checkThis() {
+    console.log(this) // window
+  }
+
+  function checkThis2() {
+    "use strict"
+    console.log(this) // undefined
+  }
+  checkThis()
+  checkThis2()
+
+  function Product(name, price) {
+    this.name = name;
+    this.price = price;
+  }
+
+  const product1 = Product('가방', 2000)
+  console.log(window.name)  // 가방
+  console.log(window.price) // 2000
+
+  const product2 = {
+    name: '가방2',
+    price: 3000,
+    getVAT() {
+      return this.price / 10;
+    }
+  }
+  const valueOfProduct2 = product2.getVAT()
+  console.log(valueOfProduct2)  // 300
+
+  const calVAT = product2.getVAT
+  const VAT2 = calVAT()
+  console.log(VAT2) // 200
+
+  const newCalVAT = calVAT.bind(product2)
+  const VAT3 = newCalVAT()
+  console.log(VAT3) // 300
+
+  const counter1 = {
+    count: 0,
+    addAfter1Sec() {
+      setTimeout (function() {
+        this.count += 1;
+        console.log(this.count) // NaN
+      }, 1000)
+    }
+  }
+  counter1.addAfter1Sec()
+
+  const counter2 = {
+    count: 0,
+    addAfter1Sec() {
+      setTimeout(() => {
+        this.count += 1;
+        console.log(this.count) // 1
+      }, 1000)
+    }
+  }
+  counter2.addAfter1Sec()
+```
+- 해설
+   * 1~4 : 브라우저 환경에서 <b style="color: coral">this를 전역에서 사용하면 전역 객체인 Window 객체를 가리킵니다.</b> 그래서 valueA는 window.valueA로 해석되고 console.log(valueA)로 해석된다. 
+   <br><br>
+
+   * 6~14 : 함수에서 this를 사용하고 함수를 호출하면 this는 전역 객체인 Window를 가리킵니다. 하지만 <b style="color: coral">함수 내의 코드를 엄격한 모드로 실행하게 되면 this는 undefined</b>가 된다. <br>
+   엄격한 모드는 전역으로 모드를 지정하거나 함수 단위로도 지정할 수 있다.
+   <br><br>
+
+  * 16~22 : Product 함수는 <b style="color: coral">생성자 함수</b>로 작성되었다. 하지만 <b style="color: coral">new 키워드 없이 호출되면</b> 이때 <b style="color: coral">this는</b> 6라인과 동일하게 <b style="color: coral">전역 객체인 Window</b>를 가리킵니다.<br>
+  <b style="color: coral">new 키워드와 함께 호출하면 this는 그 객체를 가리킨다.</b> 
+  <br><br>
+
+  * 26~32 : 객체 내에 정의된 함수인 메소드 안에서 this를 사용하고 객체를 통해 메소드를 호출하면 this는 그 객체를 가리킨다. 
+  <br><br>
+
+  * 34~36 : 메소드 안에서 this를 정의했지만 메소드를 다른 변수에 저장라고 그 변수를 통해 호출하면 일반적인 함수 호출이 되어 this는 전역 객체를 가리킨다. <br>
+  <b style="color: coral">즉, 호출하는 시점에 점(.) 연산자와 함께 객체가 주어져야 메소드 안의 this가 호출의 주체인 객체가 된다.</b>
+  <br><br>
+
+  * 38~40 : <b style="color: coral">this는 bind 메소드를 통해 전달한 인자값으로 변경할 수 있다.</b><br>
+  this 외에 <b style="color: coral">call과 apply 메소드</b> 또한 this가 가리키는 값을 변경할 수 있다.
+  <br><br>
+
+  * 42~51 : <b style="color: coral">메소드 안에서 중첩 함수로 함수가 작성됐을 때 내부 함수의 this는 전역 객체를 가리킨다.</b> 그래서 1초 뒤 this.count는 window.count로 해석되어 undefined에 값을 더하려고 해서 NaN이 콘솔에 출력된다. 
+  <br><br>
+
+  * 화살표 함수와 bind가 JS에 추가되기 전에 대체로 this에 대한 레퍼런스를 다른 변수에 보관하였다가 내부 함수에서 그 변수를 참조하는 방식으로 메소드를 소유한 객체에 접근하였다.
+  <br><br>
+  ```js
+  const counter1 = {
+    count: 0,
+    addAfter1Sec() {
+      const me = this
+      setTimeout(function() {
+        me.count += 1;
+        console.log(this.count)
+      }, 1000)
+    }
+  }
+  counter1.addAfter1Sec()
+  ```
+  <br><br>
+
+  * 53~62 : <b style="color: coral">화살표 함수에서 this를 사용하면 this는 부모 환경의 this</b>를 가리킨다. <br>
+  그래서 중첩된 함수로 작성되었을 때 화살표 함수를 사용하면 화살표 함수는 부모 함수의 this와 같다.
+  <br><br>
   
+  * <b style="color:coral">화살표 함수에서 this는</b> 일반적인 this와 다르게 호출 시점에 동적으로 정의되는 것이 아니라 <b style="color:coral">코드를 작성하는 시점에 정적으로 결정된다.</b> <br>
+  <b style="color: coral">화살표 함수를 작성하는 시점의 부모 환경에서의 this로 정의되고 변경이 불가능하다.</b> 
+  <br>
+  즉, 다음과 같이 bind를 통해 this를 변경할 수 없다.  
+  <br><br>
+  ```js
+    const arrowFunc = () => {
+      console.log(this)
+    }
+    const nowArrowFunc = arrowFunc1.bind({d : 2})
+    nowArrowFunc()  // window 전역 객체가 콘솔에 출력된다. 
+  ```
+  <br><br>
+  * <b style="color: orange">Node.js에서는 전역에서 this를 통한 전역변수에 할당되지 않는다.</b>
+
 
 
