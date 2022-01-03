@@ -1941,8 +1941,168 @@ barChart1.draw()
 - namespaceA 자체는 전역으로 등록되기 때문에 여전히 이름 충돌이 발생할 수 있다. 그리고 즉각 호출 패턴을 통해 정의된 다른 모듈을 사용하는 것 또한 전역을 통해 가져오게 된다. <br>
   이러한 문제점을 해결하기 위해 ES6 이전에는 RequireJS를 통하여 모듈을 정의하였다. <br>
   ES6에서 모듈 시스템에 대한 표준이 정의되었기 때문에 RequireJS과 같은 별도의 라이브러리 필요없이 이러한 문제점을 해결할 수 있다.
-  <br><br>
+<br><br>
+
+### 56. 모듈 시스템 이해하기
+- ES6의 모듈은 JS코드를 담고 있는 하나의 파일
+- 하나의 파일이 하나의 모듈인 셈.
+- ES6의 모듈은 엄격한 모드의 코드
+- <b>import</b> & <b>export</b>
+- export -> 모듈 내의 특정 코드를 외부에서 사용할 수 있다.
+- import -> export한 코드들을 가지고 올 수 있다.
+
+```js
+// hello.js
+export function hello(name) {
+  console.log(`hello ${name}`)
+}
+```
+
+```js
+//  app.js
+import {hello} from './hello.js'
+
+hello('es6 module') // hello es6 module
+```
+
+- hello.js에서 hello 함수를 정의하고 이 함수를 export 키워드를 이용하여 외부에서 가져올 수 있게 내보냈다.
+- app.js에서는 hello.js의 hello 함수를 import 키워드를 이용하여 가지고 온다.
+- 이렇게 가져온 함수는 app.js 모듈 내에서 자유롭게 사용할 수 있다.
+- 내보낸(Export) 코드를 가져오면(Import) 두 모듈은 서로 의존하게 되어 <b style="color:coral">의존 관계 그래프가 형성</b>된다.
+- 의존 관계 그래프에서는 <b style="color:coral">최상의 루트</b>가 필요, 이 루트 모듈이 애플리케이션의 시작 지점이 된다.
+- 위 예제 코드에서는 app.js가 루트 모듈이라고 볼 수 있다.
+
+#### 실행 방법에 따른 두가지 분류
+1. <b style="color: coral">런타임 로딩(Runtime Loading)</b>
+- 의존 관계가 형성된 모듈들을 애플리케이션이 <b style="color: coral">구동 시점</b>에 <b style="color: coral">비동기 HTTP 요청으로 불러오고 실행된다</b>. 이때 모듈 로더가 필요한데 system.js나 require.js를 이용할 수 있다.
+- <b style="color: coral">system.js</b>는 다양한 모듈 형식을 지원하는 모듈 로더.
+- ES6 모듈 형식 외에 require.js, CommonJS 등 다양한 포맷을 지원한다. 뿐만 아니라 system.js 자체 포맷 또한 제공하고 있다.
+
+2. <b style="color: coral">번들링(Bundling)</b>
+- 의존 관계가 형성된 모듈들을 하나의 파일로 묶어준다. 그리고 애플리케이션이 구동할 때 묶여진 이 파일을 로드한다.
+- 번들링은 <b style="color: coral">개발 시점</b>에 이루어지게 되고 브라우저에서 이루어지지 않고 대체로 <b style="color: coral">node.js 환경에서 이루어지게 된다</b>.
+- 대표적인 모듈 번들로는 <b style="color: coral">웹팩(Webpack)</b>이 있다.
+- 웹팩은 모듈 번들러로 JS 코드 외에 CSS, 이미지, 폰트 등 다양한 자원들을 모듈화시켜 의존 관계 그래프를 형성, 병합된 파일들을 만들 수 있다.
+- node.js 플랫폼에서 동작하는 애플리케이션이고, 다양한 플러그인을 제공한다.
+- 크롬 61 버전부터 `<script type="module">`을 지원하면서 별도의 모듈 로더 없이 ES6 모듈을 사용할 수 있게 되었다. 
 
 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>Module Sample</title>
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+  </body>
+</html>
+```
+<br></br>
 
+### 57. 모듈 기본값 정의하고 가져오기
+- ES6 모듈 시스템에서는 <b style="color: coral">default</b> 키워드를 사용하여 모듈에서 기본으로 내보내는 값을 정의할 수 있다. 
+- <b style="color: coral">숫자</b>, <b style="color: coral">문자</b>, <b style="color: coral">불리언</b>과 같은 기본형 값
+- <b style="color: coral">객체</b>, <b style="color: coral">함수</b>, <b style="color: coral">클래스</b>와 같은 참조형 값
 
+```js
+// hello.js
+  export default 'hello'
+  export default function hello(name) {
+    console.log('hello' + name)
+  }
+  export default class Hello {
+    constructor(greeting) {
+      this.greeting = greeting
+    }
+    hi(name) {
+      console.log(`${this.greeting} ${name}`)
+    }
+  }
+```
+
+- <b style="color: coral">default</b> 키워드 사용에 있어 중요한 점이 있는데, default 키워드는 <b style="color:coral">하나의 모듈에서 한 번만 사용할 수 있다</b>.
+- <b style="color: coral">default 키워드 다음에 var, let, const와 같은 변수 선언 키워드가 올 수 없다</b>.
+- ex). A라는 모듈이 있으면, A.default = "hello"와 같이 A모듈의 기본값을 할당 한다고 볼 수 있다.
+
+```js
+// app.js
+import Hello from "./hello.js"
+
+const koreaHi = new Hello("안녕하세요.")
+koreaHi.hi("하린")  // 안녕하세요. 하린
+```
+-
+  * 1 : hello.js에서 default로 내보낸 값을 가져오고 import하는 모듈에서(현재 파일) 이름을 부여한다. 여기에는 Hello라는 이름으로 부여하였다.
+  * 3 : hello.js에서는 <b style="color:coral">클래스</b>를 기본값으로 내보냈기 때문에, <b style="color:coral">new 키워드</b>를 사용하여 객체를 생성한다. 
+  * 4 : Hello 클래스의 인스턴스인 koreaHi의 hi 메소드를 호출한다.
+<br><br>
+
+### 58. 모듈을 여러 이름으로 내보내고 가져오기
+- ES6 모듈 시스템에서는 <b style="color:coral">이름있는 변수</b>나 <b style="color: coral">함수</b> 혹은 <b style="color: coral">클래스</b>를 export 키워드를 사용하여 내보낼 수 있습니다.
+- <b>기본값(default)</b>과 다르게 <b style="color: coral">이름이 있기 때문에 중복되지 않는 한 여러 이름있는 것들을 내보낼 수 있다</b>.
+
+```js
+// hello.js
+export const version = "v1.0"
+
+export var personA = {
+  name = "a"
+}
+
+export function add(a,b) {
+  return a + b
+}
+
+export class Person {
+  constructor(name) {
+    this.name = name
+  }
+}
+```
+- 해설
+  * 1 : const 키워드 version 이름으로 상수를 정의하였다. 그리고 export 키워드로 정의된 상수의 이름인 version으로 내보낸다.
+  * 3 ~ 5 : personA 이름으로 정의된 변수에 객체를 할당했다. 이 변수 또한 personA이름으로 내보낸다. 
+  * 7 ~ 9 : add 함수를 선언하고 선언된 함수의 이름으로 내보낸다.
+  * 11 ~ 15 : Person 클래스를 선언하고 선언된 함수의 이름으로 내보낸다.  
+
+<b style="color: red">* 주의</b>
+- 다음과 같이 클래스, 함수 그리고 변수들을 선언한 후에 export로 내보낼 수 있다. 하지만 <b style="color: coral">export 바로 뒤에 이름을 작성하면 안 되고 {} 안에 나열해야 한다</b>.
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name
+  }
+}
+const version = "v1.0"
+
+export Person // 문법 오류
+export {version, Person} // 오류 X, 올바른 방법
+```
+
+```js
+// app.js
+import {add, Person, version} from "./hello.js"
+
+const result = add(1,2)
+const harin = new Person("하린")
+
+console.log(result) // 3
+console.log(harin.name) // 하린
+console.log(version)  // v1.0
+```
+
+- 해설
+  * 1 : hello.js에서 내보낸 이름으로 가져온다. 여기서 이름들을 콤마로 구분하고 {}를 안에 나열한다. hello.js에서는 personA를 export하였지만 app.js에서 personA를 가져오지는 않았다.
+  * 3 ~ 4 : 가져온 add 함수와 Person 클래스를 사용한다.
+  * 6 ~ 8 : 결과를 콘솔에 출력한다. version은 문자열이기 때문에 가져온 그대로 출력한다.
+
+<b style="color: red">* 주의</b>
+- <b style="color: coral">다른 모듈에서 가져온 이름은 오직 읽기만 가능하다</b>. 즉 해당 이름에 다른 값을 할당할 수 없다.
+
+```js
+  import {personA} from ".hello.js"
+  personA = "v2"  // 오류 발생
+```
