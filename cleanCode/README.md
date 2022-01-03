@@ -640,3 +640,117 @@ console.dir(window)
 * 익명 함수를 하나 만들어 변수에 할당하는 것.
 * 이것도 함수로 본연의 역할을 잘한다.
 * 함수를 만들땐 함수 표현식으로 만드는 것을 추천한다. 
+<br><br>
+
+## 10. <b style="color: #458fed">타입 검사</b>
+
+### 1. <b>typeof</b>
+
+```js
+// 1). typeof
+typeof '문자열' // 'string'
+typeof (true) // 'boolean'
+typeof (undefined) // 'undefined'
+typeof 123  //   'number'
+typeof Symbol() //  'symbol'
+
+function myFunction() {}
+typeof myFunction // 'function'
+
+class myClass {}
+typeof myClass  // 'function' => class가 함수??
+
+const str = new String('문자열')
+typeof str  // 'object'
+
+typeof null // 'object' => null이 가장 문제, 왜 객체를 찍어주는가
+```
+- <b style="color:coral">typeof</b>는 문자열로 반환하는 것이 특징이다.
+- 문법적으로 지원을 하기때문에 <b style="color: coral">() 함수처럼 사용도 가능</b>하다.
+- <b>PRIMITIVE</b> vs <b>REFERENCE</b>
+- 원시값(불변) vs 자료형(가변)
+- <b>PRIMITIVE</b> 경우 대부분 typeof로 검사를 잘 할 수 있다.
+- <b>REFERENCE</b> 경우 typeof로 감별하기 어렵다.
+- 클래스는 생성자 함수처럼 이루어지는 객체를 만들어 낼 수 있는 표본
+- <b style="color: crimson">typeof는 만능이 아니다.</b>
+- JS는 굉장히 동적으로 변하는 언어 => <b style="color: coral">타입까지 동적이다</b>.
+<br>
+
+### 2. <b>instanceof</b>
+
+```js
+// 2). instanceof 예제 1.
+function Person(name, age) {
+  this.name = name
+  this.name = age
+}
+
+const poco = new Person('poco', 99)
+
+poco instanceof Person  // true
+```
+- typeof와 유사하게 사용할 수 있는 일종의 연산자
+- 객체의 프로토타입 체인을 검사하는 것이라고 보면 된다. 
+<br><br>
+
+```js
+// instanceof 예제 2.
+function Person(name, age) {
+  this.name = name
+  this.name = age
+}
+
+const p = {
+  name: 'poco',
+  age: 99
+}
+
+const poco = new Person('poco', 99)
+
+  p instanceof Person// false
+```
+- <b>typeof</b>는 <b>불변한 PRIMITIVE 값들</b>을 주로 검사하는 반면,
+  <b style="color: coral">instanceof</b>는 객체에 대해서 확인을 하기 위해 용이하다. 
+<br><br>
+
+```js
+// instanceof 예제 3.
+const arr = []
+const func = function(){}
+const date = new Date()
+
+arr instanceof Array  // true
+func instanceof Function  // true
+date instanceof Date  // true
+
+arr instanceof Object  // true
+func instanceof Object  // true
+date instanceof Object  // true
+```
+- 우항과 좌항을 비교해서 검사를 한다. 
+- 혼란이 없을 것 같지만, Object를 좌항에 넣으면 혼란이 생긴다.
+- <b>프로토타입 체인을 타기 때문에 최상위는 결국 Object</b>.
+<br><br>
+
+### 3. <b>call()</b>
+
+```js
+// 3). call()
+
+Object.prototype.toString.call('')  // '[object String]'
+Object.prototype.toString.call(new String(''))  // '[object String]'
+
+const arr = []
+const func = function(){}
+const date = new Date()
+
+Object.prototype.toString.call(arr)  // '[object Array]'
+Object.prototype.toString.call(func)  // '[object Function]'
+Object.prototype.toString.call(date)  // '[object Date]'
+```
+- 오브젝트 프로토타입 체인을 타기 때문에, 역이용하여 <b style="color:coral">call()</b>로 땡겨온다. 
+- 이것은 REFERENCE 객체까지 감지를 해 낼 수 있다. (무조건 다 맞는 것은 아님.)
+- JS에서 타입을 검사하고 싶다면, 구글에 javascript is array, javasctipr is function, javascript is string .... 어떻게 검사를 해내는지 다양한 검사를 찾아내는 것이 좋다. 
+- <b style="color: coral">JS는 동적인 언어, 타임검사의 어려움이 있다. 상황에 맞게 타입 검사를 해야 한다.</b> 
+<br><br>
+
