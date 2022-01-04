@@ -2106,3 +2106,109 @@ console.log(version)  // v1.0
   import {personA} from ".hello.js"
   personA = "v2"  // 오류 발생
 ```
+<br><br>
+
+### 59. 모듈을 다양한 방식으로 사용하기
+
+```js
+// version.js
+  export const version = "v1.0"
+```
+
+```js
+// app.js
+  import {version as moduleVersion} from "./version.js"
+
+  const version = "v0"
+  console.log(moduleVersion)  // v1.0
+```
+- 해설
+  * 1 : version.js 모듈로부터 version 이름으로 내보낸 상수값을 가져오는데,
+    이때 <b style="color: coral">as</b> 키워드를 사용하면 <b style="color: coral">현재 모듈에서 다른 이름으로 사용할 수 있다</b>.
+  * 3 ~ 4 : version 이라는 이름으로 <b>상수를 이미 선언</b>했기 때문에 <b>version.js 에서 내보낸 이름으로 version을 가져올 수 없다</b>. 그래서 version.js 에서 내보낸 version <b style="color: coral">이름을</b> moduleVersion을 <b style="color: coral">바꿔 가져온다</b>. 그리고 moduleVersion의 값을 콘솔에 출력한다.  
+<br>
+
+<b style="color: crimson">*주의*</b>
+- <b style="color: coral">as</b>키워드는 <b style="color: coral">export할 때에도 사용</b>할 수 있다.
+- 먼저 선언된 이름들을 마지막에 export할 때 다음과 같이 as 키워드로 다른 이름으로 내보낼 수 있다.
+
+```JS
+  const version ="v1.0"
+  export {version as ver}
+  // 물론 가져올 때에도 ver 이름으로 가져올 수 있다. 
+```
+<br>
+
+- 다른 모듈을 가지고 올 때 <b style="color:coral">별표(*)</b>를 이용하거나 다른 모듈의 코드를 실행만 시킬 수도 있다.
+```js
+// add.js
+  export default function add(a, b) {
+    return a + b
+  }
+  export const version = "v1.0"
+```
+- 해설
+  * 1 ~ 4 : add 함수를 모듈의 기본으로 정의, 그리고 version 변수를 내보낸다.
+<br>
+
+```js
+// sideeffect.js
+console.log("hello!")
+window.hello = function hello(name) {
+  console.log("hello" + name)
+}
+```
+- 해설
+  * 1 ~ 4 : 외부로 내보내는 값이 얿이 콘솔에 출력하거나 전역 객체인 window에 메소드로 hello를 선언한다. <br>
+  이렇게 <b style="color: coral">window에 메소드를 추가하면 window를 통하지 않고 직접 해당 메소드의 호출이 가능하다.</b>
+<br>
+
+```js
+// app2.js
+  import * as add from "./add.js"
+  import "./sideeffect.js"  // hello!
+
+  console.log(add.version)  // v1.0
+  const added = add.default(1,2)
+  console.log(added)  // 3
+
+  hello('harin')  // hello harin
+```
+- 해석
+  * 1 : add.js 모듈을 *를 이용하여 전체를 가져온다. <br>
+    이때, 가져온 모듈 전체를 가리키는 이름이 있어야 하기 때문에 <b style="color: coral">as</b>를 사용하여 이름을 주게 되는데, 여기에서는 add라고 이름을 주었다.
+  * 2 : sideeffect.js 모듈을 실행한다. <b style="color: coral">from 키워드 없이 작성하였기 때문에 해당 자바스크립트만 하고 어떠한 것도 가져오지 않는다</b>.<br>
+  <b style="color: coral">해당 모듈이 실행</b>되기 때문에 콘솔에 "hello!"가 출력되고 hello라는 함수가 전역으로 선언된다. 
+  * 4 ~ 6 : add라는 이름으로 add.js 모듈을 가리키기 때문에 <b style="color: coral">add는 모듈 객체이고 속성으로는 default와 version이 있다</b>. 
+  * 8 : 2라인에서 import로 sideeffect.js 모듈을 실행했기 때문에 전역으로 선언된 hello 함수를 실행할 수 있다. 
+  * <b style="color: coral">다른 모듈에서 가져온 값들은 복제되는 것이 아니라 이름과 연결된 그 자체를 가져오게 된다</b>.</b>
+  즉, 내보낸 모듈에서 값을 변경하게 되면 가져온 모듈에서도 영향을 받게 된다.
+  <br>
+
+```js
+// value.js
+  export let value = 1
+
+  setTimeout(() => {
+    value++
+  }, 1000)
+```
+- 해설
+  * 1 : value 변수에 1을 할당한다.
+  * 3 ~ 5 : 1초 후에 value 변수를 1 증가시켜 value에는 2가 할당된다.
+<br>
+
+```js
+// app3.js
+  import {value} from ./value.js
+
+  console.log(value)  // 1
+
+  setTimeout(() => console.log(value), 2000)  // 2
+```
+- 해설
+  * 1~3: value.js 모듈로부터 value를 가지고 와 콘솔에 출력한다.<br>
+  이때 1이 출력된다.
+  * 5: <b style="color:coral">2초 후</b>에 다시 한 번 value 값을 콘솔에 출력한다.<br> 
+  <b style="color:coral">이 때 2가 출력</b>되는데, <b style="color: coral">이는 value.js 모듈에서 1초 후에 값을 1 증가시켰기 때문</b>에 변경된 값으로 콘솔에 출력된다. <br>
+  만약 <b style="color: coral">값이 복제되었다면 그대로 1이 출력되었을 것</b>이다. 
