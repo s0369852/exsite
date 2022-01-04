@@ -642,6 +642,8 @@ console.dir(window)
 * 함수를 만들땐 함수 표현식으로 만드는 것을 추천한다. 
 <br><br>
 
+# 섹션3. 타입 다루기
+
 ## 10. <b style="color: #458fed">타입 검사</b>
 
 ### 1. <b>typeof</b>
@@ -754,3 +756,147 @@ Object.prototype.toString.call(date)  // '[object Date]'
 - <b style="color: coral">JS는 동적인 언어, 타임검사의 어려움이 있다. 상황에 맞게 타입 검사를 해야 한다.</b> 
 <br><br>
 
+## 11. <b style="color: #458fed">undefined & null</b>
+- <b style="color: coral">undefined</b> : 무언가 만들어 놓고, 정의하지 않은 것 <br>
+  있든 없든 그냥 무언가 만든 것.
+- <b style="color: coral">Null</b> : "없다." 라는 것을 명시적으로 표현하고 있는 것.
+<br>
+
+```js
+// null
+!null // true
+!!null  // false
+
+null === false // false
+!null === true // true
+
+null + 123  // 123
+// null은 수학연산에서 0으로 취급
+```
+- <b style="color: coral">!</b> 가 하나 일 경우 -> 값을 뒤집을 수 있다.
+- <b style="color: coral">!!</b> 가 두개 일 경우 -> 값을 boolean으로 형(type)변환을 시도한다. 
+- 수학적인 표현도 생각을 해야한다. 왜냐면 JS는 기본적으로 불가능한 것도 대부분 가능한 언어이기 때문.
+- <b style="color: coral">null과 숫자와의 조합도 가능</b>하다. 
+- 수학 연산에서 null은 <b style="color: coral">0</b>으로 취급
+- null은 비어있는 값을 명시적으로 지정하는 방법이지만, 숫자적으로 표현할 때에는 0에 가깝다.
+<br>
+
+```js
+// undefined
+
+let varb;
+
+varb // undefined
+typeof varb // 'undefined'
+
+
+let varb = null
+typeof null // 'object'
+
+undefined + 10  // NaN
+
+!undefined  // true
+!!undefined // false
+
+undefined == null // true
+undefined === null  // false
+!undefined === !null  // true
+```
+- <b style="color: coral">undefined</b>는 <b style="color: coral">아무것도 지정하지 않았을 때</b>에 <b style="color: coral">무언가의 기본값.</b> 
+- 변수를 선언했지만 값은 정의되지 않고 할당이 되지 않은 상태.
+- null은 0이라는 숫자로 표현이 되지만, undefined는 이제 NaN로 표현됨.
+- undefined와 null을 활용한 코드를 많이 작성하기 보단, 비어있는 값을 null로 정할 것인지, undefined로 정할 것인지 아니면 언어차원에서 주는 null 또는 undefined 활용하자 등 무언가에 컨벤션이 있으면 좋고, 스스로 컨벤션을 만들어 나가는 것이 좋다.  
+
+## 12. <b style="color: #458fed">eqeq 줄이기</b>
+- eqeq : JS에서 동등연산자를 이야기 한다. 
+
+```js
+// 동등연산자(==)
+  '1' == 1  // true
+  1 == true // true
+
+// 엄격한 동등연산자(===)
+  '1' === 1 // false
+  1 === true  // false
+
+  ticketNum.value // '0'
+  ticketNum.value == 0  // true
+  Number(ticketNum.value) === 0 // true
+  ticketNum.valueAsNumber === 0 // true
+
+```
+- 동등연산자를 사용하면 형변환(type casting)이 일어난다.
+- 동등연산자 사용은 위험한 방법이다.
+- 형변환 방법을 수동으로 진행하여 비교하기를 추천한다. -> Number()
+- 숫자를 DOM에서 가져올때 -> .valueAsNumver
+- ESLint 에서 eqeq를 설정할 수 있다. 
+
+## 13. <b style="color: #458fed">형변환 주의하기</b>
+- javascript type table
+
+```js
+  '1' == 1 // true 느슨한 검사 => 형 변환(암묵적)
+  1 == true // true
+  0 == false  // true
+
+// 암묵적 변환
+  11 + ' 문자와 결합' // '11 문자와 결합'
+  !!"문자열"  // true
+  !!''  // false
+
+// 암묵적 변환은 아니다. 정수로 변환된다. 
+  parseInt('9.9999', 10)  // 9 
+```
+- parseInt 메서드에서 두번째 인수는 몇진수로 할 것인지 정할 수 있는데, 여기는 꼭 넣어 주는 것이 좋다. <br>
+  대부분은 10진수를 기대하는데, 두번째 인수의 값을 지정하지 않는다면 10진수가 기본값은 아니기 때문에 기대한 값이 안나올 수 있다. 
+
+```js
+// 명시적으로 변환하자
+String(11 + ' 문자와 결합') // '11 문자와 결합'
+
+Boolean('문자열') // true
+Boolean('') // false
+Number('11')  // 11
+```
+- 사용자가 형변환을 했을때는 명시적인 변환(타입)을 할 수 있다.
+- JS엔진이 평가했을때는 암묵적인 변환(타입)이 일어날 수 있다.
+- 명시적으로 해서 예측하기 쉬운 형변환을 할 수 있어야 한다. 
+
+## 14. <b style="color: #458fed">isNaN</b>
+- 컴퓨터는 기본적으로 2진수를 가지고 있어 사람이 생각하는 숫자와 다르다(10진수)
+- 10진수와 2진수의 간극으로 발생하는 것이 바로 소수점.
+- JS는 IEEE 754를 사용, <b style="color: coral">부동소수점</b>방식이라 말할 수 있는 방식을 통해 해결하려고 하고 있다.
+- 부동소수점 => 떠돌이 소수점. 
+
+```js
+// .MAX_SAFE_INTEGE -> 가장 많이 표시할 수 있는 정수의 범위
+// .isInteger -> 주어진 값이 정수인지 판별하는 방법
+// isNaN -> is Not A Number => 숫자가 아니다
+  Number.MAX_SAFE_INTEGER  // 9007199254740991
+  Number.isInteger // ƒ isInteger()
+  isNaN // ƒ isNaN()
+```
+
+```js
+typeof 123 === 'number' // true
+isNaN // ƒ isNaN()
+
+// isNaN을 보고 항상 아래와 같이 검사하는 꼴이다.
+typeof 123 !== 'number' // false
+isNaN // ƒ isNaN()
+
+isNaN(123)  // false <= 숫자가 숫자가 아니다 => 숫자가 맞다.
+
+isNaN(123 + '테스트') // true
+Number.isNaN(123 + '테스트')  // false 
+
+isNaN // ƒ isNaN() -> 느슨한 검사
+Number.isNaN()  // ƒ isNaN() -> 엄격한 검사
+
+```
+- isNaN -> is Not A Number => <b style="color:coral">숫자가 아니다</b>.
+- <b style="color: coral">isNaN</b>은 본격적으로 값이 뒤집어져서 귀결이 된다.
+- isNaN을 사용할 시 계속해서 헷갈릴 수 밖에 없는 것.
+- 또 다른 문제는 위의 예제와 같이 Number을 붙였을 때와 아닐때의 결과도 다르다는 점이다. 
+- 권장하는 방법은 `Number.isNaN(123+'테스트')` 와 같은 방식으로 하는 것.
+- 숫자가 아니냐 맞냐라는 것을 검색할때 isNaN은 굉장히 문제가 많다. 
