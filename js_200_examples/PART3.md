@@ -248,3 +248,221 @@ callRoll(students)
   * 1: 매개변수 students를 받는 callRoll 함수를 선언한다.
   * 2: 만일 변수 students가 배열이 아니면 의도하지 않은 자료형이라 판단하고 함수를 빠져나간다.
   * 4~6: 변수 students를 forEach로 반복하여 배열 요소를 console.log로 하나하나 출력한다.
+<br><br>
+
+### 65. 문자열을 숫자형 정수로 변환하기(parseInt)
+- parseInt()는 어떤 내장함수 객체에도 속하지 않은, 전역에서 사용할 수 있는 내장 함수.
+- parseInt()를 활용하여 <b style="color:coral">문자열 자료형을 숫자로 변환</b>할 수 있다.
+- parseInt는 두개의 인자를 받는다.
+- 첫번째 인자 : 숫자로 변환하고 싶은 값
+- 두번쨰 인자 : 특정 진수를 나타내는 정수 값
+- `parseInt(값, 진수)`
+
+```js
+  console.log(parseInt('15')) // 15
+  console.log(parseInt('15', 10)) // 15
+  console.log(parseInt('15', 2)) // 1
+  console.log(parseInt(5.15)) // 5
+  console.log(parseInt('5.15')) // 5
+```
+- 해설
+  * 1: parseInt 함수는 두번째 인자가 없는 경우, 기본값인 10진수로 숫자를 변환한다.
+  * 2: 두번째 인자에 10을 넣어 사용할 수도 있다.
+  * 3: 두번째 인자에 2를 넣으면 문자 '15'를 2진수 숫자로 변환한다. 따라서 숫자 1을 반환한다.
+  * 4~5: 실수인 숫자 또는 문자를 정수로 변환하는데 parseInt 함수를 사용할 수 있다.
+<br><br>
+
+### 66. 실수형 숫자로 변환하기
+- 소수점이 있는 실수를 반환 또는 변환
+- parseFloat함수는 대입된 값을 부동 소수점 숫자로 변환한다.
+- 만일 <b style="color:coral">값에 숫자, 소수점, 지수, 기호가 아닌 다른 값이 들어오는 경우 생략된다</b>.
+- `parseFloat(값)`
+- parseFloat 함수도 parseInt 함수와 동일하게, 어떤 내장 함수 객체에도 속하지 않은 전역에서 사용 가능한 내장 함수다. 
+
+```js
+  console.log(parseFloat(5.55)) // 5.55
+  console.log(parseFloat('5.55')) // 5.55
+  console.log(parseFloat('5.55 숫자의 결과값')) // 5.55
+```
+- 해설
+  * 1: 숫자 5.55를 넣으면 소수점 있는 실수이기 때문에 그대로 값을 반환한다.
+  * 2: 문자 5.55를 넣으면 소수점이 있는 숫자형으로 변환하여 반환한다.
+  * 3: 문자 5.55 이외에 다른 문자 또는 공백은 생략되어 숫자 5.55만이 반환된다.
+<br><br>
+
+### 67. 문자열 양 끝의 공백 없애기(trim)
+- String 내장 객체의 <b style="color:coral">trim 메소드는 문자열 양 끝의 공백, 탭, 줄바꿈을 제거한다.</b>
+- 단, 함수가 적용된 문자열 원본 값에는 영향을 끼지지 않기 때문에 활용하려면 별도로 값을 저장해야 한다.
+
+```js
+  const sentences = ['    ABC abc', 'ABC abc   ', ` first
+  second third
+          forth
+  sentence
+
+
+  `]
+  const filterSentence = (sentences) => {
+    const filtered = [];
+    sentences.forEach(s => {
+      filtered.push(s.trim());
+    })
+    return filtered;
+  }
+
+  console.log(filterSentence(sentences))
+```
+- 해설
+  * 7~13: filterSentence 함수는 매개변수로 전달된 배열을 forEach로 순환하여 각 요소에 접근한다. 이때 배열 요소에 trim()을 적용하여 공백, 탭, 줄바꿈을 삭제하고, 필터링된 값들은 배열로 다시 반환한다.
+  * 15: filterSentence 함수에 sentences 변수를 인자로 대입하여 실행한다. 
+<br><br>
+
+### 68. 문자열 자르기 1.(slice)
+- <b style="color: coral">원하는 위치의 특정 문자열만 잘라내는 것</b>이 필요한 경우가 있다.
+- 여러 내장 함수들을 활용하여 다양한 방법으로 문자열을 자를 수 있다.
+- 각 함수마다 장단점이 있기 때문에, 각각의 특징을 고려햐여 경우에 맞게 활용하는 방법을 알아두자.
+- String 내장객체의 slice 메소드는 인자로 시작 지점의 인덱스와 종료 지점의 인덱스를 받는다.
+- 두번째 인자인 종료 인덱스는 선택 사항이므로 필수값이 아니다.
+- 지정한 범위의 인덱스 문자열을 반환하되, <b style="color:coral">기존 문자열에 영향을 미치지 않는다</b>.
+- `'문자열'.slice(시작 인덱스, 종료 인덱스)`
+
+```js
+  const sentence = "The sun will shine on us again";
+  console.log(sentence.slice(13)) // shine on us again
+  console.log(sentence.slice(13, 24)) // shine on us
+  console.log(sentence.slice(0))  // The sun will shine on us again
+  console.log(sentence.slice(0, -23)) // The sun
+  console.log(sentence.slice(50))
+  console.log(sentence.slice(7, 2))
+```
+- 해설
+  * 2: 첫번째 인자를 넣어 시작 인덱스를 지정한다. <b style="color:coral">종료 인덱스를 지정하지 않았기 때문에</b> 변수 sentence의 13번재 인덱스부터 <b style="color:coral">마지막까지의 문자열을 반환</b>한다.
+  * 3: 시작 인덱스는 13, 종료 인덱스는 24로 지정한다. 따라서 인덱스가 13부터 24까지의 문자열을 반환한다.
+  * 4: 시작 인덱스 0은 첫 번째 문자를 의미한다. 두번째 인자가 없기 때문에 처음부터 끝까지 전체 문장을 출력한다.
+  * 5: slice 메소드는 <b style="color:coral">음수도 가능</b>하다. 음수는 인덱스를 <b style="color:coral">문자열의 뒤에서 부터 시작하여 인덱스를 셈한다</b>. <br>
+  인덱스 0은 첫번째 문자를 의미하고, 인덱스 -23은 뒤에서부터 23번째 문자를 의미한다.
+  * 6: <b style="color:coral">문자열 길이를 뛰어넘는 숫자를 넣으면 빈 값을 반환</b>한다.
+  * 7: <b style="color:coral">첫번째 인자보다 두번째 인자가 크면 slice 함수는 정상적으로 수행되지 않는다</b>.
+<br><br>
+
+### 69. 문자열 자르기 2.(substring)
+- String 내장 객체의 substring 메소드는 인자로 시작 인덱스와 종료 지점의 인덱스를 받는다.
+- 두 번째 인자인 종료 인덱스는 선택사항이다.
+- 실행한 결과값은 새로운 문자열을 반환하며 기존 문자열을 변경하지 않는다.
+- `'문자열'.substring(시작 인덱스, 종료 인덱스)`
+- substring 메소드는 <b style="color: coral">거의 대부분 slice 메소드와 동일하게 수행하지만, 몇 가지 부분에서 다른 결과값을 반환</b>한다.
+
+```js
+  const sentence = "This will be the end of Wakanda"
+  console.log(sentence.substring(13)) // the end of Wakanda
+  console.log(sentence.substring(13, 20)) // the end
+  console.log(sentence.substring(0))  // This will be the end of Wakanda
+  console.log(sentence.substring(0, -20))
+  console.log(sentence.substring(50))
+  console.log(sentence.substring(20, 13)) // the end
+```
+- 해설
+  * 2: 두번째 인자 없이 첫번째 인자에만 인덱스 13을 대입한다. 이는 변수 sentence의 13번째 인덱스부터 마지막까지의 문자열을 반환하여 'the end of Wakanda'가 출력된다.
+  * 3: 시작 인덱스는 13, 종료 인덱스는 20으로 지정한다. 따라서 인덱스가 13부터 20까지의 문자열을 반환한다.
+  * 4: 시작 인덱스 0은 첫 번째 문자를 의미한다. 두번째 인자가 없기 때문에 처음부터 끝까지 전체 문장을 출력한다.
+  * 5: substring 메소드는 <b style="color: coral">음수를 넣으면 정상적으로 수행하지 않는다</b>.
+  * 6: <b style="color: coral">문자열 길이를 뛰어넘는 숫자를 넣으면 빈 값을 반환</b>한다.
+  * 7: 첫번째 인자 > 두번째 인자 인 경우엔 두개의 인수를 교환하여 수행한다. 따라서 substring(20,13) -> substring(13,20)
+<br><br>
+
+### 70. 문자열 자르기 3.(substr)
+- String 내장객체의 substr 메소드는 인자로 <b style="color:coral">시작 지점의 인덱스와 길이</b>를 받는다.
+- 두번째 인자인 종료 인덱스는 선택사항이므로 필수값은 아니다.
+- <b style="color:coral">지정된 인덱스부터 시작</b>해서 <b style="color:coral">지정된 문자 수 또는 길이만큼의 새 문자열을 반환</b>한다.
+- <b style="color:coral">추출하고자 하는 문자열의 길이를 정확히 알고 있는 경우 substr을 활용하는 것이 좋다</b>.
+- `'문자열'.substr(시작 인덱스, 길이)`
+
+```js
+  const sentence = 'Wakanda Forever!!!'
+  cnosole.log(sentence.substr(8)) // Forever!!!
+  cnosole.log(sentence.substr(8, 7))  // Forever
+  cnosole.log(sentence.substr(0)) // Wakanda Forever!!!
+  cnosole.log(sentence.substr(-10)) // Forever!!!
+  cnosole.log(sentence.substr(0, -3))
+  cnosole.log(sentence.substr(30))
+  cnosole.log(sentence.substr(0, 30)) // Wakanda Forever!!!
+```
+- 해설
+  * 2: 두번째 인자 없이 첫번째 인자에만 인덱스 8을 대입, 두번째 인자에 길이를 지정하지 않았기 때문에 변수 sentence의 8번째 인덱스부터 마지막까지의 문자열을 반환한다.
+  * 3: 8번째 인덱스의 문자부터 뒤이어 7개의 문자들을 반환하여 'Forever'가 출력된다.
+  * 4: 시작 인덱스 0은 첫번째 문자를 의미한다. <b style="color: coral">두번째 인자가 없기 때문에 처음부터 끝까지 전체 문장을 출력</b>한다. 
+  * 5: substr 메소드는 <b style="color:coral">첫번째 인자에 음수를 넣으면 문자열의 뒤에서부터 위치를 결정</b>한다. -10인덱스는 뒤에서부터 10번째 문자인 F를 의미한다. 두번째 인자가 없기 때문에 F부터 마지막까지 반환하여 "Forever!!!"가 출력된다.
+  * 6: substr 함수의 두번째 인자에 음수를 넣으면 정상적으로 수행되지 않는다.
+  * 7: 변수 sentence 문자열 길이보다 큰수를 첫 번째 인자에 대입하면 해당하는 인덱스를 찾지 못하기 때문에 빈 값을 반환한다.
+  * 8: 두번째 인자가 변수 sentence 문자열 길이보다 크다면, 이는 기존 문자열보다 큰 길이를 의미한다. 따라서 2번 5번 라인의 수행결과와 동일하게 작동된다.
+- 첫번째 인자에 음수 => 뒤에서 부터 위치 결정
+- 두번째 인자에 음수 => 정상 작동 X
+- 첫번째 인자에 문자열 길이보다 큰 수를 대입 => 인덱스를 찾지 못함, 빈값 반환
+- 두번째 인자가 문자열 길이보다 큰 수를 대입 => 마지막까지 반환하여 나타냄
+<br><br>
+
+### 71. 문자열 길이 구하기(length)
+- length는 String 객체에 미리 정의되어 있는 기본 속성(Property)
+- 문자열의 길이를 구할 수 있다.
+- `문자열.length`
+
+```js
+  const arr = ['short', 'long sentence, it is not appropriate'];
+
+  arr.forEach(str => {
+    if (str.length < 10) console.log(str);  // short
+  });
+```
+- 해설
+  * 1: 변수 arr에 두개의 문자열을 요소로 갖고 있는 배열을 대입한다. arr[0]에는 'short'인 짧은 문장, arr[1]에는 'long sentence, it is not appropriate'인 긴 문장
+  * 3~5: 변수 arr를 forEach로 순환하여 내부 요소에 접근한다. 이때 길이가 10보다 작은 경우에만 console.log로 값을 출력한다. 이 조건문은 변수 arr 내부 값 중에서 'short'만 해당하므로 'short'만 출력되고, 다른 문자열은 출력되지 않는다.
+<br><br>
+
+### 72. 문자열로 변환하기(toString)
+- <b style="color:coral">JS 모든 객체는 Object를 상속받기 때문에</b>, 다른 모든 객체는 <b style="color:coral">prototype</b>을 통해 Object의 내장 메소드 <b style="color:coral">toString()에 접근하고 재정의(Override)한다</b>.
+- 이는 Object 객체의 toString()을 상속받은 것과 다르다.
+
+```js
+  const num = 5;
+  const bool = true;
+  const str = "문자열 값";
+  const arr = [1, 2, 3];
+  const obj = {a: 15};
+
+  console.log(num.toString()) // 5
+  console.log(bool.toString())  // true
+  console.log(str.toString()) // 문자열 값
+  console.log(arr.toString()) // 1, 2, 3
+  console.log(obj.toString()) // [object, object]
+
+  num.__proto__.toString = () => {
+    return 'toString 덮어쓰기';
+  };
+
+  console.log(num.toString());  // toString 덮어쓰기
+```
+- 해설
+  * 1~5: 숫자, 불린, 문자, 배열, 객체 자료형의 값을 각각 변수로 대입한다.
+  * 7~11: 선언한 변수의 toString()를 호출하여 console.log로 출력한다.
+  * 13~15: 변수 중에서 num 변수의 <b style="color: coral">__proto__를 통해 toString 메소드를 직접 재정의 한다</b>. 새로 정의한 함수는 고정된 문자열 'toString 덮어쓰기'를 반환한다.
+  * 16: 여기서 호출된 toString() 메소드는 13~15라인에서 재정의한 toString가 호출되며 console.log()로 출력된다.
+<br><br>
+
+### 73. 두 개의 문자열 하나로 합치기 (concat)
+- String 내장 객체 메소드 중에서 문자열을 합치는 concat을 살펴본다.
+
+```js
+  const str1 = 'Good afternoon';
+  const str2 = ', Good evening';
+  const str3 = ', and Good night!';
+  const str4 = ' - The Truman Show, 1998';
+  console.log(str1.concat(str2, str3, str4))
+  // Good afternoon, Good evening, and Good night! - The Truman Show, 1998
+```
+- 해설
+  * 1~4: 문자열이 대입된 변수 str1, str2, str3, str4를 선언한다. 
+  * 5: concat 메소드로 위 변수들을 하나로 합치고, console.log()로 출력한다. 문자열을 concat으로 합칠 때에는 맨 처음에 놓일 변수를 기준으로 concat 메소드를 호출한다. 두 개 이상의 문자열을 추가하려 할 때, 나머지 변수들은 메소드 인자로 문자열을 순서대로 나열하여 대입하면 된다.
+- concat 이외에도 <b style="color:coral">+ 연산자</b>를 활용하여 문자열을 합칠 수 있다. <br>
+  사실 + 연산자가 concat보다 활용면에서 많이 사용된다. 그 이유는 <b style="color: coral">다른 자료형(숫자)과 문자를 하나의 문자열로 만드는 경우가 일반적으로 많을 뿐더라, + 연산자가 concat 메소드 보다 성능상 빠르기 때문</b>에 + 연산자의 사용을 권장하고 있다.
+<br><br>
+
