@@ -466,3 +466,308 @@ callRoll(students)
   사실 + 연산자가 concat보다 활용면에서 많이 사용된다. 그 이유는 <b style="color: coral">다른 자료형(숫자)과 문자를 하나의 문자열로 만드는 경우가 일반적으로 많을 뿐더라, + 연산자가 concat 메소드 보다 성능상 빠르기 때문</b>에 + 연산자의 사용을 권장하고 있다.
 <br><br>
 
+### 74. 특정 위의 문자 반환하기 (charAt)
+- String 내장객체 메소드인 <b style="color:coral">charAt()는 숫자형 인자를 받는다.</b><br>
+  <b>괄호 안에 대입된 값은 문자열에서 인덱스를 가리키고 해당 위치의 문자를 반환</b>한다. 
+
+```js
+  const str = 'Good afternoon, Good evening, and Good night!'
+    + '- The Truman Show, 1998';
+
+  console.log(str.charAt(0)); //  G 
+  console.log(str.chatAt(5)); // a
+  console.log(str.chatAt(14));  // ,
+  console.log(str.length);  // 69
+  console.log(str.charAt(500));  //
+```
+- 해설
+  * 4~6: 인덱스 0, 5, 14의 문자를 반환한다. 각각 알파벳 G, a, 특수문자','가 반환되어 출력된다.
+  * 7~8: 변수 str의 문자열은 길이가 69입니다. 따라서 인덱스 500가 가르키는 위치는 유효하지 않기 때문에 빈 값이 출력된다. 
+<br><br>
+
+### 75. 특정 문자열 위치 확인하기1 (indexOf)
+- String 내장객체의 메소드 indexOf를 활용하면 문자열에서 특정 문자열이 있는지 확인 할 수 있다.
+
+```js
+  const str = 'Carpe diem, seize the day';
+  console.log(`"e"는 ${str.indexOf('e')} 번째 인덱스에 있습니다.`);
+  // "e"는 4 번째 인덱스에 있습니다.
+  console.log(`대문자"C"는 ${str.indexOf('C')} 번째 인덱스에 있습니다.`);
+  // "C"는 0 번째 인덱스에 있습니다.
+  console.log(`소문자"c"는 ${str.indexOf('c')} 번째 인덱스에 있습니다.`);
+  // "c"는 -1 번째 인덱스에 있습니다.
+  console.log(`문자열 ", se"는 ${str.indexOf(', se')} 번째 인덱스에 있습니다.`);
+  // // ", se"는 10 번째 인덱스에 있습니다.
+
+  const arr = ['Carpe', 'diem', 'seize', 'the', 'day'];
+  const howManyHasE = (arr) => {
+    let count = 0;
+    arr.forEach((str) => {
+      if (str.indexOf('e') > -1) count++;
+    });
+    return count;
+  }
+
+  console.log(`${arr}에 "e"가 있는 요소는 모두 ${howManyHasE(arr)}개 입니다.`);
+  // Carpe,diem,seize,the,day에 "e"가 있는 요소는 모두 4개 입니다.
+```
+- 해설
+  * 1: 변수 str에 문자열 'Carpe diem, seize the day'를 대입한다.
+  * 2: indexOf 메소드는 <b style="color: coral">특정 문자와 일치하는 첫 번째 인덱스 값을 반환</b>한다.
+  * 3~4: <b style="color: coral">indexOf는 대소분자를 구별</b><br>
+    대문자 C는 첫번째 인덱스를 반환하지만, 소문자 c와 <b style="color: coral">일치하는 문자가 없기 때문에 숫자 -1을 리턴</b>한다.
+  * 5: 단일 문자뿐만 아니라 <b style="color:coral">문자열 단위로도 일치 여부를 확인</b>한다.<br>
+    이때에도 일치하는 가장 첫번째 인덱스 값을 반환한다.
+  * 7: 문자열을 요소로 갖는 배열 arr 변수를 선언한다.
+  * 8: 배열 인자를 바든 hasManyHasE 함수를 선언한다.
+  * 9~14: 매개변수로 전달된 arr변수를 forEach로 순환하면서, 문자열 요소에 소문자 e가 있는지 확인한다.<br>
+    만일 소문자 e가 있다면 indexOf 함수의 결과값은 -1보다 크 수를 반환하고, 해당 조건이 충족하면 count 변수의 수가 1씩 증가한다. 
+  * 16: 함수 howManyHasE에 arr 변수를 대입하여 반환된 값을 출력한다.
+  <br><br>
+
+### 76. 특정 문자열 위치 확인하기2 (lastIndexOf)
+- indexOf와 달리, lastIndexOf 메소드는 <b style="color:coral">문자열의 뒤에서부터 일치여부를 확인</b>한다.
+
+```js
+  const str = 'Carpe diem, seize the day';
+
+  console.log(`"e"는 ${str.lastIndexOf('e')} 번째 인덱스에 있습니다.`);
+  // "e"는 20 번째 인덱스에 있습니다.
+  console.log(`대문자"C"는 ${str.lastIndexOf('C')} 번째 인덱스에 있습니다.`);
+  // "C"는 0 번째 인덱스에 있습니다.
+  console.log(`소문자"c"는 ${str.lastIndexOf('c')} 번째 인덱스에 있습니다.`);
+  // "c"는 -1 번째 인덱스에 있습니다.
+  console.log(`문자열 ", se"는 ${str.lastIndexOf(', se')} 번째 인덱스에 있습니다.`);
+  // // ", se"는 10 번째 인덱스에 있습니다.
+```
+- 해설
+  * 1: 변수 str에 문자열 'Carpe diem, seize the day'를 할당한다.
+  * 3: String 객체의 lastIndexOf 메소드는 <b style="color:coral">문자열의 뒤에서부터 동일한 첫 번째 인덱스 값을 반환</b>한다. <br>
+  <b style="color:coral">여기서 문자열의 인덱스 순서 자체는 변함 없다.</b>
+  * 4~5: lastIndexOF 메소드는 대소문자를 구별한다. 대문자 C는 첫번쨰 인덱스 0을 반환하지만, 소문자 c와 <b style="color:coral">일치하는 문자가 없기 때문에 숫자 -1을 리턴</b>한다. 
+  * 6: 단일 문자뿐만 아니라 문자열 단위로도 일치 여부를 확인한다. 이때에도 일치하는 가장 첫번째 인덱스 값을 반환한다.
+<br><br>
+
+### 77. 특정 문자열 포함 여부 확인하기 (includes)
+- String 내장객체의 메소드 includes는 <b style="color:skyblue">일치하는 문자열이 있는 경우 true</b>를, <b style="color: deeppink">없으면 false를 반환</b>한다.
+- `문자열.includes(문자열, 인덱스)`
+- 두번째 인자의 인덱스는 필수값은 아니다.
+- 추가로 <b style="color:coral">두번째 인자에 인덱스를 지정하면, 해당 인덱스 위치에서부터 문자열을 확인</b>한다.
+- <b style="color: coral">두번째 인자가 없으면 기본값 0 인덱스부터 문자열을 확인</b>한다.
+
+```js
+  const str = 'Make your lives extradordinary';
+
+  console.log(str.includes('Make')); // true
+  console.log(str.includes('Make', 1)); // false
+```
+- 해설
+  * 1: 'Make'와 일치하는 문자열이 확인되면 true를 반환한다.
+  * 2: 두 번째 인자에 숫자 1을 대입한다. 인덱스 1부터 'Make'와 일치하는 문자열을 확인하면 동일한 문자열이 없기 때문에 false가 반환된다.
+<br><br>
+
+### 78. 문자열 대소문자 변환하기 (toLowerCase, toUpperCase)
+- String 내장객체의 메소드 toLowerCase, toUpperCase를 사용하면 문자열의 대소문자를 일괄 변환할 수 있다.
+
+```JS
+  console.log('Find Your Own Voice'.toLowerCase())
+  // find your own voice
+  console.log('Find Your Own Voice'.toUpperCase())
+  // FIND YOUR OWN VOICE
+
+  const value = 'Find Your Own Voice';
+  console.log(value.toLowerCase() === value.toUpperCase());
+  // false
+```
+- 해설
+  * 1: toLowerCase()는 해당 문자열을 모두 소문자로 변환하여 반환한다.
+  * 2: toUpperCase()는 해당 문자열을 모두 대문자로 변환하여 반환한다.
+  * 4: 문자열 'Find Your Own Voice'를 value 변수에 대입한다.
+  * 5: 변수 value에 toLowerCase와 toUpperCase로 변환한 값을 비교 연산자로 확인한다.
+<br><br>
+
+### 79. 배열 요소를 분할/변환하기 (from)
+- Array 내장객체의 메소드 from은 <b style="color: coral">대입된 문자열 값을 구분자 없이 분할</b>한다.
+- 그리고 <b style="color:coral">분할된 문자는 배열 요소 각각에 대입되어, 결과값으로 배열을 반환</b>한다.
+- <b style="color:coral">첫번째 인자는 배열요소로 분할 변환될 문자열을 대입</b>한다.
+- <b style="color:coral">두번째 인자는 필수값은 아니지만, callback함수를 대입하면 분할함과 동시에 각 값을 변환</b>시킬 수 있다.
+- `Array.from(배열로 변환될 값, 반환될 배열 내부 요소에 대한 callback 함수)`
+
+```js
+  const str = '12345678'
+
+  const distributeArr = Array.from(str);
+  console.log(distributeArr);
+  // ['1','2','3','4','5','6','7','8']
+
+  const modifiedArr = Array.from(distributeArr, el => el * 2)
+  console.log(modifiedArr)
+  // ['2','4','6','8','10','12','14','16']
+```
+- 해설
+  * 3: 변수 str을 Array.form에 대입하여 호출한다. 호출한 결과값은 distributeArr에 다시 할당한다. Array.from에 문자열을 대입하면 구분자 없이 문자열을 하나씩 쪼개서 배열을 반환한다.
+  '12345678' 문자열이 분할되어, 배열 ['1','2','3','4','5','6','7','8']이 distributeArr 변수에 대입된다.
+  * 6: Array.from의 <b style="color:coral">두번째 인자로 callback 함수를 넣을 수 있다</b>. 이때에는 분할된 배열값의 내부 요소들이 하나씩 callback 함수로 전달된다. 전달된 요소들은 callback 함수에 따라 처리되고, 처리된 이후 최종 결과값으로 반환된다.
+<br><br>
+
+### 80. 문자열을 특정 구분자에 의해 배열로 나누기 (split)
+- String 내장객체의 메소드 <b style="color:coral">split은 문자열을 배열로 변환하여 반환</b>한다.
+- 이때 split <b style="color:coral">인자로 받은 구분자로 문자열을 분리한 후, 각각을 배열 요소에 넣는다</b>.
+
+```js
+  const capitals = `Prague,Czech Republic
+  Copenhagen,Denmark
+  Paris,France
+  Mardrid,Spain
+  Rome,Italy`
+
+  capitals.split('\n').forEach(s => {
+    const capital = s.split(',')[0];
+    const country = s.split(',')[1];
+    console.log(`${capital} is in ${country}`);
+    /**
+    Prague is in Czech Republic
+    Copenhagen is in Denmark
+    Paris is in France
+    Mardrid is in Spain
+    Rome is in Italy
+    */
+  });
+```
+- 해설
+  * 7: split 메소드를 활용하여 변수 capitals의 문자열 값을 줄바꿈으로 분리한다.<br>
+  배열로 변환된 값은 forEach를 통해 순환하면서 각 요소로 접근할 수 있다.<br>
+  예를 들어, forEach를 통해 접근한 변수 s에는 첫번째 요소 'Prague',Czech Republic'가 할당되고, 두번째 요소는 'Copenhagen,Denmark'가 할당된다.
+  * 8~10: 각 문장을 다시 split 메소드를 통해 배열로 변환한다. <br>
+  구분자 쉼표,로 분리된 배열 0 인덱스의 요소는 capital변수에 대입하고, 1 인덱스의 요소는 country 변수에 대입하여 선언한다. 
+<br><br>
+
+### 81. 배열 뒤에 요소 추가하기 (push)
+- JS 배열 자료형은 <b style="color: coral">Linked List 자료구조 형태</b>를 갖고 있다.<br>
+  따라서 <b style="color:coral">배열 앞과 뒤에 요소를 추가하는 것이 가능</b>.
+- Array 내장객체 메소드 <b style="color:coral">push는 배열 뒤에서 요소를 추가</b> 한다.
+
+```js
+  const festa = ['mang'];
+  fasta.push('chimmy');
+  festa.push('tata');
+  festa.push('cooky');
+  festa.push('shooky');
+  festa.push('koya');
+  festa.push('rj');
+
+  festa.forEach(name => {
+    console.log(name);
+  })
+
+  /**
+    mang
+    chimmy
+    tata
+    cooky
+    shooky
+    koya
+    rj
+  */
+```
+- 헤설
+  * 2~7: 문장 순서대로 festa 배열 뒤에 요소를 추가한다.
+  * 9~11: 반복문을 이용하여 festa 배열의 요소들을 콘솔로 출력한다.
+<br><br>
+
+### 82. 배열 앞에 요소 추가하기 (unshift)
+- Array 내장객체의 <b style="color:coral">unshift 매소드는 배열 맨 앞에 요소를 추가</b>하는 함수다.
+```js
+  const festa = ['mang'];
+  fasta.unshift('chimmy');
+  festa.unshift('tata');
+  festa.unshift('cooky');
+  festa.unshift('shooky');
+  festa.unshift('koya');
+  festa.unshift('rj');
+
+  festa.forEach(name => {
+    console.log(name);
+  })
+    /**
+    rj
+    koya
+    shooky
+    cooky
+    tata
+    chimmy
+    mang
+  */
+```
+- 해설
+  * 2~7: 메소드를 활용하여 순서대로 festa 배열 앞에 요소를 추가한다.
+<br><br>
+
+### 83. 배열 길이 구하기 (length)
+- Array 내장객체는 <b style="color:coral">배열의 길이</b>를 확인할 수 있는 <b style="color:coral">length</b> 속성을 갖고 있다.
+
+```js
+  const ship = {
+    max: 4,
+    passengers: [],
+    onBoard: function(name) {
+      if (this.passengers.length === 4) {
+        console.log(`This ship is full. ${name} can not board this ship.`)
+      } else {
+        this.passengers.push(name);
+        console.log(`${name} boarded.`);
+      }
+    }
+  }
+
+  ship.onBoard('chloe');  
+  ship.onBoard('jay');
+  ship.onBoard('david');
+  ship.onBoard('asher');
+  ship.onBoard('daniel');
+  console.log(ship.passengers);
+  /**
+  chloe boarded.
+  jay boarded.
+  david boarded.
+  asher boarded.
+  This ship is full. daniel can not board this ship.
+  ['chloe', 'jay', 'david', 'asher']
+  */
+```
+- 해설
+  * 1: 객체 리터럴이 할당된 변수 ship을 선언한다.
+  * 2: ship 객체의 첫번째 속성으로, 키 이름은 max, 값은 숫자 4를 정의한다. max 속성은 '배의 정원 수'를 의미한다.
+  * 3: 두번쨰 속성의 키 이름은 passengers, 값은 빈 배열을 정의한다. passenger 속성은 '탑승객 리스트'를 의미한다.
+  * 4: 마지막 속성의 키 이름은 onBoard이다. onBoard 속성에는 특정 함수가 정의되어 있다.
+  * 5: ship 객체의 passangers 속성에 접근하여, 배열 길이를 확인한다. 확인된 배열의 길이가 숫자 4와 일치하는지 아닌지 확인하는 조건문이다.
+  * 6: 확인된 배열의 길이가 숫자 4와 일치하면, 6번째 문장을 실행하여 콘솔 로그를 출력한다.
+    즉, 이 배의 승객 수가 4가 되면 만선이 되어 더이상 탑승객을 받지 않는다는 의미다.
+  * 7~9: 확인된 배열의 길이가 아직 숫자 4가 아니면, 인자로 받은 name 문자열을 해당 배열 요소에 추가하고 콘솔 로그를 출력한다. 즉, 배의 승객 수가 4가 되지 않았기 때문에 해당 탑승자 이름을 탑승객 명단에 추가한다는 의미다.
+  * 14~18: 문자열을 인자로 받는 ship 객체의 onBoard 함수르 호출한다.
+  * 19: ship 객체의 passenger 속성을 호출하여, 해당 속성의 값을 출력한다.
+<br><br>
+
+### 84. 배열 합치기 (concat)
+```js
+  const prevList = [1, 2, 3];
+  const currentList = [4, 5, 6];
+  const nextList = [7, 8, 9];
+
+  console.log(prevList.concat(currentList));
+  console.log(prevList.concat(currnetList, nextList));
+
+  console.log(['배열'].concat('합치기'))
+  console.log(['배열'].concat('합치기', 'JavaScript200'));
+```
+- 해설
+  * 1~3: 배열 값을 각각 prevList, currnetList, nextList 이름의 변수로 할당한다.
+  * 5: Array 내장 객체의 concat 메소드를 사용하여 배열을 병합한다. <br>
+    prevList 배열 요소 뒤에 currentList 배열 요소가 합쳐져 하나의 배열을 반환한다.
+  * 6: prevList 배열 변수의 concat 함수를 호출한다.<br> 
+    <b style="color:coral">concat 함수는 여러 인자를 넣는 것이 가능</b>하다. <b style="color:coral">이때에도 하나의 배열을 반환</b>하는데, <b style="color:coral">배열 내부에는 인자에 넣은 순서대로 요소가 나열</b>된다. 
+  * 8~9: 간단하게 <b style="color:coral">인자에 직접 리터럴 값을 넣을 수도 있다</b>. <br> 
+    단, concat 함수를 호출하는 <b style="color:coral">첫번째 리터럴이 배열 자료형이어야만</b> Array 객체 메소드 concat이 실행된다. <br>
+    <b style="color:coral">문자형의 concat 함수와 헷갈리지 않도록 주의</b>하자.
+
+
