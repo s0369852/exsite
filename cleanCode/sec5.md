@@ -651,3 +651,145 @@ if (x > 0) {
     return '안녕하세요';
   }
 ```
+<br><br>
+
+## 26. <b style="color: #458fed">Early Return</b>
+- Early Return을 사용하면 depth가 줄어들기 때문에 많은 로직이 실행될때 굉장히 편하다.
+- 수많은 로직들이 의존성이 생길 수가 있다. 
+- 많은 로직들을 다룰때는 하나로 몰아놓는것이 사고하기에 편하다. 
+- 수많은 Early Return을 만드는 것도 옳은 방법은 아니다.
+- 하지만 로직이 굉장히 하나의 조건에만 의존적으로 작성이 되어있을때, if문들이 늘어나게 되는데, 이럴때는 Early Return으로 코드를 분리하면 로직의 흐름이 더 간단하고 명시적으로 변할 수 있다.
+<br><br>
+
+```js
+// case 01.
+/**
+ * 로그인 관련된 함수
+ * 만약에 로그인이 안되어있다라는게 서버에서 날라오면 브라우저에서 한번 토큰이 있는지 확인한다.
+ * 토큰이 있는지 확인하고 유저의 닉네임이 존재하지 않으면 가입한적이 없다는 유저이므로 회원가입에 유저를 보낸다. 
+ * 근데 만약 닉네임이 존재한다면 refreshToken();을 동작시키고 '로그인 성공'을 반환한다.
+*/
+
+  // 변환 전
+  function loginService(isLogin, user) {
+    if (!isLogin) {
+      if (checkToken()) {
+        if (!user.nickName) {
+          return registerUser(user);
+        } else {
+          refreshToken();
+
+          return '로그인 성공';
+        }
+      } else {
+        throw new Error('No Token')
+      }
+    }
+  }
+
+  // 변환 후 (Early Return)
+  function loginService(isLogin, user) {
+    // Early Return
+    /**
+     * 함수를 미리 종료
+     * 사고하기 편하다.
+     * 검증 결과를 빠르게 명확하게 걸친다.
+    */
+
+    if (isLogin) {
+      return
+    }
+    // 로그인이 되어 있으면 여기서 함수 종료.
+
+    if (!checkToken()) {
+      throw new Error('No Token')
+    }
+    // 만약에 토큰이 없으면 오류 메시지.
+
+    if (!user.nickName) {
+      return registerUser(user);
+    }
+    // 닉네임이 존재하지 않을경우 회원가입으로 보낸다.
+    
+    // 아래의 구간은 아무것도 조건에 걸리지 않는 정상적인 구간이구나라는 것을 알 수 있다.
+    refreshToken();
+
+    return '로그인 성공'; 
+  }
+
+  // 변환 후 (Early Return), 함수 분리
+  function login(){
+    refreshToken();
+
+    return '로그인 성공'; 
+  }
+
+  function loginService(isLogin, user) {
+    if (isLogin) {
+      return
+    }
+
+    if (!checkToken()) {
+      throw new Error('No Token')
+    }
+
+    if (!user.nickName) {
+      return registerUser(user);
+    }
+
+    login()
+  }
+```
+<br><br>
+
+---
+```js
+// case 02.
+/**
+ * 오늘하루 컨디션이 좋을때만 모든 행위가 일어나도록 되어있다. 
+*/
+
+  // 변경 전
+  function 오늘하루(condition, weather, isJob) {
+    if (condition === 'GOOD') {
+      공부();
+      게임();
+      유튜브보기();
+
+      if (weather === 'GOOD') {
+        운동();
+        빨래();
+      }
+
+      if (isJob === 'GOOD') {
+        야간업무()
+        조기취침()
+      }
+    }
+  }
+
+  // 변경 후
+  function 오늘하루(condition, weather, isJob) {
+    if (condition !== 'GOOD') {
+      return
+    }
+      
+    공부();
+    게임();
+    유튜브보기();
+
+    if (weather !== 'GOOD') {
+      return
+    }
+
+    운동();
+    빨래();
+
+    if (isJob !== 'GOOD') {
+      return
+    }
+
+    야간업무()
+    조기취침()
+  }
+```
