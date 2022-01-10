@@ -404,3 +404,117 @@
 <br><br>
 
 ## 23. <b style="color: #458fed">단축 평가(short-circuit evaluation)</b>
+- 평가 -> 논리연산자, 삼항연산자, 값식문 등 평가로 이뤄져 있다.
+- 단축평가도 위와 같이 비슷하지만, 다른 점이 있다.
+- AND, OR 연산자를 보고 어떻게 단축이 되었는지 생각해보자.
+- AND: 모두가 참이어야 참
+- OR : 하나라도 참이면 참으로 인정
+- 우항에서 좌항으로 넘어가는 과정에서의 단축이 일어난다.
+- 우항 첫번쨰부터 값이 true인지를 확인하면서 좌항으로 넘어간다.
+- AND 연산자는 모두가 참이어야 하기 때문에 순서대로 전부 확인한다.
+- OR 연산자는 하나라도 참이어야 하기 때문에 순서대로 확인하다 참이 나오면 멈춘다.
+- if, for문을 늘어지게 사용하는 것이 아니라 논리연산자를 활용해서 단축평가를 사용하자.
+
+```js
+/**
+ * AND
+*/
+  true && true && '도달 O'  // '도달 O'
+  true && false && '도달 X' // false
+
+/**
+* OR
+*/
+  false || false || '도달 O'  // '도달 O'
+  true || true || '도달 X'  // true (가장 첫번째에 true값이 나와서 더이상 진행 할 필요가 없어서 첫번째 값 true가 리턴되었다.)
+```
+<br><br>
+
+```js
+// OR 연산자의 단축평가 예시 1
+
+  // 변경 전
+  function fetchData() {
+    if (state.data) {
+      return state.data;
+    } else {
+      return 'Fetching...';
+    }
+  }
+
+  // 변경 후
+  function fetchData() {
+    return state.data || 'Fetching...';
+  }
+```
+<br><br>
+
+---
+```js
+// OR 연산자 단축평가 예시 2
+
+  // 변경 전
+  function favoriteDog(someDog) {
+    let favoriteDog;
+
+    if (someDog) {
+      favoriteDog = dog;
+    } else {
+      favoriteDog = '냐용'
+    }
+    return favoriteDog + '입니다.';
+  }
+
+  favoriteDog() // 인자로 강아지 이름을 안넘기면 '냐용'
+  favoriteDog('포메') // 인자로 강아지 이름을 넘기면 포메 입니다.
+
+  // 변경 후
+  function favoriteDog(someDog) {
+    return (someDog || '냐옹') + '입니다.';
+  }
+
+  favoriteDog() // 인자로 강아지 이름을 안넘기면 '냐용' 입니다.
+  // 인자에 아무것도 넘기지 않았을때 JS는 undefiend로 귀결된다. 
+  // 왜냐면 JS 함수에 어떠한 값이 들어오지 않은 매개변수는 바로 undefined로 처리가 된다.
+  // undefined는 바로 falsy로 귀결이 되기 때문에 or 연산자에 의해서 바로 '냐옹'이 호출되게 된다. 
+
+  favoriteDog('포메') // 인자로 강아지 이름을 넘기면 포메 입니다.
+```
+<br><br>
+
+---
+```js
+// 활성화된 유저의 이름을 반환해주는 함수
+// AND 연산자를 활용한 단축 함수
+
+  // 변경 전
+  const getActiveUserName(user, isLogin) {
+    if (isLogin) {
+      if (user) {
+        if (user.name) {
+        return user.name
+      } else {
+        return '이름없음'
+      }
+      }
+    }
+  }
+
+  // 변경 후
+  const getActiveUserName(user, isLogin) {
+    if (isLogin && user) {
+      if (user.name) {
+        return user.name
+      } else {
+        return '이름없음'
+      }
+    }
+  }
+
+  // OR 연산자도 같이 사용 한 변경 후
+  const getActiveUserName(user, isLogin) {
+    if (isLogin && user) {
+      return user.name || '이름없음'
+    }
+  }
+```
