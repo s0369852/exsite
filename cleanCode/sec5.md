@@ -578,3 +578,76 @@ if (x > 0) {
   console.log('x는 0보다 크다.')  // x는 0보다 크다. 
 }
 ```
+<br><br>
+
+## 25. <b style="color: #458fed">else 피하기</b>
+- else if와 else는 맹목적으로 사용할 필요가 없다. 
+- else를 사용하게 되면 논리적으로 완전히 반전된 로직을 작성하게 된다. 
+- if, else는 참일때의 반환과 거짓일때의 반환이 아주 명백하게 짜여져 있는 로직이 된다. 
+- 이러한 로직이 필요한 경우 사용할 수 있지만, 그렇지 않은 경우에는 논리적으로나 스타일적으로 문제가 생길 수 있다. 
+- 바로, 하나의 함수가 2가지 역할을 할때 문제가 생긴다. 
+- else 문은 습관이 되어선 안된다. 
+
+<br><br>
+
+```js
+// case 01.
+
+  // 변환 전
+  function getActiveUserName(user) {
+    if (user.name) {
+      return user.name;
+    } else {
+      return '이름없음';
+    }
+  }
+
+  // 변환 후 (else 없애기)
+  // JS는 return이 되면 return된 곳 까지만 실행이 된다. 
+  function getActiveUserName(user) {
+    if (user.name) {
+      return user.name
+    }
+
+    return '이름없음';
+  }
+
+  // 변환 후 (단축평가)
+  function getActiveUserName(user) {
+    return user.name || '이름없음'
+  }
+```
+<br><br>
+
+---
+```js
+// case 02.
+
+/**
+ * age가 20 미만시 특수 함수 실행
+ * 
+ * 여기서 문제점.
+ * 습관적으로 else를 사용해서 로직이 반전되어 성인이 아닌 사람이 왔을 경우에도 '안녕하세요'가 return이 되어야 하는데 else까지 오지 않아 로직이 실행이 안되게끔 해놓았다.
+ * 
+ * 함수가 1개의 역할만 해야하는데 2개의 역할로 통합을 시켜서 분리를 못해버리게 된 것.
+*/
+
+  // 변경 전
+  function getHelloCustomer(user) {
+    if (user.age < 20) {
+      report(user);
+    } else {
+      return '안녕하세요';
+    }
+  }
+
+  // 변경 후
+  // 함수를 분리시키지 않고도 요구 사항을 충족하게 된다. 
+  function getHelloCustomer(user) {
+    if (user.age < 20) {
+      report(user);
+    } 
+    
+    return '안녕하세요';
+  }
+```
