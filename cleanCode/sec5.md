@@ -974,6 +974,54 @@ const isNotCondition = false;
     </Router>
   }  
 ```
-<br>
+<br><br>
 
-----
+## 29. <b style="color: #458fed">명시적인 연산자 사용 지향하기</b>
+- 연산자 우선순위에 대해서 안전하게 사용하는 방법을 추구
+- 연산자 사용에 있어서 괄호()를 달아서 사용하는 것을 권장
+- 우선순위를 넣어서 사람이 보기 편하게, 나중에 스스로 보기 편하게 만드는 것이 중요
+- Redux에서 가장 추구하는 가치가 예측 가능한 상태 컨테이너
+- 항상 예측가능한 코드를 짜야 한다.
+- 명시적으로 작성하는 습관을 기르는 것이 좋다. 
+
+```js
+/**
+ * 전위연산자(--number,++number)와 후위연산자(number--, number++)
+ * 굉장히 헷갈리는 것중 하나, 특히 setTimeout 비동기 상황에 코드가 돌아간다거나 loop문 안에 증감에 대한 식이 들어간다거나 하면 코드가 굉장히 보기 힘들어지고 오류가 생겼을때 디버깅하기가 힘들어져서 예측하기가 어려워진다.
+ * 예측 가능하고 디버깅 하기 쉬운
+ * 연산자 우선 순위 (((x + y) * z) && token)
+*/
+
+// (몸무게 / (신장 x 신장))
+// if ((isLogin && token) || user)
+
+let number;
+
+// 변경 전
+function increment(number) {
+  number--
+  --number
+}
+
+function increment(number) {
+  number++
+  ++number
+}
+
+setTimeout( () => {
+
+}, timeout);
+
+while (condition) {
+  number++
+}
+
+  // 변경 후
+  function increment() {
+    number = number - 1
+  }
+
+  function increment() {
+    number = number + 1
+  }
+```
