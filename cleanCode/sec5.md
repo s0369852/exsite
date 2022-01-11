@@ -793,3 +793,58 @@ if (x > 0) {
     조기취침()
   }
 ```
+<br><br>
+
+## 27. <b style="color: #458fed">부정 조건문 지양하기</b>
+- NaN -> 검사할때 가장 헷갈리는 것중 하나.
+- 생각을 여러번 해야한다는 점이 안좋다.
+- 프로그래밍 언어 자체로 if문은 참(true)부터 온다.
+<br><br>
+
+### 부정 조건문을 그럼 언제 사용하는가?
+- Early Return을 사용할 때
+- 유효성 검증(Form Validation)
+- 보안 혹은 계속 검사해야하는 로직
+
+```js
+  // 숫자일때만 동작하는 로직
+  // isNaN을 한번 더 뒤집어야 하는 상황이 발생
+  if (!isNaN(3)) {
+    console.log('숫자입니다.')
+  }
+
+  // 차라리 함수를 만들고 함수에서 typeof를 이용해 비교하는 것이 덜 헷갈리는 방법
+  function isNumber(num) {
+    return !Number.isNan(num) && typeof num === 'number'
+  }
+
+  // 비추천
+  if (!Number.isNaN(3)) {
+    console.log('숫자입니다') // 숫자입니다.
+  }
+
+  // 추천
+  if (isNumber(3)) {
+    console.log('숫자입니다');  // 숫자입니다.
+  }
+
+const isCondition = true;
+const isNotCondition = false;
+
+  if (isCondition) {
+    console.log('참인 경우에만 실행') 
+  } else {
+    console.log('거짓인 경우에만 실행')
+  }
+
+  if (!isCondition) {
+    console.log('거짓인 경우에만 실행')
+  }
+
+  if (!isNotCondition) {
+    console.log('거짓인 경우에만 실행')
+  }
+```
+<br><br>
+
+## 27. <b style="color: #458fed">부정 조건문 지양하기</b>
