@@ -847,4 +847,133 @@ const isNotCondition = false;
 ```
 <br><br>
 
-## 27. <b style="color: #458fed">부정 조건문 지양하기</b>
+## 28. <b style="color: #458fed">Default Case 고려하기</b>
+- 프로그램을 개발하고 협업을 하면서 만약 사용자에게 값을 얻지 못했을때 어떤 기본 값을 둘 것인지를 생각해봐야 한다.
+- 팀의 코어한 유틸리티 함수나, 코어 라이브러리를 개발하는 팀에선 항상 기본값을 염두해두고 개발을 해야한다. 그래야 안전하고 확장성 높은 코드를 작성할 수 있다.
+- 어떠한 라이브러리이든 default값을 굉장히 중요하게 생각한다. 
+- 프론트엔드 개발자는 사용자의 실수를 예방하는 차원에서 Dafault Case를 의식적으로 고려해야 한다.
+
+```js
+// case 01.
+/**
+ * 만약 함수에 값을 넣지 않더라도 함수가 실행이 되었으면 하는 로직을 만들고 싶다면?
+*/
+  // 변경 전
+  function sum(x,y) {
+    return x + y
+  }
+
+  sum(100, 200)
+
+  // 변경 후
+  function sum(x,y) {
+    x = x || 1;
+    y = y || 1;
+    return x + y
+  }
+
+  sum();
+```
+<br>
+
+----
+```js
+// case 02.
+/**
+ * 특정 엘리먼트를 만들어주는 커스텀 함수
+ * 그런데 항상 값을 입력하기가 귀찮다면?
+ * 값을 넣지 않았을 때의 기본 값을 정해야 한다.
+*/
+
+  // 변경 전
+  function createElement(type, height, width) {
+    const element = document.createElement(type);
+
+    element.style.height = height;
+    element.style.width = width;
+
+    return element;
+  }
+
+  createElement('div', 100, 200)
+
+  // 변경 후
+  function createElement(type, height, width) {
+    const element = document.createElement(type || 'div');
+
+    element.style.height = height || 100;
+    element.style.width = width || 100;
+
+    return element;
+  }
+
+  createElement()
+```
+<br>
+
+----
+```js
+// case 03.
+/**
+ * 만약 사용자가 키값의 오타를 작성하게 된다면?
+ * 사용자의 입력을 받는 프론트엔드 단의 잘못이 발생할 수 있는 경우라면 기본값을 당연히 고려해야 한다.
+*/
+
+  // 변경 전
+  function registerDay(userInputDay) {
+    switch (userInputDay) {
+      case '월요일' : // some code
+      case '화요일' : // some code
+      case '수요일' : // some code
+      case '목요일' : // some code
+      case '금요일' : // some code
+      case '토요일' : // some code
+      case '일요일' : // some code
+    }
+  }
+
+  e.target.value = '월료일'
+  registerDay(e.target.value)
+
+  // 변경 후
+  function registerDay(userInputDay) {
+    switch (userInputDay) {
+      case '월요일' : // some code
+      case '화요일' : // some code
+      case '수요일' : // some code
+      case '목요일' : // some code
+      case '금요일' : // some code
+      case '토요일' : // some code
+      case '일요일' : // some code
+      default :
+        throw Error('입력값이 유효하지 않습니다.')
+    }
+  }
+
+  e.target.value = '월료일'
+  registerDay(e.target.value)
+```
+<br>
+
+----
+```js
+// case 04.
+/**
+ * 리엑트에 있는 Switch 구문.
+ * 누구나 Switch case문을 사용하면 마지막에는 edge case를 고려할 수 있다는 점.
+ * => <Route component={NotFound} />
+*/
+
+  const Root = () => {
+    <Router history={browserHistory}>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/welcome" component={welcome} />
+        <Route component={NotFound} />
+      <Switch>
+    </Router>
+  }  
+```
+<br>
+
+----
