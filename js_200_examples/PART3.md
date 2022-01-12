@@ -769,5 +769,149 @@ callRoll(students)
   * 8~9: 간단하게 <b style="color:coral">인자에 직접 리터럴 값을 넣을 수도 있다</b>. <br> 
     단, concat 함수를 호출하는 <b style="color:coral">첫번째 리터럴이 배열 자료형이어야만</b> Array 객체 메소드 concat이 실행된다. <br>
     <b style="color:coral">문자형의 concat 함수와 헷갈리지 않도록 주의</b>하자.
+<br><br>
 
+### 85. 배열에 특정 구분자 넣어 문자형으로 변환하기 (join)
+- Array 객체의 메소드 join은 <b style="color: coral">각 배열 요소를 병합하여 하나의 문자열로 변환</b>한다.
+
+```js
+  const dialogue = [
+    'Fear is the path to the dark side',
+    'Fear leads to anger',
+    'Anger leads to hate',
+    'Hate leads to suffering',
+    'I sense much fear in you'.
+  ];
+
+  console.log(dialogue.join('. '));
+  console.log(dialogue.join('.\n'));
+```
+- 해설
+  * 9: dialogue 배열 각 요소 사이에 '.' 구분자를 넣어 하나의 문자열로 병합한다.
+  * 10: dialogue 배열 각 요소 사이에 '.\n' 구분자를 넣어 하나의 문자열로 병합한다.
+<br><br>
+
+### 86. 배열 마지막 요소 추출하기 (pop)
+```js
+  const arr = [1, 2, 3]
+  console.log(arr.pop())
+  console.log(arr.pop())
+  console.log(arr.pop())
+  console.log(arr.pop())
+```
+- 해설
+  * 1: 변수 arr에 배열 [1, 2, 3] 리터럴을 할당한다.
+  * 2~5: 변수 arr에 pop()을 연달아 호출한다. <br>
+    arr 배열의 요소는 1,2,3 세 개의 요소가 들어 있는데 반해, pop()는 4번 호출되었다.<br>
+    <b style="color: coral">요소 개수보다 많이 호출되면 undefined를 반환한다.</b>
+<br><br>
+- Array 객체의 메소드 <b style="color:coral">pop은 배열의 마지막 요소를 추출</b>한다.<br>
+이떄 <b style="color:coral">원본 배열도 함께 수정되기 때문에</b> pop 함수를 실행할때에는 반드시 원본 수정에 대해서 미리 고려해야한다.
+- 뒤에서 차례대로 호출되기 때문에, 배열 [1, 2, 3]의 pop() 호출 결과는 3->2->1 순서로 추출된다. <br>
+만일 위처럼 배열 요소보다 더 많이 호출하게 되면, 더이상 추출할 요소가 없으므로 undefined를 반환한다.
+<br><br>
+
+### 87. 배열 맨 앞 요소 추출하기 (shift)
+```js
+const arr = [1, 2, 3]
+console.log(arr.shift());
+console.log(arr.shift());
+console.log(arr.shift());
+console.log(arr.shift());
+```
+- 해설
+ * 1: 변수 arr에 배열 [1, 2, 3] 리터럴을 할당한다.
+ * 2~5: 변수 arr에 shift()를 연달아 호출한다. 마지막 호출에서 반환할 요소가 없으므로 undefined가 출력된다.
+<br><br>
+
+- Array 객체의 메소드 <b style="color:coral">shift</b>는 앞에서 배운 pop 함수와 반대로, <b style="color:coral">배열의 첫 번째 요소를 추출</b>합니다. shift 메소드는 호출과 동시에 <b style="color:coral">원본 배열이 수정되기 때문에 주의</b>해야한다. 
+- 앞에서부터 차례대로 호출되기 때문에, 배열 [1, 2, 3]의 shift() 호출 결과는 1->2->3 순서로 추출된다. 만일 위처럼 배열 요소보다 더 많이 호출하게 되면, <b style="color:coral">더 이상 추출할 요소가 없으므로 undefined를 반환</b>한다. 
+<br><br>
+
+### 88. 배열 특정 위치의 요소 추출하기 (slice)
+- Array 객체의 메소드 slice는 인덱스의 시작과 끝을 지정하여 배열 요소를 추출한다.
+- 시작 인덱스부터 끝 인덱스까지의 배열 요소를 추출한다.
+- 단, <b style="color:corla">끝 인덱스에 있는 요소는 제외하고 그 이전까지의 요소들을 추출</b>한다.
+- `배열.slice(시작 인덱스, 끝 인덱스)`
+
+```js
+  const arr = ['melon', 'lemon', 'source', 'apple', 'juice'];
+  console.log(`과일이 아닌 요소는 ${arr.slice(2, 3)}와 ${arr.slice(4,5)} 입니다.`)
+  console.log(arr.slice(0, 10));
+```
+- 해설
+  * 2: slice 메소드에 시작-끝 인덱스로 2,3을 넣으면 arr 배열의 'source'가 반환된다. <br>
+  두번째 slice 메소드에는 4,5를 넣어 배열의 'juice'가 반환된다.
+  * 3: 변수 arr의 시작 인덱스에 0은 배열 첫번째를 의미한다. 그리고 <b style="color:coral">배열 길이보다 더 큰 값을 끝 인덱스에 넣으면 배열 가장 마지막까지 모두 반환</b>한다.
+  <br><br>
+- slice 함수는 <b style="color:coral">원본 배열을 변경하지 않고 복제(얕은 복사)를 수행</b>한다. 따라서 splice 함수를 통해 처리된 결과값을 활용하려면 별도의 변수로 대입해야 한다.
+<br><br>
+
+### 89. 배열 인덱스로 특정 요소 수정하기 (splice)
+- Array 객체의 메소드 splice는 특정 위치의 요소를 삭제하거나 수정할 수 있다.
+- `배열.splice(시작 인덱스, 삭제할 요소의 개수, 추가될 요소들 ...)`
+- <b style="color:coral">시작 인덱스</b> : 배열 요소가 변경될 시작 지점. (필수) <br> 첫번째 인자값은 <b style="color:coral">배열 길이보다 작아야 유효</b>하다.
+- <b style="color:coral">삭제할 요소의 개수</b> : 시작 인덱스의 위치부터 삭제하고자 하는 개수만큼 요소를 제거한다. <br> 이때 해당 요소가 제거됨과 동시에 메소드 호출 결과로 값을 반환한다.
+- <b style="color:coral">추가될 요소들</b> : <b style="color:coral">시작 인덱스부터</b> 해당 요소들이 추가된다.
+
+```js
+  const fruits = ['melon', 'lemon', 'source', 'apple', 'juice']
+
+  fruits.splice(4, 1);
+  fruits.splice(4, 0, 'grape');
+  fruits.splice(2, 1, 'mandarin', 'strawberry', 'watermelon');
+  console.log(fruits);
+```
+- 해설
+  * 1: 변수 fruits에 배열 리터럴을 할당하여 선언한다. 이 배열의 내부 요소에는 문자열들이 있는데, 과일과 과일이 아닌 종류들이 섞여있습니다.
+  * 3: splice(4, 1)를 실행하면 과일이 아닌 'juice'문자열이 추출된다.
+  * 4: splice(4, 0, 'grape')는 삭제할 개수를 지정하지 않아 추출되는 요소가 없습니다. 그러나 세번째 인자로 인해 시작 인덱스에 'grape' 문자열이 추가됩니다.
+  * 5: 세번째 인덱스를 활용하면 두 개 이상의 요소를 추가할 수 있습니다.
+<br><br>
+
+### 90. 배열의 특정 요소 위치 확인하기 (indexOf)
+- Array 객체의 메소드 indexOf는 <b style="color:coral">대입된 값(첫 번째 인자)을 배열 내부에서 검색</b>한다.
+- <b style="color:coral">값이 일치</b>하는 경우 <b style="color:coral">해당 인덱스를 반환</b>한다.
+- 두 번째 인자인 시작 인덱스는 필수값이 아니다.
+- 만일 <b style="color:coral">두 번째 인자에 숫자형 값</b>을 넣으면, indexOf는 <b style="color:coral">해당 인덱스부터 값을 찾는다</b>.
+- 만일 <b style="color:coral">찾는 값이 없으면 indexOf는 숫자 -1을 반환</b>한다.
+- `배열.indexOf(검색할 값, 시작 인덱스)`
+
+```js
+  const arr = ['spring', 'summer', 'fall', 'winter', 'is', 'down']
+
+  console.log(`"winter" is in this index ${arr.indexOf('winter')}`)
+  // "winter" is in this index 3
+  console.log(`"winter" is not in here, look this value ${arr.indexOf('winter', 4)}`);
+  // "winter" is not in here, look this value -1
+```
+- 해설
+  * 3: arr 배열 요소 중에서 winter 문자열을 찾기 위해 indexOf 메소드를 활용한다.<br>
+  해당 값은 arr의 3 인덱스에 위치해 있는 것을 알 수 있다.
+  * 4: arr 배열의 인덱스 4부터 winter 문자열을 검색하면 값을 찾을 수 없으므로 -1을 반환한다.
+<br><br>
+
+### 91. 배열 순환하기 (forEach)
+- Array 내장 객체의 forEach 메소드는 배열 내부 요소를 순환하며, 각 요소에 대해 callback 함수를 실행한다.
+`배열.forEach(callback 함수)`
+
+```js
+  const arr = [
+    {id: 0, name: '혜림', age: 6},
+    {id: 1, name: '현일', age: 3},
+    {id: 2, name: '현아', age: 5},
+    {id: 3, name: '우림', age: 2},
+  ];
+
+  arr.forEach( (el) => {
+    console.log(el.name)
+  });
+  // 혜림
+  // 현일
+  // 현아
+  // 우림
+```
+- 해설
+  * 8: 배열 내부 요소는 callback 함수의 변수 el로 전달된다.
+  * 9: arr의 요소들은 객체 자료형으로 통일되어 있다. 객체 el의 속성 name을 콘솔 출력한다.
 
