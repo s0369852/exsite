@@ -914,4 +914,406 @@ console.log(arr.shift());
 - 해설
   * 8: 배열 내부 요소는 callback 함수의 변수 el로 전달된다.
   * 9: arr의 요소들은 객체 자료형으로 통일되어 있다. 객체 el의 속성 name을 콘솔 출력한다.
+<br><br>
 
+### 92. 배열 정렬하기 (sort)
+- 배열 내부 요소들을 원하는 순서로 정렬
+
+```js
+  배열.sort(function (a, b) {
+    return 비교값;
+  })
+```
+- 인자로 <b style="color:coral">비교 함수</b>를 대입하여 배열 요소들을 정렬한다.
+- 이때, 비교 함수에서 return으로 반환되는 비교값에 따라 순서가 정해진다.
+- <b style="color:olive">비교값 > 0</b> :<br>
+  <b style="color: coral">a가 b보다 작은 숫자의 인덱스를 가진다.</b><br> 
+  배열의 작은 인덱스라는 뜻은 배열에서 앞부분에 위치하는 것을 의미한다.<br>
+  즉, a가 b보다 앞에 위치한다.
+- <b style="color:olive">비교값 < 0</b> :<br>
+  <b style="color:coral">b가 a보다 작은 숫자의 인덱스를 가진다.</b> <br>
+  위와 반대로 b가 a보다 앞에 위치한다.
+- <b style="color:olive">비교값 = 0</b> :<br>
+  <b style="color:coral">a와 b의 위치를 변경하지 않는다.</b> 
+- 문자열이 값일 경우엔 문자열의 유니코드 순서를 따른다.
+- sort메소드는 새로운 배열을 반환하지 않고 <b style="color:coral">원본 배열 자체를 변경</b>시키기 때문에 주의해야 한다.
+
+```js
+  const numArr1 = [2,0,3,4,1]
+  const numArr2 = [2,0,3,4,1]
+  const objArr = [
+    {id: 2, name: 'Leo'},
+    {id: 0, name: 'Daniel'},
+    {id: 3, name: 'Asher'},
+    {id: 4, name: 'Chloe'},
+    {id: 1, name: 'Chloe'},
+  ]
+
+  numArr1.sort(function(a, b) {return a - b})
+  numArr2.sort(function(a, b) {return b - a})
+  objArr.sort(function(a, b) {
+    if (a.name > b.name) return 1;
+    else if (b.name > a.name) return -1;
+    else return 0
+  });
+
+  console.log(`오름차순 : ${numArr1}`)
+  console.log(`내림차순 : ${numArr2}`)
+  console.log(objArr)
+```
+- 해설
+  * 11: 비교 함수가 a-b를 리턴하여 오름차순으로 배열이 정렬된다.
+  * 12: 비교 함수가 b-a를 리턴하여 내림차순으로 배열이 정렬된다.
+  * 14: 앞 요소(a)의 name 속성값이 뒤에 있는 요소 (b)의 name 속성값보다 크면 1을 반환한다. 즉, a를 b 앞에 정렬시킨다.
+  * 15: 14라인과 반대의 경우로, -1을 반환하기 때문에 b를 a앞에 정렬 시킨다.
+  * 16: 앞(a)와 뒤(b)의 name 속성값이 같으면 0을 반환한다. 따라서 위치를 변경하지 않는다.
+<br><br>
+
+### 93. 배열의 순서를 반대로 나열하기 (reverse)
+- <b style="color:coral">배열 순서를 반대로 나열</b>한다.
+- 원본 배열을 변형하기 때문에 주의 해야 한다.
+
+```js
+  const str = 'abcderfhijklmnopqrstuvwxyz';
+  const arr = str.split('');
+  arr.reverse();
+
+  console.log(arr.join(''));
+```
+- 해설
+  * 1: 변수 str에 알파벳을 대입한다.
+  * 2: split 메소드를 활용하여 str문자열을 배열로 변환한다. 공백없는 문자열''로 분할했기 때문에, 배열 요소에는 알파벳 한 문자씩 넣어진다.
+  * 3: reverse() 메소드로 배열 arr 요소 순서를 반대로 나열한다.
+  * 5: join() 메소드에 빈 문자열을 넣어 실행한다. <br>
+    배열 arr이 구분자 없이 한 문자열로 병합된다. 따라서 알파벳 z부터 a까지 순서가 반대로 나열된 문자열이 출력된다. 
+<br><br>
+
+### 94. 배열 요소가 특정 조건을 만족하는지 확인하기 (some)
+- <b style="color:coral">특정 조건을 만족하는지 확인</b>하는 방법
+- some 메소드는 callback 함수의 return 값이 <b style="color:coral">true를 반환할 때 까지만</b> 배열 요소를 순환한다.
+- <b stlye="color:coral">true를 반환하는 요소의 다음 요소들에 대해서는 더이상 처리하지 않는다</b>.
+- 만일, <b style="color: coral">마지막 요소까지 순환해도 true를 끝내 반환하지 않으면 false를 반환</b>한다.
+
+```js
+  const arr = [
+    {id: 0, name: '혜림', age: 6},
+    {id: 1, name: '현일', age: 3},
+    {id: 2, name: '현아', age: 5},
+    {id: 3, name: '우림', age: 2},
+  ]
+
+  const isHyunAHere = arr.some(el => el.name == '현아')
+  const olderThanSix = arr.some(el => el.age > 6)
+
+  console.log(isHyunAHere)
+  console.log(olderThanSix)
+```
+- 해설
+  * 8: 객체 요소 중에서 name 속성 값이 '현아'인지 확인한다.<br>
+    arr 배열의 3번째 요소까지 순환하면 해당 문자열을 확인할 수 있다. <br>
+    그 순차에서 true를 반환하며 함수 처리가 종료된다.
+  * 9: 객체 요소 중에서 age 속성값이 숫자 6보다 큰 요소가 있는지 확인한다. <br>
+    arr배열 마지막까지 순환해도 age가 6보다 큰 요소는 없다. 따라서 false를 반환하며 함수처리가 종료된다.
+<br><br>
+
+### 95. 모든 배열 요소가 특정 조건을 만족하는지 확인하기 (every)
+- <b stlye="color:coral">모든</b> 배열 요소들이 특정 조건을 만족하는지 확인하는 방법
+- 모든 요소가 callback 함수 조건을 만족하는지 확인한다.
+- 따라서 callback 함수 조건이 <b style="color:coral">한번이라도 false 인 경우, false 반환</b>과 함께 실행이 종료된다.
+- <b style="color: coral">모든 조건 결과가 true일 때에만 every 메소드는 true를 반환</b>한다.
+
+```js
+  const arr = [
+    {id: 0, name: '혜림', age: 6},
+    {id: 1, name: '현일', age: 3},
+    {id: 2, name: '현아', age: 5},
+    {id: 3, name: '우림', age: 2},
+  ]
+
+  const isHyunAHere = arr.every(el => el.name == '현아')
+  const youngerThanSevenAll = arr.every(el => el.age > 7)
+
+  console.log(isHyunAHere)
+  console.log(youngerThanSevenAll)  
+```
+<br><br>
+
+### 96. 배열의 특정 조건을 기준으로 필터링하기 (filter)
+- 인자로 대입된 callback 함수를 통해 배열 내부를 순환하면서, 요소 각각이 특정 조건을 만족하는지 확인한다.
+- 확인하는 방식은 callback 함수 내부에 정의된 문장들을 통해 테스트하게 되는데
+- callback 함수의 <b stlye="color:coral">반환값은 무조건 true 또는 false</b> 여야 한다.
+- 이 중에서 <b style="color:coral">true 결과값을 만족하는 요소들을 다시 새로운 배열에 담아 반환</b>한다.
+
+```js
+  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const filteredTwo = arr.filter( a => {
+    console.log(`현재 위치의 값은 ${a} 입니다.`);
+    return a % 2 == 0;
+  });
+  console.log(filteredTwo);
+
+  const filteredThree = arr.filter(a => a % 3 == 0);
+  console.log(filteredThree);
+```
+- 해설
+  * 1: 변수 arr에 숫자 1부터 10까지의 순서대로 배열을 할당
+  * 3: filter 메소드의 callback 함수를 통해, arr 배열의 내부요소가 각각 a 변수로 할당된다.
+  * 4: 순환하는 진행 상황을 알 수 있는 콘솔 출력, a변수를 출력하여 어떤 요소값이 할당 되어 있는지 알 수 있다.
+  * 5: a변수를 2로 나눈 나머지 값이 숫자 0과 일치하면 true, 일차하지 않으면 false를 반환하는 조건식. return을 통해 조건식의 결과값을 반환한다.
+  * 7: filteredTwo 변수를 출력한다. filter 메소드는 callback 함수의 결과값이 true를 만족하는 요소를 새로운 배열로 모아 반환한다. 즉, 배열 요소 중에서 나머지 값이 0인 요소들만 배열 리터럴로 출력된다.
+  * 9: 3~6라인 callback 함수와 유사한 조건식을 화살표 함수로 간단히 표현해 본다.
+<br><br>
+
+### 97. 배열의 특정 조건을 충족하는 요소 찾기 (find)
+- 입력한 조건에 충족한 요소를 찾는 방법
+- 인자로 대입된 callback 함수를 통해 배열 내부를 순환하면서, <b style="color: coral">특정 조건을 만족하는 첫 번째 요소를 반환</b>한다.
+- 확인하는 방식은 callback 함수 내부에 정의된 문장들을 통해 테스트하게 되는데, callback 함수의 <b style="color:coral">반환값은 무조건 true 또는 false여</b>야 한다. 
+
+```js
+  const arr = [
+    {name: '우림', age: 2},
+    {name: '현아', age: 5},
+    {name: '탄이', age: 30},
+    {name: '현일', age: 3},
+    {name: '혜림', age: 6},
+  ];
+  
+  const myFriend = arr.find(a => a.age === 30);
+  console.log(myFriend);
+```
+- 해설
+  * 1~7: 변수 arr에 배열 리터럴을 대입한다. 배열에는 객체형 요소들을 정의한다.
+  * 9: arr 배열의 find로 호출한 결과값을 myFriend 변수에 할당한다. callback 함수에 정의된 조건식은 각 요소의 age 속성이 숫자 30과 일치하는지 확인한다. 즉, 내부 요소 중 age 속성이 30과 일치하는 첫 번째 요소가 myFriend 변수에 대입된다.
+<br><br>
+
+### 98. 배열 요소 일괄 변경하기 (map)
+- 내부 요소들을 <b style="color: coral">일괄 변경</b>하는 방법
+- callback 함수를 인자로 받아, <b style="color:coral">callback 함수의 return으로 반환되는 값들을 재조합하여 새로운 배열에 만든다</b>.
+
+```js
+  const arr = [
+    {id: 0, name: '혜림', age: 6},
+    {id: 1, name: '현일', age: 3},
+    {id: 2, name: '현아', age: 5},
+    {id: 3, name: '우림', age: 2},
+  ];
+
+  const arr2 = arr.map (el => {
+    el.age = el.age + 1;
+    return el
+  });
+
+  const arr3 = arr.map(el => el.name);
+
+  console.log(arr2);
+  console.log(arr3);
+```
+- 해설
+  * 1~6: 객체인 요소들을 가진 배열을 변수 arr에 선언한다.
+  * 8: arr 배열의 각 요소가 매개변수 el로 전달된다.
+  * 9: 각 요소의 age 속성에 1을 더해서, 다시 속성 age에 대입한다.
+  * 10: callback 함수의 리턴값에 따라 반환되는 배열 값이 바뀐다. 여기서는 속성만 변경하여 다시 객체를 반환했기 때문에, arr2 변수에는 객체 요소로 구성된 배열이 할당된다.
+  * 13: callback 함수는 전달된 요소의 name 속성만 반환한다. 따라서 arr3 변수에는 문자열로 구성된 새로운 배열이 할당된다.
+<br><br>
+
+### 99. 배열 내 값을 누적시키기 (reduce)
+- 배열 요소를 순환하면서, 정의된 callback 함수에 의해 <b style="color:coral">단일 값으로 누적 시킬 수 있다</b>.
+- <b style="color:coral">인자로 callback 함수와 초기값을 받는다</b>. 
+- 첫번째 callback 함수는 기존 다른 메소드와 달리 <b style="color:coral">여러 매개변수를 정의</b>한다.
+- <b style="color:coral">최대 4개</b>까지 매개변수를 받고, <b style="color:coral">첫 번째 누적된 값과 현재 요소 값은 필수</b>다. 
+- <b style="color:coral">처음에 실행할 때</b>, <b style="color:coral">누적된 값은 두번째 인자(초기값)을 할당 받는다</b>.
+- <b style="color:coral">이후에는</b> 배열 순환이 끝날 때까지 <b style="color:coral">callback 함수에서 반환된 값으로 재할당</b>된다.
+
+```js
+  배열.reduce((누적된 값, 현재 요소 값, 현재 인덱스, 원본 배열) => {
+    return 누적값으로 반환되는 값
+  }, 초기값);
+```
+
+```js
+  const numArr = [1, 2, 3, 4, 5];
+
+  const result = numArr.reduce((acc, el) => {
+    return acc + el
+  }, 0);
+
+  console.log(result);
+```
+- 해설
+ * 1: 숫자형 값이 나열된 배열 리터럴을 numArr 변수에 대입한다.
+ * 3: reduce의 callback 함수 매개변수로, 첫번째 acc(누적된 값)과 el(현재 요소값)을 정의한다.
+ * 4: 매개변수로 전달된 acc와 el을 합산하여, callback 함수 결과값으로 반환한다. <br>
+  이렇게 반환된 값은 reduce로 순환된 다음 요소 차례에서 acc로 할당되어 전달된다. <br>
+  즉, <b style="color:coral">return으로 반환된 값은 다음 배열 요소의 acc가 된다</b>는 의미이다. <br>
+  또한 배열의 모든 요소들을 순환하고 난 마지막 반환값이 바로 reduce 메소드의 결과값이 된다.
+  * 5: 초기값으로 숫자 0을 대입한다.<br>
+    이 초기값은 첫번째 요소에서는 acc로 대입된다. <br> 
+    따라서 배열의 각 요소를 순환하며 초기값 0부터 각 요소의 값들을 합산하게 되었을 때, 0 + 1, 1 + 2, 3 + 3, 6 + 4, 10 + 5와 같이 진행된다. 
+<br><br>
+
+### 100. 중첩된 배열을 단일하게 만들기 (reduce)
+- 배열 안의 <b style="color:coral">여러 배열들을 단일한 배열로 만드는 방법</b>
+- reduce 메소드의 다른 활용 방법
+- <b style="color: coral">중첩된 배열을 단일 값으로 누적하는 방법</b>
+
+```js
+  const arr = [1, [2, 3], [1, 2, 3], ['배열', '나열하기'], ['JavaScript']];
+
+  const result = arr.reduce((acc, el) => {
+    return acc.concat(el);
+  }, []);
+
+  console.log(result);
+```
+- 해설
+  * 1: arr 변수에 배열을 대입한다. 이때 배열 안에는 숫자형, 배열, 문자형 값이 나열되어있다.
+  * 3: reduce의 결과값은 result 변수로 다시 대입한다.
+  * 4: callback 함수의 첫번째 인자 acc와 현재 요소값인 el를 concat으로 병합한다.<br>
+    4라인만으로는 acc 값이 어떤 자료형인지 확인할 수 없지만, 5라인에서 빈 배열이 초기값으로 할당된 것을 알 수 있다.
+  * 5: 초기값으로 빈 배열을 대입한다. <br>
+    따라서 빈 배열 []부터 [1], [1,2,3], [1,2,3,4,5,6,]...의 연속으로 arr 내부 요소들을 차곡차곡 병합하게 된다.
+<br><br>
+
+### 101. 객체에서 키만 추출하기 (keys)
+- 객체의 메소드 keys를 활요하면, 객체의 키(key)들만 추출할 수 있습니다.
+- 추출한 키들은 배열에 담아 반환된다.
+
+```js
+  const obj = {
+    movie: 'Sunny',
+    music: 'Like Sugar',
+    style: 'Retro',
+    price: 'Infinity',
+  }
+
+  const arr = Object.keys(obj)
+  
+  console.log(arr)
+```
+- 해설
+  * 1~6: Obj 변수에 객체 리터럴을 대입한다. obj 객체에는 4개의 속성이 정의되어 있다.
+  * 8: Object 객체의 메소드 keys를 호출하고, 인자로 obj 변수를 넣는다. keys는 obj 변수에 정의된 속성 키 정보들만 추출한다. <b style="color: coral">추출된 값들은 새로운 배열에 담아 변수 arr에 대입</b>한다.
+<br><br>
+
+### 102. 객체에서 값만 추출하기 (values)
+- 객체의 속성값(value)만 추출할 수 있다.
+- <b style="color:coral">추출된 속성값들은 배열에 담아 반환</b>된다.
+
+```js
+  const obj = {
+    movie: 'Sunny',
+    music: 'Like Sugar',
+    style: 'Retro',
+    price: 'Infinity',
+  }
+
+  const arr = Object.values(obj)
+  
+  console.log(arr)
+```
+- 해설
+  * 1~6: obj 변수에 객체 리터럴을 대입한다.
+  * 8: Object 객체의 메소드 values를 호출하고, 인자로 obj 변수를 넣는다. <br>
+    values는 obj 변수에 정의된 속성값들만 추출한다. 따로 추출된 속성값들은 새로운 배열에 담아 변수 arr에 대입한다.
+<br><br>
+
+### 103. 객체를 배열로 변환하기 (entries)
+- 객체를 배열로 변경한다. 
+- 이 때 객체 내부 요소도 `{키: 값}`을 `[키: 값]` <b style="color:coral">배열로 변경</b>
+
+```js
+  const obj = {
+    movie: 'Sunny',
+    music: 'Like Sugar',
+    style: 'Retro',
+    price: 'Infinity',
+  }
+
+  const modifuedObj = Object.entries(obj)
+  console.log(modifiedObj)
+```
+- 해설
+  * 8: entries 메소드에 변수 obj를 인자로 넣어 호출한다. <br>
+    obj 객체가 배열로 변환된다.
+  * 9: modifiedObj를 콘솔 출력하여 결과값을 확인한다.
+<br><br>
+
+### 104. 객체 변경되지 않도록 하기 (freeze)
+- 객체를 동결(freeze)
+- freeze 메소드로 객체를 <b style="color:coral">동결한 이후에는 다른 속성을 추가하거나 제거할 수 없다</b>.
+
+```js
+  let obj = {};
+
+  obj.title = 'IDOL';
+  obj = Object.freeze(obj);
+  obj.title = 'Euphoria';
+
+  console.log(obj);
+
+  const changeUntilNum = (obj, num) => {
+    'use strict';
+
+    while(true) {
+      console.log(obj);
+
+      if (obj.age >= num) {
+        obj = Object.freeze(obj)
+      }
+      obj.age += 1;
+    }
+  }
+
+  let profile = {name: '지연', age: 25};
+  changeUntilNum(profile, 30);
+```
+- 해설
+  * 1: 변수 obj에 빈 객체를 할당한다. 나중에 freeze 메소드를 실행한 뒤 다시 obj 변수로 할당하기 때문에 obj 변수는 let으로 선언한다.
+  * 3: 객체 obj에 키가 title, 값은 'IDOL'인 속성을 추가한다. <b style="color: coral">freeze 메소드를 실행하기 전에는 얼마든지 객체를 수정할 수 있다</b>.
+  * 4: Object.freeze(obj)으로 동결한 객체 obj을 다시 obj 변수에 대입한다.
+  * 5: 객체 obj 속성 title을 수정해본다. 그러나 freeze를 실행한 뒤라서 객체가 변경되지 않았다. <b style="color:coral">이때는 'use strict'가 선언된 상태가 아니므로 에러는 발생하지 않는다.</b>
+  * 10: 함수 안에 'use strict'를 선언한다.
+  * 12: while(true)로 반복문이 내부가 true인 경우에만 순환한다. 즉, 반복문 내부에 에러가 발생하면 반복문은 멈춘다.
+  * 15~17: obj의 age 속성값이 num보다 같거나 큰지 확인한다. 확인 결과가 true면 Object.freeze(obj)으로 객체를 동결하고 obj로 재할당한다.
+  * 18: obj의 속성값에 1을 더해서 수정한다. use strict 선언 이후에 객체 obj를 수정하게 되면 에러가 발생된다.
+<br><br>
+
+### 105. 객체에 속성 추가 못하게 만들기 (seal)
+- 객체의 메소드 <b style="color:coral">seal은 객체를 밀봉</b>한다.
+- 단단히 봉인된 객체이므로 <b style="color:coral">속성을 추가/삭제 할 수 없다</b>.
+- 단, <b style="color:coral">기존 속성에 대해서는 변경 가능</b>한다.
+- <b style="color:corla">'use strict'가 선언된</b> 스코프에서 객체 <b style="color:coral">속성을 추가/삭제</b>하면 <b style="color: coral">에러가 발생</b>된다.
+- 반대로 <b style="color:coral">선언되지 않은 스코프에서는</b> <b style="color: coral">에러가 발생되지 않으나, 정상적으로 처리되지 않는다</b>.
+
+```js
+  const album = {
+    name: 'LOVE YOURSELF'
+  };
+
+  album.song = 'Euphoria';
+  album.singer = 'RM';
+
+  console.log(album);
+
+  Object.seal(album);
+
+  album.comment = 'Answer';
+  album.singer = 'JK';
+  delete album.name;
+
+  console.log(album);
+```
+- 해설
+  * 1~3: 변수 album에 {name: 'LOVE YOURSELF'} 객체를 할당한다.
+  * 5~6: 선언된 객체 album에 속성 song과 singer을 추가한다.<br>
+    Object.seal을 호출하기 전에는 기존 객체와 동일하게 마음대로 속성을 추가할 수 있다.
+  * 8: 먼저 정의된 album 객체를 콘솔 출력하여 값을 확인한다.
+  * 10: Object.seal에 album 객체를 넣어서 호출한다.
+  * 12: 봉인(seal)된 객체는 새로운 속성을 추가할 수 없습니다. <br>
+    따라서 속성 comment는 추가되지 못한다.
+  * 13: 봉인(seal)된 객체는 기존 속성에 대해서 변경 가능하다. <br>
+    속성 singer의 값을 'JK'로 변경한다.
+  * 14: 봉인(seal)된 객체는 기존 속성을 삭제하지 못한다.
+  * 16: seal로 호출한 이후 변경한 album 객체를 콘솔로 출력하여 확인한다.
+  
