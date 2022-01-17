@@ -1316,4 +1316,43 @@ console.log(arr.shift());
     속성 singer의 값을 'JK'로 변경한다.
   * 14: 봉인(seal)된 객체는 기존 속성을 삭제하지 못한다.
   * 16: seal로 호출한 이후 변경한 album 객체를 콘솔로 출력하여 확인한다.
-  
+<br><br>
+
+### 106. 객체 병합 확장하기 (assign)
+- 객체를 병합하고 확장하는 방법을 배운다.
+- 인자로 대입된 객체들을 하나로 병합한다.
+- <b style="color:coral">첫번째 인자가 기준</b>이되고 다른 객체들이 병합되기 때문에 <b style="color:coral">첫번째 인자는 원본이 수정</b>되어 반환된다.
+- `Object.assign(반환될 객체, ...병합될 다른 객체들);`
+
+```js
+  const obj1 = {one: 1, two: 2, three: 3};
+  const obj2 = {name: '탄이', age: 5, address: 'seoul'};
+  const obj3 = {friends: ['혜림', '현아', '현일', '우림']};
+
+  const newObj1 = Object.assign({}, obj1);
+  const newObj2 = Object.assign({}, obj1, obj2);
+  newObj1.four = 4;
+
+  console.log(obj1);  // {one: 1, two: 2, three: 3}
+  console.log(newObj1); // {one: 1, two: 2, three: 3, four: 4}
+  console.log(newObj2); // {one: 1, two: 2, three: 3, name: '탄이', age: 5, address: 'seoul'}
+
+  console.log('\n');
+
+  const newObj3 = Object.assign(obj1, obj3);
+
+  console.log(obj1); // {one: 1, two: 2, three: 3, friends: ['혜림', '현아', '현일', '우림']}
+  console.log(newObj1); // {one: 1, two: 2, three: 3, four: 4}
+  console.log(newObj2); // {one: 1, two: 2, three: 3, name: '탄이', age: 5, address: 'seoul'}
+  console.log(newObj3); // {one: 1, two: 2, three: 3, friends: ['혜림', '현아', '현일', '우림']}
+```
+- 해설
+  * 5: 첫번째 인자에 빈 객체를 대입한다. Object.assign 메소드에 두번째 인자로 대입한 객체 obj1은 빈 객체와 병합되어 반환된다.
+  * 6: 5라인과 비슷하게 빈 객체에 obj1과 obj2 객체를 병합한다.
+  * 7: 원본 객체에 변경된 내용을 확인하기 위해, newObj1 객체에만 새로운 속성(four)을 추가한다.
+  * 9: obj1 객체의 {one:1 ,two:2, three:3} 원본 내용이 출력된다. 5라인에서 newObj1은 빈 객체를 기준으로 병합되었기 때문에, obj1의 복사본 객체라 볼 수 있습니다. 따라서 9라인의 newObj1에 새로 추가된 속성(four)을 확인할 수 없습니다.
+  * 10: newObj1은 빈 객체를 기준으로 obj1를 병합한 객체입니다. 또한 7라인에서 새로 추가한 four 속성을 포함하여, newObj1 객체는 {one:1, two:2, three:3, four:4}를 콘솔 출력한다.
+  * 11: obj1과 obj2의 병합된 객체가 출력된다.
+  * 15: obj1 객체를 기준으로 obj3 객체가 병합된다. 따라서 기존 obj1 원본 객체에 직접 obj3 객체 속성이 추가된다.
+  * 18~19: newObj1, newObj2는 10~11라인과 동일한 결과를 출력한다. obj1 원본 객체가 추가 수정되어도, 빈 객체에 병합된 객체에는 영향을 주지 않는다.
+  * 20: 17라인에서 출력한 obj1 객체와 동일한 값이 출력된다. 
