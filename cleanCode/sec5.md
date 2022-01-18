@@ -1027,7 +1027,7 @@ while (condition) {
 ```
 <br><br>
 
-## 29. <b style="color: #458fed">Nullish coalescing operator</b>
+## 30. <b style="color: #458fed">Nullish coalescing operator</b>
 - null 병합 연산자
 - 비교적 최근에 나온 연산자, 예전에 나온 레거시 브라우저에선 안돌아 갈 수 있다. (따로 폴리피 준비해야 한다.)
 - 사용할 때 주의해야 할 부분이 굉장히 많다.
@@ -1127,4 +1127,86 @@ console.log(null || undefined ?? "foo")
 console.log((null || undefined) ?? "foo") // foo
 // 먼저 있는 피연산자를 감싸면 문법 에러가 해결된다. 
 // 사실, null 병합 연산자, || 연산자는 연산자 우선순위가 낮기 때문에 항상 강조하지만 우선순위를 명시적으로 알아볼 수 있게 작성을 해줘야 한다. 
+```
+<br><br>
+
+## 31. <b style="color: #458fed">드모르간의 법칙</b>
+- true is not true
+- false is not false
+- 단순한 연산이 아닌 연산이 계속 달라 붙는다면 드모르간을 생각해 보자.
+
+```js
+  const isValidUser = true; // 서버에서 받아왔다라고 가정
+  const isValidToken = true;  // 서버에서 받아왔다라고 가정
+
+  // 코드의 재활용
+  if (isValidToken && isValidUser) {
+    console.log('로그인 성공!') // 로그인 성공
+  }
+
+  // 로그인 실패 버전
+  const isValidUser = false; // 서버에서 받아왔다라고 가정
+  const isValidToken = false;  // 서버에서 받아왔다라고 가정
+
+  if (!(isValidToken && isValidUser)) {
+    console.log('로그인 실패!') // 로그인 실패
+  }
+
+  // 만약 무언가 기획이 계속 이루어진다면???
+  // 개발자들은 고통스럽다.
+  if (!(isValidToken && isValidUser) && some .. && ....) {
+    console.log('로그인 실패!') // 로그인 실패
+  }
+```
+<br>
+
+----
+```js
+// 드모르간의 법칙
+// true === not true
+// false === not false
+
+// 공식 1.
+
+  // 변경 전
+  if (!(A && B)) {
+  
+  }
+
+  // 변경 후 (한꺼풀 벗겨낸 모습)
+  if (!A || !B) {
+
+  }
+
+  // 변경 후
+  const isValidUser = false;
+  const isValidToken = false; 
+
+  if(!isVaildToken || !isVaildUser) {
+    console.log('로그인 실패!');  // 로그인 실패!
+  }
+
+// 공식 2.
+
+  if (!(A||B)) {
+
+  }
+
+  if (!A && !B) {
+
+  }
+
+  const isValidUser = true;
+  const isValidToken = false; 
+
+  // 변경 전
+  if (!isVaildUser || !isVaildToken) {
+    console.log('로그인 성공!');  // 로그인 성공!
+  }
+
+  // 변경 후 (반대 상황이 생길 때엔?)
+  if (!isValidUser && !isValidToken) {
+    console.log('로그인 실패!') // 로그인 실패!
+  }
+
 ```
