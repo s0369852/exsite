@@ -1356,3 +1356,233 @@ console.log(arr.shift());
   * 15: obj1 객체를 기준으로 obj3 객체가 병합된다. 따라서 기존 obj1 원본 객체에 직접 obj3 객체 속성이 추가된다.
   * 18~19: newObj1, newObj2는 10~11라인과 동일한 결과를 출력한다. obj1 원본 객체가 추가 수정되어도, 빈 객체에 병합된 객체에는 영향을 주지 않는다.
   * 20: 17라인에서 출력한 obj1 객체와 동일한 값이 출력된다. 
+<br><br>
+
+### 107. 진수 변환하기 (toString)
+- 10 진수의 숫자를 다른 진법으로 변환하는 방밥
+- 일반적으로 toString 메소드는 지정된 객체의 문자열을 출력한다.
+- Number 객체의 toString 메소드는 값을 특정 진법으로 표현하여 문자형으로 반환한다.
+
+```js
+  const dec = 531;
+
+  const binByDex = dec.toString(2);
+  const octByDex = dec.toString(8);
+  const hexByDex = dec.toString(16);
+
+  console.log(binByDex);  // 1000010011
+  console.log(octByDex);  // 1023
+  console.log(hexByDex);  // 213
+```
+- 해설
+  * 3: Number 객체의 메소드 toString 숫자 2를 인자로 넣으면 2진수로 변환된다.
+  * 4: 8진수로 변환하려면 toString에 숫자 8을 인자로 넣으면 된다.
+  * 5: Number 객체의 메소드 toString에 숫자 16를 인자로 넣으면 16진수로 변환된다.
+  * 7~9: 변수 binByDex, octByDex, hexByDex을 콘솔 출력하여 변환된 값을 확인한다.
+<br><br>
+
+### 108. 10진수 아닌 진법을 다른 진법으로 변환하기 (parseInt)
+- 10진수 아닌 숫자를 다른 진법으로 변환하는 방법
+
+```js
+  const bin = 1000010011;
+  const oct = 1023;
+  const hex = 213;
+
+  const dexByBin = parseInt(bin, 2);
+  const dexByOct = parseInt(oct, 8);
+  const dexByhex = parseInt(hex, 16);
+  const hexByOct = parseInt(oct, 8).toString(16);
+
+  console.log(dexByBin);  // 531
+  console.log(dexByOct);  // 531
+  console.log(dexByhex);  // 531
+  console.log(hexByOct);  // 213
+```
+- 해설
+  * 1: bin 변수에 2진수 1000010011을 대입한다.
+  * 2: oct 변수에 8진수 1023을 대입한다.
+  * 3: hex 변수에 16진수 213을 대입한다.
+  * 5: 글로벌로 어디서든 호출 가능한 parseInt에 bin 변수와 숫자 2를 넣는다. 이는 bin 변수가 2진수라는 의미로, 2진수 값을 10진수로 변환한다. 변환된 결과값은 dexByBin 변수에 할당하여 선언한다.
+  * 6: 8진수 oct 변수값을 10진수로 변환하여 dexByOct 변수에 할당 선언
+  * 7: 16진수 hex변수값을 10진수로 변환하여 dexByhex 변수에 할당 선언
+  * 8: 8진수 값인 oct 변수를 10진수로 변환한다. 그리고 나서 toString(16)을 통해 10진수 값을 16진수로 연달아 변환한다. 변환된 결과값은 hexByOct 변수에 할당하여 선언한다.
+<br><br>
+
+### 109. 랜던값 구하기 (random)
+- Math 객체의 메소드 random은 무작위의 실수형 값을 반환한다.
+
+```js
+  const generateRandom = (mix, max) => {
+    return Math.floor (Math.random() * (max - min + 1) + min);
+  };
+
+  for (let i = 0; i < 5; i++) {
+    console.log(generateRandom(1, 10));
+  }
+
+  for (let i = 0; i < 5; i++) {
+    console.log(generateRandom(10, 100));
+  }
+```
+- 해설
+  * 1: 최소값과 최대값 사이의 무작위의 수를 반환하는 함수 generateRandom를 선언한다.
+  * 2: Math 객체의 메소드 random은 무작위의 실수형 값을 반환한다. 
+  <br> 2라인의 <b style="color:coral">Math.random() * (max - min + 1) + min</b> 공식은 '<b style="color:coral">최소~최대 사이의 무작위 실수값</b>'을 반환한다. <br>
+  * 5~7: 테스트를 위해 5번 순환하는 반복문이다. 1~10 사이의 랜덤값을 5회 콘솔 출력한다.
+  * 9~11: 테스트를 위해 5번 순환하는 반복문이다. 10~100 사이의 랜덤값을 5회 콘솔 출력한다. 
+<br><br>
+
+### 110. 특정 자리수에서 반올림하기 (round)
+- Math 객체의 round 메소드는 <b style="color:coral">매개변수의 소수점 다음의 값을 반올림</b> 한다.
+
+```js
+  const val = 573.926;
+
+  console.log(Math.round(val)); // 574
+  console.log(Math.round(val * 10) / 10)  // 573.9
+  console.log(Math.round(val * 100) / 100)  // 573.93
+  console.log(Math.round(val / 10) * 10)  // 570
+  console.log(Math.round(val / 100) * 100)  // 600
+```
+- 해설
+  * 3: 소수점 바로 오른쪽에서 숫자 9를 반올림하여 결과값 574가 콘솔로 출력된다.
+  * 4: 소수점 두번째 자리에서 반올림하는 방법이다. 먼저 숫자 10을 곱해서 소수점 두번째 숫자 2 앞으로 소수점을 옮긴다. 그 다음에 round 메소드를 적용하고, 곱한만큼 숫자 10을 다시 나누어 소수점을 원래대로 옮겨 놓는다.
+  * 5~7: 5라인은 val 값을 소수점 세번째 자리에서 반올림한다. 6라인은 일의 자리에서, 그리고 7라인은 십의 자리에서 val 값을 반올림한다.
+<br><br>
+
+### 111. 특정 자리수에서 올림하기 (ceil)
+- Math 객체의 ceil 메소드는 <b style="color:coral">매개변수의 소수점 다음의 값</b>을 올림한다.
+
+```js
+  const positiveNum = 93.54;
+  const nagativeNum = -39.27;
+
+  console.log(Math.ceil(positiveNum));  // 94
+  console.log(Math.ceil(nagativeNum));  // -39
+  console.log(Math.ceil(positiveNum * 10) / 10);  // 93.6
+  console.log(Math.ceil(positiveNum / 10) * 10);  // 100
+  console.log(Math.ceil(nagativeNum * 10) / 10);  // -39.2
+  console.log(Math.ceil(nagativeNum / 10) * 10);  // -30
+```
+- 해설
+  * 1~2: 변수 positiveNum에는 양의 실수값 93.54, 변수 negativeNum에는 음의 실수값 -39.27을 대입한다.
+  * 4: ceil 메소드는 소수점 기준으로 올림한다. 소수점 바로 오른쪽에 숫자 5를 올림하여 숫자 94를 반환한다. 반환된 결과값을 콘솔로 출력한다.
+  * 5: 소수점 바로 오른쪽에 숫자 2를 올림하여 -39를 반환한다. -40을 예상할 수도 있으나, 음의 실수 -39.27을 <b style="color:coral">소수점 위치값 기준에서 '큰 값으로 올림'</b>이라 생각하면 -39가 된다.
+  * 6: 소수점 두번째 자리에서 올림하는 방법이다. 먼저 숫자 10을 곱해서 소수점 두번째 숫자 4앞으로 소수점을 옮겨 935.4로 만든다. 이때, ceil 메소드를 적용하면 936을 반환한다. 적용한 후에 10을 다시 나누어 소수점을 원래대로 옮겨놓는다. 결과값이 93.6이 나온다.
+  * 7: 일의 자리에서 옴림하는 방법이다. 먼저 숫자 10을 나누어 일의 자리 숫자 3 앞으로 소수점을 옮기면 9.3이 된다. 이때 여기에 ceil 메소드를 적용하여 10으로 만든다. 그리고 다시 10을 곱해서 소수점을 원래대로 옮겨놓는다. 결과값 100을 출력한다.
+  * 8: 음의 실수 소수점 두번째 자리에서 올림하는 방법이다. 먼저 숫자 10을 곱해서 소수점 두번째 숫자 2 앞으로 소수점을 옮겨 -397.2로 만든다. 이때 ceil 메소드를 적용하면 -392를 반환한다. 적용한 후에 10으로 다시 나누어 소수점을 원래대로 옮겨 놓는다. 결과값 -39.2를 콘솔에 출력한다.
+  * 9: 음의 실수 일의 자리에서 올림하느 방법이다. 먼저 숫자 10을 나누어 일의 자리 숫자 9앞으로 소수점을 옮기면 -3.927이 된다. 여이에 ceil 메소드를 적용하여 -3으로 만든다. 그리고 다시 10을 곱해서 소수점을 원래대로 옮겨 놓는다. 결과값 -30이 콘솔로 출력된다.
+<br><br>
+
+### 112. 특정 자리수에서 내림하기 (floor)
+- Math 객체의 floor 메소드는 <b style="color:coral">매개변수의 소수점 다음의 값</b>을 내림한다.
+
+```js
+  const positiveNum = 93.54;
+  const negativeNum = -39.27;
+
+  console.log(Math.floor(positiveNum)); // 93
+  console.log(Math.floor(negativeNum)); // -40
+  console.log(Math.floor(positiveNum * 10) / 10); // 93.5
+  console.log(Math.floor(positiveNum / 10) * 10); // 90 
+  console.log(Math.floor(negativeNum * 10) / 10); // -39.3
+  console.log(Math.floor(negativeNum / 10) * 10); // 40
+```
+- 해설
+  * 1~2: 변수 positiveNum에는 양의 실수값 93.54, 변수 negativeNum에는 음의 실수 값 -39.27을 대입한다.
+  * 4: floor 메소드는 소수점 기준으로 내림한다. 소수점 바로 오른쪽에 숫자 5를 내림하여 숫자 93을 반환한다. 반환된 결과값을 콘솔로 출력한다.
+  * 5: 소수점 바로 오른쪽에 숫자 2를 내림하여 -40을 반환한다. -39를 예상할 수도 있으나, 음의 실수 -39.27을 <b style="color:coral">소수점 위치값 기준에서 '작은 값으로 내림'</b>이라 생각하면 -40이 된다.
+  * 6: 소수점 두 번째 자리에서 내림하는 방법이다. 먼저 10을 곱해서 소수점 두번째 숫자 4앞으로 소수점을 옮겨 935.4로 만든다. floor 메소드를 적용하면 935을 반환한다. 적용한 후에 10으로 다시 나누어 소수점을 원래대로 옮겨 놓는다. 결과값 93.5를 출력한다.
+  * 7: 일의 자리에서 내림하는 방법이다. 먼저 숫자 10을 나누어 일의 자리 숫자 3 앞으로 소수점을 옮기면 9.3이 된다. 여기에 floor 메소드를 적용하여 9로 만든다. 그리고 다시 10을 곱해서 소수점을 원래대로 옮겨 놓는다. 결과값이 90이 콘솔로 출력된다. 
+  * 8: 소수점 두번째 자리에서 음의 실수를 내림하는 방법이다. 먼저 숫자 10을 곱해서 소수점 두번째 숫자 2 앞으로 소수점을 옮겨 -392.7로 만든다. 이때 floor 메소드를 적용하면 -393을 반환한다. 적용한 후에 10으로 다시 나누어 소수점을 원래대로 옮겨 놓는다. 결과값 -39.3이 반환된다.
+  * 9: 음의 실수 일의 자리에서 내림하는 방법이다. 먼저 숫자 10을 나누어 일의 자리 숫자 9 앞으로 소수점을 옮기면 -3.927이 된다. 여기에 floor 메소드를 -4로 만든다. 그리고 다시 10을 곱해서 소수점을 원래대로 옮겨놓는다. 결과갑 -40을 출력한다.
+<br><br>
+
+### 113. 현재 시간을 원하는 포맷으로 출력하기 (getFullYear / getMonth / getDate)
+
+```js
+  Date.prototype.yyyymmdd = function() {
+    const yyyy = this.getFullYear();
+    const mm = this.getMonth() < 9 ?
+      `0${this.getMonth() + 1}` : this.getMonth() + 1;
+    const dd = this.getDate() < 10 ?
+      `0${this.getDate()}` : this.getDate();
+    
+    return '' + yyyy + mm + dd;
+  }
+
+  const date = new Date();
+  console.log(date.yyyymmdd()); // 20220118
+```
+- 해설
+  * 1: Date 객체 prototype으로 yyyymmdd 이름의 메소드를 정의한다.
+  * 2: 함수 내 this는 Date 객체를 가리킨다. Datedml getFullYear을 통해 연도를 가져온다.
+  <br> 예를들어, new Date()는 현재 기준의 날짜 정보가 들어있는 Date 객체 인스턴스를 생성한다. 여기서 getFullYear() 함수를 실행하면 4자리 연도 값을 반환한다. 반환된 값은 변수 yyyy에 대입한다.
+  * 3~4: Date의 getMonth는 월 단위 값을 가져온다.<br>
+    getMonth 함수는 기본적으로 0부터 시작한다. mm 두자리를 맞추기 위해, 값이 한자리인 경우 (1~9월) 문자열 '0'을 앞에 추가한다. 반환 된 값은 변수 mm에 대입한다.
+  * 5~6: Date의 getDate는 일자 값을 가져온다. dd 두자리를 맞추기 위해, 값이 한자리인 경우(1~9월) 문자열 '0'을 앞에 추가한다. 반환된 값은 변수 dd에 대입한다.
+  * 7: 대인 선언된 yyyy, mm, dd를 순서대로 결합한다. <b style="color: coral">빈 문자열 ''과 숫자값의 것셈 연산은 숫자형 값을 문자형으로 변환</b>한다. 
+  * 11: 변수 date는 Date.prototype을 상속받은 Date 객체 인스턴스이다. 따라서 prototype으로 미리 선언한 yyyymmdd 함수를 사용할 수 있다. date의 yyyymmdd 함수를 호출하여 콘솔 창에 출력한다. 
+<br><br>
+
+### 114. UTC 기준 날짜 출력하기 (Date.UTC)
+- 세계 표준 현재 시간
+
+```js
+  const date = new Date();
+  const dateUTC = Date.UTC(
+    date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()
+  );
+
+  console.log(new Date(dateUTC));
+```
+- 해설
+  * 2: Date 객체의 메소드 UTC는 매개변수로 지정된 날짜, 시간 보를 UTC 기준의 밀리초 시간으로 반환한다.
+  * 3~4: Date.UTC 메소드에 6개 인자를 대입한다. 첫번째는 date의 getUTCFullYear 메소드를 호출한다. getUTCFullYear 메소드는 국제 표준시 기준(UTC)으로 계산된 연도 정보를 가져온다. 따라서 변수 date 날짜/시간 값의 UTC 기준 연도 정보가 반환된다. 나머지 인자들 또한 이와 유사합니다. 순서대로 월, 일, 시간, 분 단위 정보를 반환한다.
+  * 7: 변환된 UTC 기준 시간 정보를 새로운 Date 객체로 담습니다. 콘솔 출력하면 Date.prototype.toString 메소드가 실행되어, Date 객체 인스턴스 값이 문자형으로 자동 형변환된다. 따라서 "Tue Jan 18 2022 23:03:40 GMT+0900 (한국 표준시)"이 출력된다.
+  <br><br>
+- UTC(Universal Time, Coordinated), 협정 세계 표준시
+- 런던은 UTC+0, 뉴욕은 UTC-5, 한국은 UTC+8
+<br><br>
+
+### 115. 두 개의 날짜 사이의 경과 시간 계산하기
+- 두 개의 특정 날짜를 받아 경과 시간을 구하는 방법
+
+```js
+  Date.daysDiff = (date1, date2) => {
+    if (!(date1 instanceof Date) || !(date2 instanceof Date)) return '';
+  
+    const d1 = date1.getTime();
+    const d2 = date2.getTime();
+
+    let diff = d2 - d1;
+
+    const seconds = Math.floor((diff = diff / 1000) % 60);
+    const minutes = Math.floor((diff = diff / 60) % 60);
+    const hours = Math.floor((diff = diff / 60) % 24);
+    const days = Math.floor(diff / 24);
+
+    return `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds`
+  }
+
+  let from = new Date(2000, 0, 1);
+  let to = new Date(from.getFullYear() + 1, from.getMonth() + 3, from.getDate() + 5, from.getHours() + 4, from.getMinutes() + 30, from.getSeconds() + 50);
+
+  console.log(`From: ${from}`)  
+  // From: Sat Jan 01 2000 00:00:00 GMT+0900 (KST)
+  console.log(`To: ${to}`)
+  // to: Fri Apr 06 2001 04:30:50 GMT+0900 (KST)
+  console.log(Date.daysDiff(from, to));
+  // 461 days, 4 hours, 30 minutes, and 50 seconds
+```
+- 해설
+  * 1: Date 객체에 daysDiff 이름의 함수를 정의한다. 매개변수로는 date1와 date2를 받는다. 
+  * 2: date1과 date2 중 하나라도 Date 객체 인스턴스가 아닌 경우, 빈 문자열을 반환하며 함수를 종료시킨다. 
+  * 4~5: getTime은 Date 객체의 메소드다. 주어진 Date 객체 인스턴스 값에서 표준시 (1970년 1월 1일 00:00:00 UTC) 사이의 경과 시간을 계산하고, 이를 밀디 단위로 환산하여 반환한다. 따라서 date1 (또는 date2)와 표준시의 경과 시간을 변수 d1(또는 d2)로 할당한다.
+  * 7: 변수 d2와 d1의 값을 뺄셈 연산하여 diff 변수에 대입한다. 즉, date1 날짜와 date2 날짜 사이의 경과 시간을 구한 결과다. diff 변수에 대입된 값 또한 밀리 초 단위다.
+  * 9~12: diff 변수를 알아보기 쉽게 일, 시간, 분, 초 단위로 환산한다. 각각 days, hours, minutes, seconds이름의 변수로 대입하여 선언한다.
+  * 13~14: 변수를 문자열로 재구성하여 반환한다.
+  * 17: 함수 daysDiff에 대입할 첫번째 변수 from을 선언한다. new Date(2000, 0, 1)는 한국시간으로 2000년 1월 1일 00시 00분 00초를 의미한다.
+  * 18~20: 함수 daysDiff에 대입할 두 번째 변수 to를 선언한다. 변수 from 날짜로부터 원하는 경과 시간을 각각 추가하여 다시 Date 객체 인스턴스 인자로 넣는다.
