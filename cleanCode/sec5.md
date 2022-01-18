@@ -1025,3 +1025,106 @@ while (condition) {
     number = number + 1
   }
 ```
+<br><br>
+
+## 29. <b style="color: #458fed">Nullish coalescing operator</b>
+- null 병합 연산자
+- 비교적 최근에 나온 연산자, 예전에 나온 레거시 브라우저에선 안돌아 갈 수 있다. (따로 폴리피 준비해야 한다.)
+- 사용할 때 주의해야 할 부분이 굉장히 많다.
+- 좌항의 피연산자 값이 null 과 undefined 일 때만 사용해야 한다.
+- early return을 할 경우에도 실수를 하게 된다. <br>
+  null 병합 연산자와 or 연산자에 대해 분리를 생각해야 한다.
+- <b style="color: coral">No chaining with AND or OR operators</b>
+- 이러한 경우에는 연산자에 ()를 씌워 우선순위를 나타내주면 된다. 
+
+```js
+// null 병항 연산자 (Nullish coalescing operator)
+
+// 변경 전
+function createElement(type, height, width) {
+  const element = document.createElement(type || 'div');
+
+  element.style.height = String(height || 10) + 'px';
+  element.style.width = String(width || 10) + 'px';
+
+  return element
+}
+
+const el = createElement('div', 0, 0); 
+el.style.height // 10px
+el.style.width  // 10px
+/**
+  * 왜 숫자 0을 넣었는데, 10이 들어간 걸까?
+  * 숫자 0은 falsy에 해당 될 수 있기 때문.
+  * || (OR)연산자로 비교 했을 때, 좌항은 무조건 false인 상황이 된다. 0은 falsy로 귀결되기 때문.
+  * falsy에 귀결 되는 값
+    1. false
+    2. null
+    3. undefined 
+    4. 0
+    5. -0
+    6. 0n
+    7. NaN
+    8. ""
+*/
+
+// 변경 후
+/**
+  * ?? -> null 병합 연산자
+  * 좌항에 있는 값이 피연산자가 null이거나 undefined 일때 만 작동을 한다.
+  * null or undefined => ?? 사용
+  * falsy => || (OR) 연산자 사용
+*/
+function createElement(type, height, width) {
+  const element = document.createElement(type ?? 'div');
+
+  element.style.height = String(height ?? 10) + 'px';
+  element.style.width = String(width ?? 10) + 'px';
+
+  return element
+}
+
+const el2 = createElement('div', 0, 0); 
+el2.style.height // 0px
+el2.style.width  // 0px
+```
+<br>
+
+----
+```js
+// case 01. 
+
+  // 변경 전
+  function helloWorld(message) {
+    if(!message) {
+      return 'Hello! World';
+    }
+
+    return 'Hello! ' + (message || 'World');
+  }
+
+  console.log(helloWorld(undefined))  // Hello! World
+  console.log(helloWorld(0))  // Hello! World
+
+  // 변경 후
+  function helloWorld(message) {
+    return 'Hello! ' + (message ?? 'World');
+  }
+
+  console.log(helloWorld(undefined)); // Hello! World
+  console.log(helloWorld(0));  // Hello! 0 
+```
+<br>
+
+----
+```js
+// case 02.
+
+console.log(null || undefined ?? "foo")
+// SyntaxError -> 혼합해서 사용하면 안된다. 
+// 제약사항 => 사람들이 실수를 많이 한단 이유로  문법 자체에서 제약을 걸어 버렸다.
+
+console.log((null || undefined) ?? "foo") // foo
+// 먼저 있는 피연산자를 감싸면 문법 에러가 해결된다. 
+// 사실, null 병합 연산자, || 연산자는 연산자 우선순위가 낮기 때문에 항상 강조하지만 우선순위를 명시적으로 알아볼 수 있게 작성을 해줘야 한다. 
+```
