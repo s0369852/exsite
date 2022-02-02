@@ -1586,3 +1586,142 @@ console.log(arr.shift());
   * 13~14: 변수를 문자열로 재구성하여 반환한다.
   * 17: 함수 daysDiff에 대입할 첫번째 변수 from을 선언한다. new Date(2000, 0, 1)는 한국시간으로 2000년 1월 1일 00시 00분 00초를 의미한다.
   * 18~20: 함수 daysDiff에 대입할 두 번째 변수 to를 선언한다. 변수 from 날짜로부터 원하는 경과 시간을 각각 추가하여 다시 Date 객체 인스턴스 인자로 넣는다.
+<br><br>
+
+### 116. JSON을 문자열로 변환하기(stringify)
+- JSON 객체의 stringify 메소드는 대입한 값을 <b style="color:coral">JSON 문자열로 변환</b>.
+- `JSON.stringify(값, 리플레이서, 공백 개수)`
+- 첫 번째 인자는 JSON 문자열로 변환할 대상 <b style="color: coral">값</b>이다. 
+- 두 번째 인자는 리플레이서(Replacer)는 <b style="color: coral">JSON 문자열로 변환하기 전에 값을 변경하는 인자</b>. <br> 이 때 리플레이서로 콜백(Callback) 함수를 넣거나, 특정 키(Key) 정보를 담은 배열을 넣어 겂을 변경한다.
+- 세 번째 인자 공백 개수는 <b style="color:coral">JSON 문자열의 들여쓰기 시 공백 개수를 의미</b>한다.<br>
+  <b>1부터 10까지 지정</b>할 수 있고, <b>null</b>이나 <b>0</b> 또는 <b>음수</b>인 경우 <b>공백을 사용하지 않는 것으로 간주</b>한다.
+
+```js
+const testStringify = {
+  stringifiedNum: JSON.stringify(13.1),
+  stringifiedStr: JSON.stringify('kiss Carnival'),
+  stringifiedBln: JSON.stringify(false),
+  stringifiedArr: JSON.stringify([2003, 2017])
+};
+
+for (let key in testStringify) {
+  console.log(`------${key}------`);
+  console.log(typeof testStringify[key]);
+  console.log(testStringify[key]);
+  }
+
+console.log(`------stringifyObj------`);
+const obj = {
+  drama: 'PET',
+  season: 2017,
+  casting: ['koyuki', 'matsumoto jun'],
+  character: ['sumire', 'momo']
+};
+console.log(typeof JSON.stringify(obj));
+console.log(JSON.stringify(obj));
+console.log(JSON.stringify(obj, ['drama', 'season']));
+console.log(JSON.stringify(obj, null, 4));
+console.log(JSON.stringify(obj, (key, val) => {
+  if (key === 'season') return 2003;
+  return val;
+}, 4));
+```
+- 해설
+  * 1~6: JSON.stringify의 값을 확인하기 위해 변수 testStringify를 선언한다. <br>
+  testStringify 객체 속성 값으로 JSON.stringify 메소드와 숫자, 문자, 불리언, 배열 자료형을 각 인자로 넣는다. 
+  * 8: testStringify 객체를 for...in으로 순회하면서, 직접 정의한 속성 키 정보가 변수 key에 할당된다.
+  * 10: testStringify 객체에서 변수 key와 동일한 키 이름의 속성값이 어떤 자료형인지 콘솔 출력으로 확인한다. stringify는 대입된 모든 값을 JSON 문자열 자료형으로 변환하기 때문에, 결과값 String을 출력한다.
+  * 11: 변수 key와 동일한 키 이름의 속성값을 확인한다. 숫자, 문자, 불리언, 배열 자료형을 JSON.stringify 함수에 대입한 결과값을 확인할 수 있다. 값에 큰 차이는 없으나, "13.1", "Kiss Carnival", "false", "[2003, 2017]" String 자료형으로 변환된 값을 확인할 수 있다.
+  * 21: JSON.stringify의 첫번째 인자에 객체 obj를 넣어 자료형을 콘솔로 확인한다. <br>
+    결과값 String을 출력한다.
+  * 22: JSON.stringify의 첫 번째 인자에 객체 obj를 넣어 결과값을 확인한다. 객체 값이 문자 자료형으로 변환되어 출력된다. 
+  * 23: 두 번째 인자에 ['drama', 'season']을 넣으면, 변수 obj 객체에서 drama와 season 속성만 담은 객체가 JSON 문자열로 반환된다.
+  * 24: 세 번째 인자에 숫자 4를 대입한다. 따라서 JSON 문자열의 들여쓰기가 공백 4개 기준으로 출력된다. 또한 24라인의 두 번째 인자는 null이므로, 23라인과 같은 변환 처리는 스킵된다.
+  * 25: 두 번째 인자에 callback 함수를 대입한다. 객체 obj를 순회하여 각 요소의 키(key)와 값(val)을 각각 변수로 할당받고, 이어지는 함수 구문을 실행한다.
+  * 26~27: key값이 season 문자열과 완전 일치하면 숫자 2003을 반환한다. 그 외에는 전달된 val 값 그대로 반환한다. 다시 말해, 이는 obj 객체에서 키 이름이 season인 경우에만 값을 2003으로 바꾸는 콜백 함수다.
+<br><br>
+
+### 117. JSON을 문자열을 JSON으로 변환하기(parse)
+- JSON 문자열을 JSON으로 변환하는 방법
+- `JSON.parse(값, 리플레이서)`
+- 첫 번째 인자는 stringify로 변환할 대상 값
+- 두 번째 인자는 리플레이서(Replacer)는 JSON으로 변환하기 전에 값을 변경하는 인자.
+- 이 때 리플레이서로 콜백 함수를 넣거나, 특정 키(Key) 정보를 담은 배열을 넣어 값을 변경한다.
+
+```js
+const jsonStr = '{"drama":"PET", "season":2017,"casting":' + '["koyuki","matsumoto jun"],"character":["sumire","momo"]}';
+
+console.log(JSON.parse(jsonStr));
+console.log(JSON.parse(jsonStr, (key, val) => {
+  if (key === 'season') val = 2003;
+  return val;
+}));
+
+console.log(JSON.parse('13.1'));
+console.log(typeof JSON.parse('13.1'));
+console.log(JSON.parse('false'));
+console.log(typeof JSON.parse('false'));
+
+console.log(JSON.parse('Kiss Carnival'));
+console.log(JSON.parse('[2003, 2017]'))
+```
+- 해설
+  * 4: jsonStr의 값을 JSON.parse 메소드에 넣고 콘솔로 출력한다. 첫 번째 인자만 넣었기 때문에 대입한 JSON 문자열 값 그대로 JSON으로 변환한다.
+  * 5: JSON.parse 메소드에 jsonStr 값을 첫 번째 인자로 넣는다. <br>
+    두 번째 인자에는 값을 변경하기 위한 callback 함수를 대입한다. callback 함수 매개변수로 jsonStr 각 속성의 키(key), 값(val)이 전달된다. 
+  * 6~7: 키 정보가 'season'일 때만 값을 숫자 2003으로 변경한다. 그 외에는 val 매개변수로 전달된 값 그대로 반환한다.
+  * 10~13: <b style="color:coral">원시형 값 중 JSON 문자열이 아니어도 오류없이 parse 메소드가 실행되는 경우가 있다.</b> <br>
+  parse 메소드를 실행하면 문자열 '13.1'은 숫자형 13.1을 반환하고, 문자열 'false'는 불린형 false를 반환한다.
+  * 15~16: <b style="color:coral">원시 자료형을 나타내지 않는 문자형, 또는 배열 형태의 문자형은 실행 즉시 SyntaxError를 발생</b>시킨다. 
+<br><br>
+
+### 118. 정규표현식으로 대응되는 문자열 위치 확인하기(search)
+- 정규표현식(Regular Expression)이란, <b style="color: coral">특정 규칙을 가진 문자열의 집합</b>을 의미한다.
+- <b>regexp</b> 또는 <b>regex</b>라고 부르는데, <b style="color:coral">특수문자 /와 /를 사이에 두는 표현식</b>을 통해 일치하는 문자열을 찾거나 반환하고 또는 일괄 치환하기도 한다.
+- JS에서 정규표현식을 활용하는데 두 가지 방법이 있다. 
+- 첫 번째로 <b style="color:coral">String 객체의 메소드 중에서 매개변수로 정규표현식을 대입하는 메소드를 사용</b>한다.
+- 두 번째 <b style="color:coral">JS는 정규표현식 자체를 RegEx 객체로 해석하여, RegEx 객체의 내장 메소드를 활용</b>한다.
+
+<br><br>
+- String 객체의 <b>search 메소드</b>는 정규표현식을 매개변수로 대입하여, <b style="color:coral">문자열 앞에서부터 일치하는 첫 번째 값의 인덱스 위치를 반환</b>한다. 만일 <b style="color:coral">일치하는 값이 없으면 -1을 반환</b>한다.
+
+```js
+  const str = 'To lose your path is the way to find that path';
+
+  const regex1 = /path/;
+  const regex2 = /q/;
+  const regex3 = /t/g;
+  const regex4 = /t/ig;
+
+  console.log(str.search(regex1));  // 13
+  console.log(str.search(regex2));  // -1
+  console.log(str.search(regex3));  // 15
+  console.log(str.search(regex4));  // 0
+```
+
+- 해설
+  * 3: 정규표현식은 특수기호 /를 양쪽에 두고, 그 안에 원하는 문자열의 패턴 또는 문자를 넣는다.
+  path 문자를 찾는 /path/를 변수 regex1에 대입한다.
+  * 4: 변수 regex2에 소문자 q를 찾는 정규표현식 /q/을 대입한다. 
+  * 5: 특수기호 /가 끝나는 지점에 <b style="color:coral">g</b>플래그를 추가한다. <b style="color:coral">G플래그를 추가하면 정규표현식 대상 문자열 전체에서 일치하는 모든 문자를 찾는다.</b> 따라서 /t/g는 모든 소문자 t를 가리킨다.
+  * 6: i플래그를 추가혀면 대소문자 구별없이 문자열을 찾는다. 따라서 t/ig 정규표현식은 T 또는 t 문자를 찾는 표현식이다.
+  * 8: 문자열 str에서 search 메소드를 호출하고, 정규표현식 regex1를 대입하여 path 문자를 찾는다. str 문자열에서 인덱스 13번째에 해당 문자가 위치하고 있기 때문에, 숫자 13을 반환한다. 결과값은 콘솔로 출력된다.
+  * 9: str 문자열에서 소문자 q를 찾을 수 없기 때문에 숫자 -1이 콘솔로 출력된다.
+  * 10: str 문자열 전역에서 소문자 t를 찾는 표현식을 대입한다. <br>
+    그러나 search 메소드 특성 상, 일치한 문자들 중에서 가장 첫 번째 인덱스 값만 찾기 때문에 숫자 15를 반환한다.
+  * 11: str 전체 문자열에서 대소문자 구분 없이 T 또는 t 문자와 일치하는 값의 인덱스를 반환한다. 일치하는 첫 번째 인덱스는 문자열의 가장 첫 번째 문자 "I"다. 따라서 숫자 0이 반환된다.
+<br><br>
+
+- 정규표현식으로 문자를 검색할 때, 일반적으로 다음의 4가지 플래그(flag)를 활용한다.
+  * <b style="color:coral">g</b>(global) : 해당하는 모든 문자를 찾는다. 만일 없다면 일치하는 문자 하나만 찾는다.
+  * <b style="color:coral">i</b>(case insensitive) : 대소문자 구분하지 않는 플래그, i 플래그가 없을 땐 대소문자를 구분한다.
+  * <b style="color:coral">m</b>(multiline) 주로 ^와& 문자와 같이 비교한다. ^와&는 각각 문자열의 처음과 끝을 의미한다. 즉 m 플래그가 없으면 다중행과 상관없이, ^와&는 문자열의 가장 처음과 끝을 가리킨다. 그러나 m 플래그가 있으면 ^와$은 각 행마다의 처음과 끝을 가리키게 된다.
+  * <b style="color:coral">y</b>(sticky) 문자열의 lastIndex 속성을 설정한 이후에 사용 가능한 플래그다. lastIndex로 지정한 위치부터 표현식에 일치하는 문자를 찾는다.
+<br><br>
+- 정규표현식에서 문자 클래스는 특정 세트의 문자와 일치하는지 확인한다.
+  * \w : 모든 단어 문자(영숫자 및 밑줄)와 일치 여부를 확인 (A-Za-z0-9)
+  * \W : 단어 문자가 아닌 문자(영숫자 및 밑줄)와 불일치 여부를 확인한다.
+  * \d : 임의의 숫자 0부터 9와 일치 여부를 확인한다.
+  * \D : 숫자가 아닌 모든 문자를 확인한다. 즉, 숫자가 아닌 값만 반환하거나 true를 나타낸다.
+  * \s : 공백 문자(공백, 탭, 줄 바꿈)와 일치 여부를 확인한다.
+  * \S : 공백 문자가 아닌 문자를 확인한다. 
