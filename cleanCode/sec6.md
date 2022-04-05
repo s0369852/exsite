@@ -82,4 +82,35 @@ const arr2 = [1, 2, 3]
 Array.isArray(arr1)  //false
 Array.isArray(arr1)  //true
 ```
+<br><br>
 
+## 33. <b style="color: #458fed">Array.length</b>
+- length는 배열의 길이보다는 배열의 마지막 인덱스에 가깝다 생각해야함.
+
+```js
+const arr = [1, 2, 3]
+console.log(arr.length)//3
+
+arr.length = 10;
+console.log(arr.length)//10
+console.log(arr)//[1, 2, 3, , , , , , , ]
+```
+---
+
+```js
+Array.prototype.clear = function(){
+  this.length = 0;
+};
+
+function clearArray(array) {
+  array.length = 0;
+
+  return array;
+}
+
+const arr = [1,2,3]
+arr.clear()
+// console.log(arr) // []
+// 함수 사용
+console.log(clearArray(arr)) // []
+```
